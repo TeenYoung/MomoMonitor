@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Timer : MonoBehaviour {
+public class Timer {
 
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
