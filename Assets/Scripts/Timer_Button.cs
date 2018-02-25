@@ -7,15 +7,35 @@ using System;
 public class Timer_Button : MonoBehaviour {
 
     public Text textTitle, textTime;
-    public string TextTitleTotal, TextTitleTiming;
+    public string titleTotal, titleTiming,saveStartTime;
 
     private  bool timing = false;
+    private int intTiming;
     private Timer timer = new Timer();
     private TimeSpan duration;
     private TimeSpan totalDuration;
 
     // Use this for initialization
     void Start () {
+
+        if (PlayerPrefs.HasKey(titleTiming))
+        {
+            timing = Convert.ToBoolean(PlayerPrefs.GetInt(titleTiming));
+
+            if (timing)
+            {
+                //Grab the last start time from the player prefs as a long
+                long temp = Convert.ToInt64(PlayerPrefs.GetString(saveStartTime));
+                //Convert the last start time from binary to a DataTime variable
+                timer.StartTime = DateTime.FromBinary(temp);
+            }
+        }
+
+        if (PlayerPrefs.HasKey(titleTotal))
+        totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(titleTotal));
+
+        textTitle.text = titleTotal;
+        textTime.text = FormatTimeSpan(totalDuration);
     }
 
     public void Click()
@@ -24,7 +44,8 @@ public class Timer_Button : MonoBehaviour {
         if (timing)
         {
             timer.EndTime = DateTime.Now;
-            textTitle.text = TextTitleTotal;
+
+            textTitle.text = titleTotal;
             totalDuration += duration;
             textTime.text = FormatTimeSpan(totalDuration);
             timing = false;
@@ -32,7 +53,11 @@ public class Timer_Button : MonoBehaviour {
         else
         {
             timer.StartTime = DateTime.Now;
-            textTitle.text = TextTitleTiming;
+            
+            //Save the start time as a string in the player prefs class
+            PlayerPrefs.SetString(saveStartTime, timer.StartTime.ToBinary().ToString());
+
+            textTitle.text = titleTiming;
             timing = true;
         }
 
@@ -81,6 +106,17 @@ public class Timer_Button : MonoBehaviour {
             duration = DateTime.Now.Subtract(timer.StartTime);
             textTime.text = FormatTimeSpan (duration);
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        //save is timing or not into PlayerPrefs
+        intTiming = Convert.ToInt32(timing);
+        PlayerPrefs.SetInt(titleTiming, intTiming);
+
+        //save total duration into PlayerPrefs
+        PlayerPrefs.SetString(titleTotal, totalDuration.ToString());
+
     }
 }
 
