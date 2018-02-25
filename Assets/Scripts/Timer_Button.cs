@@ -47,8 +47,16 @@ public class Timer_Button : MonoBehaviour {
 
             textTitle.text = titleTotal;
             totalDuration += duration;
+            //save total duration into PlayerPrefs
+            PlayerPrefs.SetString(titleTotal, totalDuration.ToString());
+
+
             textTime.text = FormatTimeSpan(totalDuration);
             timing = false;
+            //save is timing or not into PlayerPrefs
+            intTiming = Convert.ToInt32(timing);
+            PlayerPrefs.SetInt(titleTiming, intTiming);
+
         }
         else
         {
@@ -59,6 +67,9 @@ public class Timer_Button : MonoBehaviour {
 
             textTitle.text = titleTiming;
             timing = true;
+            //save is timing or not into PlayerPrefs
+            intTiming = Convert.ToInt32(timing);
+            PlayerPrefs.SetInt(titleTiming, intTiming);
         }
 
 
@@ -108,16 +119,16 @@ public class Timer_Button : MonoBehaviour {
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        //save is timing or not into PlayerPrefs
-        intTiming = Convert.ToInt32(timing);
-        PlayerPrefs.SetInt(titleTiming, intTiming);
+    //private void OnApplicationQuit()
+    //{
+    //    //save is timing or not into PlayerPrefs
+    //    intTiming = Convert.ToInt32(timing);
+    //    PlayerPrefs.SetInt(titleTiming, intTiming);
 
-        //save total duration into PlayerPrefs
-        PlayerPrefs.SetString(titleTotal, totalDuration.ToString());
+    //    //save total duration into PlayerPrefs
+    //    PlayerPrefs.SetString(titleTotal, totalDuration.ToString());
 
-    }
+    //}
 }
 
 public class Timer
