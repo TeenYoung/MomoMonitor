@@ -7,8 +7,9 @@ using System;
 public class Timer_Button : MonoBehaviour {
 
     public Text textTitle, textTime;
-    public string titleTotal, titleTiming,saveStartTime;
+    public string titleTotal;
 
+    private string titleTiming, saveStartTime;
     private  bool timing = false;
     private int intTiming;
     private Timer timer = new Timer();
@@ -17,6 +18,9 @@ public class Timer_Button : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        titleTiming = titleTotal + "ing";
+        saveStartTime = "Start " + titleTotal;
 
         if (PlayerPrefs.HasKey(titleTiming))
         {
