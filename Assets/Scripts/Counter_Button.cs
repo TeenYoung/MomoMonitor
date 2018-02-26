@@ -7,17 +7,24 @@ using UnityEngine.UI;
 
 public class Counter_Button : MonoBehaviour {
 
-    public Button inputEnter;
-    public Text totalNumText, singleNumText;
+    public Text titleText;
+    public Text totalNumText;
     public InputField inputNumField;
 
+    public string title;
     public string unit;
 
     private int number, totalNum;     
     
     // Use this for initialization
     void Start() {
-        //inputNumField.gameObject.SetActive(false);
+        titleText.text = title;
+
+        //load saved data
+        if (PlayerPrefs.HasKey(title))
+            totalNum = PlayerPrefs.GetInt(title);
+
+        totalNumText.text = totalNum + " " + unit;
     }
 
     // Update is called once per frame
@@ -38,6 +45,9 @@ public class Counter_Button : MonoBehaviour {
         number = Convert.ToInt32(inputNumField.text);
         totalNum += number;
         totalNumText.text = totalNum + " " + unit;
+
+        //save data
+        PlayerPrefs.SetInt(title, totalNum);
 
         // ??find a way to rest to default 
         inputNumField.text = "";

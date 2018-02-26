@@ -7,7 +7,7 @@ using System;
 public class Timer_Button : MonoBehaviour {
 
     public Text textTitle, textTime;
-    public string titleTotal;
+    public string title;
 
     private string titleTiming, saveStartTime;
     private  bool timing = false;
@@ -19,8 +19,8 @@ public class Timer_Button : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        titleTiming = titleTotal + "ing";
-        saveStartTime = "Start " + titleTotal;
+        titleTiming = title + "ing";
+        saveStartTime = "Start " + title;
 
         if (PlayerPrefs.HasKey(titleTiming))
         {
@@ -35,10 +35,10 @@ public class Timer_Button : MonoBehaviour {
             }
         }
 
-        if (PlayerPrefs.HasKey(titleTotal))
-        totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(titleTotal));
+        if (PlayerPrefs.HasKey(title))
+        totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(title));
 
-        textTitle.text = titleTotal;
+        textTitle.text = title;
         textTime.text = FormatTimeSpan(totalDuration);
     }
 
@@ -49,10 +49,10 @@ public class Timer_Button : MonoBehaviour {
         {
             timer.EndTime = DateTime.Now;
 
-            textTitle.text = titleTotal;
+            textTitle.text = title;
             totalDuration += duration;
             //save total duration into PlayerPrefs
-            PlayerPrefs.SetString(titleTotal, totalDuration.ToString());
+            PlayerPrefs.SetString(title, totalDuration.ToString());
 
 
             textTime.text = FormatTimeSpan(totalDuration);
