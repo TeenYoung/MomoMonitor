@@ -13,11 +13,11 @@ public class Counter_Button : MonoBehaviour {
 
     public string unit;
 
-    private int number, totalNum; 
+    private int number, totalNum;     
     
     // Use this for initialization
     void Start() {
-        inputEnter.gameObject.SetActive(false);
+        //inputNumField.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,12 +27,13 @@ public class Counter_Button : MonoBehaviour {
 
     public void EnterToInput()
     {
-        inputEnter.gameObject.SetActive(true);
+        inputNumField.gameObject.SetActive(true);
+        inputNumField.Select();
     }
 
     public void EnterToShowTotal()
     {
-        inputEnter.gameObject.SetActive(false);
+        inputNumField.gameObject.SetActive(false);
         //number = Convert.ToInt32(singleNumText.text);
         number = Convert.ToInt32(inputNumField.text);
         totalNum += number;
@@ -41,6 +42,13 @@ public class Counter_Button : MonoBehaviour {
         // ??find a way to rest to default 
         inputNumField.text = "";
         
+    }
+
+    public void EnterToCancel() {
+        inputNumField.gameObject.SetActive(false);
+
+        // ??find a way to rest to default 
+        inputNumField.text = "";
     }
     
 }
