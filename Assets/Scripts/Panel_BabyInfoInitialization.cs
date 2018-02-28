@@ -13,7 +13,8 @@ public class Panel_BabyInfoInitialization : MonoBehaviour {
     private string genderInfo;    
 
     // Use this for initialization
-    void Start () {               
+    void Start () {
+        InputField_Name.Select();
     }
 	
 	// Update is called once per frame
