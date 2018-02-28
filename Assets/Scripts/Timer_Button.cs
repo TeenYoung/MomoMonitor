@@ -8,11 +8,12 @@ public class Timer_Button : MonoBehaviour {
 
     public Text textTitle, textTime;
     public string title;
+    public List<Timer> timerList = new List<Timer>();
 
     private string titleTiming, saveStartTime;
     private bool timing = false;
     private int intTiming;
-    private Timer timer = new Timer();
+    private Timer timer;
     private TimeSpan duration;
     private TimeSpan totalDuration;
 
@@ -41,7 +42,7 @@ public class Timer_Button : MonoBehaviour {
         textTime.text = FormatTimeSpan(totalDuration);
     }
 
-    public void Click()
+    public void OnClick()
     {
 
         if (timing)
@@ -60,11 +61,14 @@ public class Timer_Button : MonoBehaviour {
             intTiming = Convert.ToInt32(timing);
             PlayerPrefs.SetInt(titleTiming, intTiming);
 
-            ////add data into log and save
-            //Main_Menu.menu.Save();
+            //add data into log and save
+            timerList.Add(timer);
+
+            Main_Menu.menu.Save();
         }
         else
         {
+            timer = new Timer();
             timer.StartTime = DateTime.Now;
             
             //Save the start time as a string in the player prefs class
@@ -76,8 +80,16 @@ public class Timer_Button : MonoBehaviour {
             intTiming = Convert.ToInt32(timing);
             PlayerPrefs.SetInt(titleTiming, intTiming);
         }
+    }
 
-
+    public void RecordOnClick()
+    {
+        foreach (Timer timer in timerList)
+        {
+            print (timer.StartTime.ToLongTimeString() + " " 
+                + timer.EndTime.ToLongTimeString() + " "
+                + FormatTimeSpan(timer.CalculateDuration()));
+        }
     }
 
     string FormatTimeSpan(TimeSpan timeSpan)
@@ -123,19 +135,9 @@ public class Timer_Button : MonoBehaviour {
             textTime.text = FormatTimeSpan (duration);
         }
     }
-
-    //private void OnApplicationQuit()
-    //{
-    //    //save is timing or not into PlayerPrefs
-    //    intTiming = Convert.ToInt32(timing);
-    //    PlayerPrefs.SetInt(titleTiming, intTiming);
-
-    //    //save total duration into PlayerPrefs
-    //    PlayerPrefs.SetString(titleTotal, totalDuration.ToString());
-
-    //}
 }
 
+[Serializable]
 public class Timer
 {
 
