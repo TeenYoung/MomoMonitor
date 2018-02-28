@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Reset : MonoBehaviour {
 
@@ -16,5 +17,6 @@ public class Reset : MonoBehaviour {
 
     public void OnClick() {
         PlayerPrefs.DeleteAll();
+        File.Delete(Application.persistentDataPath + "/record.dat");
     }
 }

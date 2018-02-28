@@ -31,7 +31,11 @@ public class Timer_Button : MonoBehaviour {
                 //Grab the last start time from the player prefs as a long
                 long temp = Convert.ToInt64(PlayerPrefs.GetString(saveStartTime));
                 //Convert the last start time from binary to a DataTime variable
-                timer.StartTime = DateTime.FromBinary(temp);
+                timer = new Timer()
+                {
+                    StartTime = DateTime.FromBinary(temp)
+                };
+
             }
         }
 
@@ -68,9 +72,11 @@ public class Timer_Button : MonoBehaviour {
         }
         else
         {
-            timer = new Timer();
-            timer.StartTime = DateTime.Now;
-            
+            timer = new Timer
+            {
+                StartTime = DateTime.Now
+            };
+
             //Save the start time as a string in the player prefs class
             PlayerPrefs.SetString(saveStartTime, timer.StartTime.ToBinary().ToString());
 
