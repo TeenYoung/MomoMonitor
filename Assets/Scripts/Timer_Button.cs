@@ -10,7 +10,7 @@ public class Timer_Button : MonoBehaviour {
     public string title;
 
     private string titleTiming, saveStartTime;
-    private  bool timing = false;
+    private bool timing = false;
     private int intTiming;
     private Timer timer = new Timer();
     private TimeSpan duration;
@@ -18,7 +18,6 @@ public class Timer_Button : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
         titleTiming = title + "ing";
         saveStartTime = "Start " + title;
 
@@ -61,6 +60,8 @@ public class Timer_Button : MonoBehaviour {
             intTiming = Convert.ToInt32(timing);
             PlayerPrefs.SetInt(titleTiming, intTiming);
 
+            ////add data into log and save
+            //Main_Menu.menu.Save();
         }
         else
         {
