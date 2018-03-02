@@ -5,28 +5,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.IO; 
+using System.IO;
 
-public class Main_Menu : MonoBehaviour {
+public class Main_Menu : MonoBehaviour
+{
 
     public static Main_Menu menu;
-    //public GameObject breastfeedButton;
+
+    // if add new timer/counter button have to manuly add a case here
     public Text timeLabel;
     public List<Timer> bfTimerList = new List<Timer>();
     public List<Timer> sleepTimerList = new List<Timer>();
     public List<Timer> playTimerList = new List<Timer>();
+    public List<Counter> bottleCounterList = new List<Counter>();
+
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
 
         //make sure only one Main Menu exists
-        if (menu == null) {
+        if (menu == null)
+        {
             DontDestroyOnLoad(gameObject);
             menu = this;
         }
         else if (menu != this) Destroy(gameObject);
 
-	}
+    }
 
     //auto load
     private void OnEnable()
@@ -35,19 +41,24 @@ public class Main_Menu : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         timeLabel.text = DateTime.Now.ToShortTimeString();
-	}
+    }
 
     public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/record.dat");
 
-        RecordData data = new RecordData();
-        data.bfTimerList = bfTimerList;
-        data.sleepTimerList = sleepTimerList;
-        data.playTimerList = playTimerList;
+
+        RecordData data = new RecordData
+        {
+            bfTimerList = bfTimerList,
+            sleepTimerList = sleepTimerList,
+            playTimerList = playTimerList,
+            bottleCounterList = bottleCounterList,
+        };
 
         bf.Serialize(file, data);
         file.Close();
@@ -65,16 +76,8 @@ public class Main_Menu : MonoBehaviour {
             bfTimerList = data.bfTimerList;
             sleepTimerList = data.sleepTimerList;
             playTimerList = data.playTimerList;
+            bottleCounterList = data.bottleCounterList;
         }
-    }
-
-    [Serializable]
-    class RecordData
-    {
-        public List<Timer> bfTimerList;
-        public List<Timer> sleepTimerList;
-        public List<Timer> playTimerList;
-
     }
 
     public void MainButtonOnClick()
@@ -90,3 +93,15 @@ public class Main_Menu : MonoBehaviour {
     }
 
 }
+    [Serializable]
+    class RecordData
+    {
+        public List<Timer> bfTimerList;
+        public List<Timer> sleepTimerList;
+        public List<Timer> playTimerList;
+        public List<Counter> bottleCounterList;
+
+    }
+
+
+

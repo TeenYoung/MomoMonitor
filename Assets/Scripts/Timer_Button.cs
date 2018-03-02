@@ -6,10 +6,9 @@ using System;
 
 public class Timer_Button : MonoBehaviour {
 
-    public Text textTitle, textTime;
+    public Text titleText, timeText, recordsText;
     public string title;
     public GameObject recordsPanel;
-    public Text recordsText;
 
     private string titleTiming, saveStartTime;
     private bool timing = false;
@@ -39,12 +38,12 @@ public class Timer_Button : MonoBehaviour {
                 {
                     StartTime = DateTime.FromBinary(temp)
                 };
-                textTitle.text = titleTiming;
+                titleText.text = titleTiming;
             }
             else
             {
-                textTitle.text = title;
-                textTime.text = FormatTimeSpan(totalDuration);
+                titleText.text = title;
+                timeText.text = FormatTimeSpan(totalDuration);
             }
         }
 
@@ -57,13 +56,13 @@ public class Timer_Button : MonoBehaviour {
         {
             timer.EndTime = DateTime.Now;
 
-            textTitle.text = title;
+            titleText.text = title;
             totalDuration += duration;
             //save total duration into PlayerPrefs
             PlayerPrefs.SetString(title, totalDuration.ToString());
 
 
-            textTime.text = FormatTimeSpan(totalDuration);
+            timeText.text = FormatTimeSpan(totalDuration);
             timing = false;
             //save is timing or not into PlayerPrefs
             intTiming = Convert.ToInt32(timing);
@@ -83,7 +82,7 @@ public class Timer_Button : MonoBehaviour {
             //Save the start time as a string in the player prefs class
             PlayerPrefs.SetString(saveStartTime, timer.StartTime.ToBinary().ToString());
 
-            textTitle.text = titleTiming;
+            titleText.text = titleTiming;
             timing = true;
             //save is timing or not into PlayerPrefs
             intTiming = Convert.ToInt32(timing);
@@ -173,7 +172,7 @@ public class Timer_Button : MonoBehaviour {
         if (timing)
         {
             duration = DateTime.Now.Subtract(timer.StartTime);
-            textTime.text = FormatTimeSpan (duration);
+            timeText.text = FormatTimeSpan (duration);
         }
     }
 
