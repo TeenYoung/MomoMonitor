@@ -73,6 +73,9 @@ public class Counter_Button : MonoBehaviour {
             case "Bottle_Button":
                 Main_Menu.menu.bottleCounterList.Add(counter);
                 break;
+            case "Pump_Button":
+                Main_Menu.menu.pumpCounterList.Add(counter);
+                break;
         }
     }
 
@@ -87,6 +90,10 @@ public class Counter_Button : MonoBehaviour {
             case "Bottle_Button":
                 sourceCounterList = Main_Menu.menu.bottleCounterList;
                 break;
+            case "Pump_Button":
+                sourceCounterList = Main_Menu.menu.pumpCounterList;
+                break;
+
         }
 
 

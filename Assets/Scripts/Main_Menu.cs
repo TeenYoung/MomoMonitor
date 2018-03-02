@@ -12,13 +12,13 @@ public class Main_Menu : MonoBehaviour
 
     public static Main_Menu menu;
 
-    // if add new timer/counter button have to manuly add a case here
+    // if add new timer/counter button have to manuly add a list here
     public Text timeLabel;
     public List<Timer> bfTimerList = new List<Timer>();
     public List<Timer> sleepTimerList = new List<Timer>();
     public List<Timer> playTimerList = new List<Timer>();
     public List<Counter> bottleCounterList = new List<Counter>();
-
+    public List<Counter> pumpCounterList = new List<Counter>();
 
     // Use this for initialization
     void Awake()
@@ -58,6 +58,7 @@ public class Main_Menu : MonoBehaviour
             sleepTimerList = sleepTimerList,
             playTimerList = playTimerList,
             bottleCounterList = bottleCounterList,
+            pumpCounterList = pumpCounterList,
         };
 
         bf.Serialize(file, data);
@@ -77,6 +78,7 @@ public class Main_Menu : MonoBehaviour
             sleepTimerList = data.sleepTimerList;
             playTimerList = data.playTimerList;
             bottleCounterList = data.bottleCounterList;
+            pumpCounterList = data.pumpCounterList;
         }
     }
 
@@ -93,15 +95,16 @@ public class Main_Menu : MonoBehaviour
     }
 
 }
-    [Serializable]
-    class RecordData
-    {
+
+[Serializable]
+class RecordData
+{
         public List<Timer> bfTimerList;
         public List<Timer> sleepTimerList;
         public List<Timer> playTimerList;
         public List<Counter> bottleCounterList;
-
-    }
+        public List<Counter> pumpCounterList;
+}
 
 
 
