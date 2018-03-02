@@ -8,7 +8,8 @@ public class Timer_Button : MonoBehaviour {
 
     public Text textTitle, textTime;
     public string title;
-    public List<Timer> timerList = new List<Timer>();
+    public GameObject recordsPanel;
+    public Text recordsText;
 
     private string titleTiming, saveStartTime;
     private bool timing = false;
@@ -21,6 +22,9 @@ public class Timer_Button : MonoBehaviour {
     void Start () {
         titleTiming = title + "ing";
         saveStartTime = "Start " + title;
+
+        if (PlayerPrefs.HasKey(title))
+        totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(title));
 
         if (PlayerPrefs.HasKey(titleTiming))
         {
@@ -35,15 +39,15 @@ public class Timer_Button : MonoBehaviour {
                 {
                     StartTime = DateTime.FromBinary(temp)
                 };
-
+                textTitle.text = titleTiming;
+            }
+            else
+            {
+                textTitle.text = title;
+                textTime.text = FormatTimeSpan(totalDuration);
             }
         }
 
-        if (PlayerPrefs.HasKey(title))
-        totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(title));
-
-        textTitle.text = title;
-        textTime.text = FormatTimeSpan(totalDuration);
     }
 
     public void OnClick()
@@ -66,8 +70,7 @@ public class Timer_Button : MonoBehaviour {
             PlayerPrefs.SetInt(titleTiming, intTiming);
 
             //add data into log and save
-            timerList.Add(timer);
-
+            AddData();
             Main_Menu.menu.Save();
         }
         else
@@ -90,12 +93,44 @@ public class Timer_Button : MonoBehaviour {
 
     public void RecordOnClick()
     {
-        foreach (Timer timer in timerList)
+        List<Timer> sourceTimerList = new List<Timer>();
+        string records = "";
+
+        //if add another timer button, have to manuly add a case here
+        switch (gameObject.name)
         {
-            print (timer.StartTime.ToLongTimeString() + " " 
-                + timer.EndTime.ToLongTimeString() + " "
-                + FormatTimeSpan(timer.CalculateDuration()));
+            case "Breastfeed_Button":
+                sourceTimerList = Main_Menu.menu.bfTimerList;
+                break;
+            case "Sleep_Button":
+                sourceTimerList = Main_Menu.menu.sleepTimerList;
+                break;
+            case "Play_Button":
+                sourceTimerList = Main_Menu.menu.playTimerList;
+                break;
         }
+
+
+        foreach (Timer timer in sourceTimerList)
+        {
+            //print (timer.StartTime.ToLongTimeString() + " " 
+            //    + timer.EndTime.ToLongTimeString() + " "
+            //    + FormatTimeSpan(timer.CalculateDuration()));
+
+            string record = timer.StartTime.ToShortTimeString() + " ~ "
+                + timer.EndTime.ToShortTimeString() + "     Duration:"
+                + FormatTimeSpan(timer.CalculateDuration()) + "\n";
+
+            records = records + record;
+        }
+
+        recordsPanel.SetActive(true);
+        recordsText.text = records;
+    }
+
+    public void CloseRecordOnClick()
+    {
+        recordsPanel.SetActive(false);
     }
 
     string FormatTimeSpan(TimeSpan timeSpan)
@@ -139,6 +174,24 @@ public class Timer_Button : MonoBehaviour {
         {
             duration = DateTime.Now.Subtract(timer.StartTime);
             textTime.text = FormatTimeSpan (duration);
+        }
+    }
+
+    void AddData()
+    {
+        
+        //if add another timer button, have to manuly add a case here
+        switch (gameObject.name)
+        {
+            case "Breastfeed_Button":
+                Main_Menu.menu.bfTimerList.Add(timer);
+                break;
+            case "Sleep_Button":
+                Main_Menu.menu.sleepTimerList.Add(timer);
+                break;
+            case "Play_Button":
+                Main_Menu.menu.playTimerList.Add(timer);
+                break;
         }
     }
 }

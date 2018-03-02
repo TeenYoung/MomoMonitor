@@ -10,11 +10,14 @@ using System.IO;
 public class Main_Menu : MonoBehaviour {
 
     public static Main_Menu menu;
-    public Button breastfeedButton;
+    //public GameObject breastfeedButton;
     public Text timeLabel;
+    public List<Timer> bfTimerList = new List<Timer>();
+    public List<Timer> sleepTimerList = new List<Timer>();
+    public List<Timer> playTimerList = new List<Timer>();
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
 
         //make sure only one Main Menu exists
         if (menu == null) {
@@ -41,8 +44,10 @@ public class Main_Menu : MonoBehaviour {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/record.dat");
 
-        HistoryData data = new HistoryData();
-        data.breastTimer = breastfeedButton.GetComponent<Timer_Button>().timerList;
+        RecordData data = new RecordData();
+        data.bfTimerList = bfTimerList;
+        data.sleepTimerList = sleepTimerList;
+        data.playTimerList = playTimerList;
 
         bf.Serialize(file, data);
         file.Close();
@@ -54,17 +59,22 @@ public class Main_Menu : MonoBehaviour {
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/record.dat", FileMode.Open);
-            HistoryData data = (HistoryData)bf.Deserialize(file);
+            RecordData data = (RecordData)bf.Deserialize(file);
             file.Close();
 
-            breastfeedButton.GetComponent<Timer_Button>().timerList = data.breastTimer;
+            bfTimerList = data.bfTimerList;
+            sleepTimerList = data.sleepTimerList;
+            playTimerList = data.playTimerList;
         }
     }
 
     [Serializable]
-    class HistoryData
+    class RecordData
     {
-        public List<Timer> breastTimer;
+        public List<Timer> bfTimerList;
+        public List<Timer> sleepTimerList;
+        public List<Timer> playTimerList;
+
     }
 
     public void MainButtonOnClick()
