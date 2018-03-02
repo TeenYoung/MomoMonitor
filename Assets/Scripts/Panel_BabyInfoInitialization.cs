@@ -15,6 +15,7 @@ public class Panel_BabyInfoInitialization : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InputField_Name.Select();
+        Toggle_Gender.isOn = false;
     }
 	
 	// Update is called once per frame
@@ -32,7 +33,12 @@ public class Panel_BabyInfoInitialization : MonoBehaviour {
         PlayerPrefs.SetString("babyName", Text_Name.text);
         PlayerPrefs.SetString("babyBirth", Text_Birth.text.ToString());
         //print(Text_Birth.text);
-        PlayerPrefs.SetString("babyGender", genderInfo);       
+        PlayerPrefs.SetString("babyGender", genderInfo);
+
+        InputField_Name.Select();
+        InputField_Name.text = "";
+        InputField_Birth.text = "";
+        Toggle_Gender.isOn = false;
     }
 
 

@@ -16,7 +16,7 @@ public class Menu_BabyInfo : MonoBehaviour {
     private string babyName, babyBirth, babyGender;
 
     private TimeSpan TimeSpan_babyAge;
-    public DateTime DateTime_babyBirth;
+    public DateTime DateTime_babyBirth;    
 
     // Use this for initialization
     void Start() {
@@ -29,7 +29,6 @@ public class Menu_BabyInfo : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
     }
 
     public void DeliverOnClick() {

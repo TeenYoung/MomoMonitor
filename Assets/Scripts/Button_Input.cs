@@ -13,13 +13,14 @@ public class Button_Input : MonoBehaviour {
     //give title a name for saving input
     public string unit, titleInSaving;
     
-    private string number; 
+    private string number;
+
+    //use for data saving log
+    private DateTime InputTime;
 
     // Use this for initialization
     void Start () {
-        //inputNumField.text = "";
 
-        Text_Num.text = " " + unit;
         inputNumField.gameObject.SetActive(false);
     }
 	
@@ -30,7 +31,9 @@ public class Button_Input : MonoBehaviour {
 
     public void OpenInputField()
     {
+        //clean inputfield
         inputNumField.text = "";
+        
         inputNumField.gameObject.SetActive(true);
         inputNumField.Select();
     }
@@ -41,17 +44,22 @@ public class Button_Input : MonoBehaviour {
 
         //number = Convert.ToString(inputNumField.text);
         
-        Text_Num.text = Convert.ToString((inputNumField.text)) + " " + unit;
+        Text_Num.text = Convert.ToString((inputNumField.text)) + " " + unit;     
+
+        //save update time
+        InputTime = DateTime.Now;
+
+        //add code to saving update time in log
 
         //save data
-        PlayerPrefs.SetString(titleInSaving, Text_Num.text);
+        PlayerPrefs.SetString(titleInSaving, Text_Num.text);        
 
         //inputNumField.text = "";
     }
 
     public void InputCancel()
     {
-        inputNumField.text = "";
+        //inputNumField.text = "";
         inputNumField.gameObject.SetActive(false);        
     }
 
