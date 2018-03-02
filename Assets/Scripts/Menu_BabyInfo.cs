@@ -12,11 +12,13 @@ public class Menu_BabyInfo : MonoBehaviour {
         Panel_BabyInfo;
     public Text Text_Name, Text_BirthNum, Text_GenderInfo, Text_AgeNum, Text_Weight, Text_Height;
     public Button Button_ResetBabyInfo;
+    public DateTime DateTime_babyBirth;
 
     private string babyName, babyBirth, babyGender;
-
     private TimeSpan TimeSpan_babyAge;
-    public DateTime DateTime_babyBirth;    
+    //private Text Text_BirthHour, Text_BirthMinute, Text_Birth,
+    //   Text_BirthDay, Text_BirthMonth, Text_BirthYear;
+
 
     // Use this for initialization
     void Start() {
@@ -50,8 +52,11 @@ public class Menu_BabyInfo : MonoBehaviour {
             CultureInfo.InvariantCulture, DateTimeStyles.None);
         //print(DateTime_babyBirth.ToString());
 
-        //output birth in format "dd/MM/yyyy HH:mm"
-        Text_BirthNum.text = DateTime_babyBirth.ToString("dd/MM/yyyy HH:mm");
+        //output birth in format "dd/MM/yyyy HH:mm", and MM show in character
+        Text_BirthNum.text = DateTime_babyBirth.ToString("dd ")
+            + DateTime_babyBirth.ToString("MMM", new System.Globalization.CultureInfo("en-us")).Substring(0, 3)
+            + DateTime_babyBirth.ToString(" yyyy ")
+            + DateTime_babyBirth.ToString("HH:mm");
 
         //count and output baby's age
         TimeSpan_babyAge = DateTime.Now.Subtract(DateTime_babyBirth);
