@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Nappy_Button : MonoBehaviour {
 
-    public Button Wet_Button, Poo_Button, BothWetAndPoo_Button;
-    public Text Text_wetNum, Text_pooNum;
+    public GameObject panel_Input;
+    public Text text_wetNum, text_pooNum;
 
     private int wetNum, pooNum;
 
@@ -16,20 +16,11 @@ public class Nappy_Button : MonoBehaviour {
 
         //load saved data
         wetNum = PlayerPrefs.GetInt("wet: ");
-        Text_wetNum.text = "wet: " + wetNum;
+        text_wetNum.text = "wet: " + wetNum;
 
         pooNum = PlayerPrefs.GetInt("poo: ");
-        Text_pooNum.text = "poo: " + pooNum;
+        text_pooNum.text = "poo: " + pooNum;
         
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
-    public void NappyButtonOnClick() {
-        OpenNappyTypeButton();
     }
 
     public void WetButtonOnClick() {
@@ -38,8 +29,8 @@ public class Nappy_Button : MonoBehaviour {
         //save data
         PlayerPrefs.SetInt("wet: ", wetNum);
 
-        Text_wetNum.text = "wet: " + wetNum;
-        CloseNappyTypeButton();
+        text_wetNum.text = "wet: " + wetNum;
+        CloseInputPanel();
     }
 
     public void PooButtonOnClick()
@@ -49,9 +40,9 @@ public class Nappy_Button : MonoBehaviour {
         //save data
         PlayerPrefs.SetInt("poo: ", pooNum);
 
-        Text_pooNum.text = "poo: " + pooNum;
+        text_pooNum.text = "poo: " + pooNum;
 
-        CloseNappyTypeButton();
+        CloseInputPanel();
     }
 
     public void BothButtonOnClick()
@@ -60,27 +51,28 @@ public class Nappy_Button : MonoBehaviour {
         //save data
         PlayerPrefs.SetInt("wet: ", wetNum);
 
-        Text_wetNum.text = "wet: " + wetNum;
+        text_wetNum.text = "wet: " + wetNum;
 
         pooNum += 1;
 
         //save data
         PlayerPrefs.SetInt("poo: ", pooNum);
 
-        Text_pooNum.text = "poo: " + pooNum;
+        text_pooNum.text = "poo: " + pooNum;
 
-        CloseNappyTypeButton();
+        CloseInputPanel();
     }
 
-    public void OpenNappyTypeButton() {
-        Wet_Button.gameObject.SetActive(true);
-        Poo_Button.gameObject.SetActive(true);
-        BothWetAndPoo_Button.gameObject.SetActive(true);
+    public void OpenInputPanel() {
+        panel_Input.SetActive(true);
     }
 
-    public void CloseNappyTypeButton() {
-        Wet_Button.gameObject.SetActive(false);
-        Poo_Button.gameObject.SetActive(false);
-        BothWetAndPoo_Button.gameObject.SetActive(false);
+    public void CloseInputPanel() {
+        panel_Input.SetActive(false);
+    }
+
+    public void RecordOnClick()
+    {
+
     }
 }
