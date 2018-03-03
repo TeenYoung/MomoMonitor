@@ -7,16 +7,15 @@ using System;
 public class Timer_Button : MonoBehaviour {
 
     public Text titleText, timeText, recordsText, text_StatusTitle, text_LastTime;
-    public string title;
+    public string title,titlePast;
     public GameObject recordsPanel; 
-    public TimeSpan timeSpanFromLastTime;
 
     private string titleTiming, saveStartTime, saveEndTime;
     private bool timing = false;
     private int intTiming;
     private Timer timer;
     private TimeSpan duration;
-    private TimeSpan totalDuration;
+    private TimeSpan totalDuration, timeSpanFromLastTime;
 
     // Use this for initialization
     void Start () {
@@ -25,7 +24,13 @@ public class Timer_Button : MonoBehaviour {
         saveEndTime = "End" + title;
 
         if (PlayerPrefs.HasKey(title))
-        totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(title));
+        {
+            totalDuration = TimeSpan.Parse(PlayerPrefs.GetString(title));
+            text_StatusTitle.text = titlePast + ": " + FormatTimeSpan(totalDuration);
+        }
+        else text_StatusTitle.text = title;
+         
+
 
         if (PlayerPrefs.HasKey(titleTiming))
         {
@@ -50,15 +55,23 @@ public class Timer_Button : MonoBehaviour {
             }
             else
             {
+                //Grab the last start time from the player prefs as a long
+                long temp = Convert.ToInt64(PlayerPrefs.GetString(saveEndTime));
+                //Convert the last start time from binary to a DataTime variable
+                timer = new Timer()
+                {
+                    EndTime = DateTime.FromBinary(temp)
+                };
+
                 //when not timing, show total and last time info
                 titleText.gameObject.SetActive(false);
                 timeText.gameObject.SetActive(false);
                 text_StatusTitle.gameObject.SetActive(true);
                 text_LastTime.gameObject.SetActive(true);
-
-                //text_StatusTitle.text = FormatTimeSpan(totalDuration);
-                text_LastTime.text = FormatTimeSpan(timeSpanFromLastTime) + " ago";
             }
+
+
+
         }
 
     }
@@ -69,7 +82,10 @@ public class Timer_Button : MonoBehaviour {
         if (timing)
         {
             timer.EndTime = DateTime.Now;
-            timeSpanFromLastTime = DateTime.Now.Subtract(timer.EndTime);
+            PlayerPrefs.SetString(saveEndTime, timer.EndTime.ToBinary().ToString());
+
+
+            //timeSpanFromLastTime = DateTime.Now.Subtract(timer.EndTime);
 
             titleText.text = title;
             totalDuration += duration;
@@ -93,8 +109,8 @@ public class Timer_Button : MonoBehaviour {
             text_StatusTitle.gameObject.SetActive(true);
             text_LastTime.gameObject.SetActive(true);
 
-            text_StatusTitle.text = FormatTimeSpan(totalDuration);
-            text_LastTime.text = FormatTimeSpan(timeSpanFromLastTime) + " ago";
+            text_StatusTitle.text = titlePast + ": " + FormatTimeSpan(totalDuration);
+            //text_LastTime.text = FormatTimeSpan(timeSpanFromLastTime) + " ago";
         }
         else
         {
@@ -201,8 +217,16 @@ public class Timer_Button : MonoBehaviour {
             timeText.text = FormatTimeSpan (duration);
         }
         else
-        {            
-            text_LastTime.text = FormatTimeSpan(timeSpanFromLastTime) + " ago";
+        {
+            if (PlayerPrefs.HasKey(saveEndTime))
+            {
+                timeSpanFromLastTime = DateTime.Now.Subtract(timer.EndTime);
+                text_LastTime.text = FormatTimeSpan(timeSpanFromLastTime) + " ago";
+            }
+            else
+            {
+                text_LastTime.text = "Never";
+            }
         }
     }
 
