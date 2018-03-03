@@ -126,20 +126,7 @@ public class Timer_Button : MonoBehaviour {
         List<Timer> sourceTimerList = new List<Timer>();
         string records = "";
 
-        //if add another timer button, have to manuly add a case here
-        switch (gameObject.name)
-        {
-            case "Breastfeed_Button":
-                sourceTimerList = Main_Menu.menu.bfTimerList;
-                break;
-            case "Sleep_Button":
-                sourceTimerList = Main_Menu.menu.sleepTimerList;
-                break;
-            case "Play_Button":
-                sourceTimerList = Main_Menu.menu.playTimerList;
-                break;
-        }
-
+        sourceTimerList = Main_Menu.menu.timerLists[gameObject.name];
 
         foreach (Timer timer in sourceTimerList)
         {
@@ -221,20 +208,9 @@ public class Timer_Button : MonoBehaviour {
 
     void AddData()
     {
-        
-        //if add another timer button, have to manuly add a case here
-        switch (gameObject.name)
-        {
-            case "Breastfeed_Button":
-                Main_Menu.menu.bfTimerList.Add(timer);
-                break;
-            case "Sleep_Button":
-                Main_Menu.menu.sleepTimerList.Add(timer);
-                break;
-            case "Play_Button":
-                Main_Menu.menu.playTimerList.Add(timer);
-                break;
-        }
+
+        Main_Menu.menu.timerLists[gameObject.name].Add(timer);
+
     }
 }
 

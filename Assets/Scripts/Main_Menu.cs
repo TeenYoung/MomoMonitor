@@ -20,6 +20,9 @@ public class Main_Menu : MonoBehaviour
     public List<Counter> bottleCounterList = new List<Counter>();
     public List<Counter> pumpCounterList = new List<Counter>();
 
+    public Dictionary<string, List<Timer>> timerLists = new Dictionary<string, List<Timer>>();
+    
+
     // Use this for initialization
     void Awake()
     {
@@ -77,9 +80,14 @@ public class Main_Menu : MonoBehaviour
             bfTimerList = data.bfTimerList;
             sleepTimerList = data.sleepTimerList;
             playTimerList = data.playTimerList;
+
             bottleCounterList = data.bottleCounterList;
             pumpCounterList = data.pumpCounterList;
         }
+
+        timerLists.Add("Breastfeed_Button", bfTimerList);
+        timerLists.Add("Sleep_Button", sleepTimerList);
+        timerLists.Add("Play_Button", playTimerList);
     }
 
     public void MainButtonOnClick()
