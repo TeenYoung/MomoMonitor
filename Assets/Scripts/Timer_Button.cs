@@ -6,9 +6,10 @@ using System;
 
 public class Timer_Button : MonoBehaviour {
 
-    public Text titleText, timeText, recordsText;
+    public Text titleText, timeText, recordsText, text_LastTime;
     public string title;
-    public GameObject recordsPanel;
+    public GameObject recordsPanel; 
+    public TimeSpan timeSpanFromLastTime;
 
     private string titleTiming, saveStartTime;
     private bool timing = false;
@@ -55,6 +56,8 @@ public class Timer_Button : MonoBehaviour {
         if (timing)
         {
             timer.EndTime = DateTime.Now;
+
+            
 
             titleText.text = title;
             totalDuration += duration;
@@ -134,8 +137,16 @@ public class Timer_Button : MonoBehaviour {
 
     string FormatTimeSpan(TimeSpan timeSpan)
     {
-        string h, m, s;
+        string d, h, m, s;
 
+        if (timeSpan.Days == 0)
+        {
+            d = "";
+        }
+        else
+        {
+            d = timeSpan.Days + "d";
+        }
 
         if (timeSpan.Hours == 0)
         {
@@ -160,8 +171,8 @@ public class Timer_Button : MonoBehaviour {
         if (timeSpan.Seconds == 0)
             s = "";
 
-        string hms = h + m + s;
-        return hms;
+        string dhms = d + h + m + s;
+        return dhms;
     }
 
 
@@ -173,6 +184,11 @@ public class Timer_Button : MonoBehaviour {
         {
             duration = DateTime.Now.Subtract(timer.StartTime);
             timeText.text = FormatTimeSpan (duration);
+        }
+        else
+        {
+            timeSpanFromLastTime = DateTime.Now.Subtract(timer.EndTime);
+            text_LastTime.text = FormatTimeSpan(timeSpanFromLastTime) + " ago";
         }
     }
 
