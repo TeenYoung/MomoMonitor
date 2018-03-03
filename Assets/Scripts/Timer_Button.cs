@@ -168,42 +168,39 @@ public class Timer_Button : MonoBehaviour {
 
     string FormatTimeSpan(TimeSpan timeSpan)
     {
-        string d, h, m, s;
+        string  d, h, m, dhm;
 
-        if (timeSpan.Days == 0)
+        if (timeSpan > new TimeSpan(0,0,59))
         {
-            d = "";
-        }
-        else
-        {
-            d = timeSpan.Days + "d";
-        }
-
-        if (timeSpan.Hours == 0)
-        {
-            h = "";
-            s = timeSpan.Seconds + "s";
-        }
-        else
-        {
-            h = timeSpan.Hours + "h";
-            s = "";
-        }
+            if (timeSpan.Days == 0)
+            {
+                d = "";
+                m = timeSpan.Minutes + "m";
+            }
+            else
+            {
+                d = timeSpan.Days + "d";
+                m = "";
+            }
 
 
-        if (timeSpan.Minutes == 0)
-        {
-            m = "";
-            s = timeSpan.Seconds + "s";
+            if (timeSpan.Hours == 0)
+            {
+                h = "";
+                m = timeSpan.Minutes + "m";
+            }
+            else
+                h = timeSpan.Hours + "h";
+
+            if (timeSpan.Minutes == 0)
+                m = "";
+
+            dhm = d + h + m;
         }
-        else
-            m = timeSpan.Minutes + "m";
+        else dhm = "< 1min";
 
-        if (timeSpan.Seconds == 0)
-            s = "";
 
-        string dhms = d + h + m + s;
-        return dhms;
+        return dhm;
     }
 
 
