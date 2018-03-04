@@ -17,8 +17,11 @@ public class Main_Menu : MonoBehaviour
     public List<Timer> bfTimerList = new List<Timer>();
     public List<Timer> sleepTimerList = new List<Timer>();
     public List<Timer> playTimerList = new List<Timer>();
+
     public List<Counter> bottleCounterList = new List<Counter>();
     public List<Counter> pumpCounterList = new List<Counter>();
+
+    public List<Nappy> nappyList = new List<Nappy>();
 
     public Dictionary<string, List<Timer>> timerLists = new Dictionary<string, List<Timer>>();
     
@@ -60,8 +63,11 @@ public class Main_Menu : MonoBehaviour
             bfTimerList = bfTimerList,
             sleepTimerList = sleepTimerList,
             playTimerList = playTimerList,
+
             bottleCounterList = bottleCounterList,
             pumpCounterList = pumpCounterList,
+
+            nappyList = nappyList,
         };
 
         bf.Serialize(file, data);
@@ -83,6 +89,8 @@ public class Main_Menu : MonoBehaviour
 
             bottleCounterList = data.bottleCounterList;
             pumpCounterList = data.pumpCounterList;
+
+            nappyList = data.nappyList;
         }
 
         timerLists.Add("Breastfeed_Button", bfTimerList);
@@ -107,11 +115,12 @@ public class Main_Menu : MonoBehaviour
 [Serializable]
 class RecordData
 {
-        public List<Timer> bfTimerList;
-        public List<Timer> sleepTimerList;
-        public List<Timer> playTimerList;
-        public List<Counter> bottleCounterList;
-        public List<Counter> pumpCounterList;
+    public List<Timer> bfTimerList;
+    public List<Timer> sleepTimerList;
+    public List<Timer> playTimerList;
+    public List<Counter> bottleCounterList;
+    public List<Counter> pumpCounterList;
+    public List<Nappy> nappyList;
 }
 
 

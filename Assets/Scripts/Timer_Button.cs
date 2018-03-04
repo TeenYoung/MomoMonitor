@@ -146,10 +146,6 @@ public class Timer_Button : MonoBehaviour {
 
         foreach (Timer timer in sourceTimerList)
         {
-            //print (timer.StartTime.ToLongTimeString() + " " 
-            //    + timer.EndTime.ToLongTimeString() + " "
-            //    + FormatTimeSpan(timer.CalculateDuration()));
-
             string record = timer.StartTime.ToShortTimeString() + " ~ "
                 + timer.EndTime.ToShortTimeString() + "     Duration:"
                 + FormatTimeSpan(timer.CalculateDuration()) + "\n";

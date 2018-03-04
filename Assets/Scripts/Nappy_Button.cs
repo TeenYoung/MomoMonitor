@@ -7,60 +7,94 @@ using UnityEngine.UI;
 public class Nappy_Button : MonoBehaviour {
 
     public GameObject panel_Input;
-    public Text text_wetNum, text_pooNum;
+    public Text text_wetNum, text_pooNum, recordsText;
+    public GameObject recordsPanel;
 
-    private int wetNum, pooNum;
+    private int weesNum, poosNum;
+    private Nappy nappy;
 
     // Use this for initialization
     void Start() {
 
         //load saved data
-        wetNum = PlayerPrefs.GetInt("wet: ");
-        text_wetNum.text = "wet: " + wetNum;
+        weesNum = PlayerPrefs.GetInt("wee: ");
+        text_wetNum.text = "wee: " + weesNum;
 
-        pooNum = PlayerPrefs.GetInt("poo: ");
-        text_pooNum.text = "poo: " + pooNum;
+        poosNum = PlayerPrefs.GetInt("poo: ");
+        text_pooNum.text = "poo: " + poosNum;
         
     }
 
-    public void WetButtonOnClick() {
-        wetNum += 1;
+    public void WeeButtonOnClick() {
+        weesNum ++;
 
         //save data
-        PlayerPrefs.SetInt("wet: ", wetNum);
+        PlayerPrefs.SetInt("wee: ", weesNum);
 
-        text_wetNum.text = "wet: " + wetNum;
+        text_wetNum.text = "wee: " + weesNum;
         CloseInputPanel();
+
+        nappy = new Nappy
+        {
+            Time = DateTime.Now,
+            Wee = true,
+            Poo = false
+        };
+
+        AddData();
+        Main_Menu.menu.Save();
     }
 
     public void PooButtonOnClick()
     {
-        pooNum += 1;
+        poosNum ++;
 
         //save data
-        PlayerPrefs.SetInt("poo: ", pooNum);
+        PlayerPrefs.SetInt("poo: ", poosNum);
 
-        text_pooNum.text = "poo: " + pooNum;
+        text_pooNum.text = "poo: " + poosNum;
 
         CloseInputPanel();
+
+        nappy = new Nappy
+        {
+            Time = DateTime.Now,
+            Wee = false,
+            Poo = true
+        };
+
+        AddData();
+        Main_Menu.menu.Save();
+
     }
 
     public void BothButtonOnClick()
     {
-        wetNum += 1;
+        weesNum ++;
         //save data
-        PlayerPrefs.SetInt("wet: ", wetNum);
+        PlayerPrefs.SetInt("wee: ", weesNum);
 
-        text_wetNum.text = "wet: " + wetNum;
+        text_wetNum.text = "wee: " + weesNum;
 
-        pooNum += 1;
+        poosNum ++;
 
         //save data
-        PlayerPrefs.SetInt("poo: ", pooNum);
+        PlayerPrefs.SetInt("poo: ", poosNum);
 
-        text_pooNum.text = "poo: " + pooNum;
+        text_pooNum.text = "poo: " + poosNum;
 
         CloseInputPanel();
+
+        nappy = new Nappy
+        {
+            Time = DateTime.Now,
+            Wee = true,
+            Poo = true
+        };
+
+        AddData();
+        Main_Menu.menu.Save();
+
     }
 
     public void OpenInputPanel() {
@@ -73,6 +107,42 @@ public class Nappy_Button : MonoBehaviour {
 
     public void RecordOnClick()
     {
+        string wee, poo;
+        string records = "";
+
+        foreach (Nappy nappy in Main_Menu.menu.nappyList)
+        {
+            if (nappy.Wee) wee = "Wee  ";
+            else wee = "";
+
+            if (nappy.Poo) poo = "Poo";
+            else poo = "";
+
+            string record = string.Format("{0}   {1}{2}\n",nappy.Time.ToShortTimeString(),wee,poo);
+
+            records = records + record;
+        }
+
+        recordsPanel.SetActive(true);
+        recordsText.text = records;
+    }
+
+    void AddData()
+    {
+
+        Main_Menu.menu.nappyList.Add(nappy);
 
     }
+
 }
+
+[Serializable]
+public class Nappy
+{
+
+    public DateTime Time { get; set; }
+    public bool Wee { get; set; }
+    public bool Poo { get; set; }
+
+}
+
