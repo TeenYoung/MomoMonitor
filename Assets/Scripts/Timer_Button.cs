@@ -8,7 +8,7 @@ public class Timer_Button : MonoBehaviour {
 
     public Text titleText, timeText, recordsText, text_StatusTitle, text_LastTime;
     public string title,titlePast;
-    public GameObject recordsPanel, panel_TimerInput; 
+    public GameObject recordsPanel, panel_Input; 
 
     private string titleTiming, saveStartTime, saveEndTime;
     private bool timing = false;
@@ -159,9 +159,49 @@ public class Timer_Button : MonoBehaviour {
 
     public void ManualInputOnClick(Button button)
     {
-        panel_TimerInput.SetActive(true);
-        panel_TimerInput.GetComponentInChildren<InputField>().Select();
+        panel_Input.SetActive(true);
+
+        Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
+
+        pI.sourceButton = button;
+
+        pI.inputField_1.gameObject.SetActive(true);
+        pI.inputField_1.Select();
+
+        pI.text_Title_1.text = "Input start time";
+        pI.text_Title_2.text = "Input end time";
+        pI.text_Placeholder_1.text = "hhmm e.g. 1800 for 6pm";
+        pI.text_Placeholder_2.text = "hhmm e.g. 1900 for 7pm";
+
+        pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
+        pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
     }
+
+    public Timer ManualAddTimerRecord(string startTime, string endTime)
+    {
+        if (startTime.Length == 4 && endTime.Length == 4)
+        {
+            int statHr = Int32.Parse(startTime.Substring(0, startTime.Length - 2));
+            int statMin = Int32.Parse(startTime.Substring(startTime.Length - 2));
+            int endHr = Int32.Parse(endTime.Substring(0, startTime.Length - 2));
+            int endMin = Int32.Parse(endTime.Substring(startTime.Length - 2));
+            Timer timer = new Timer();
+
+            if (statHr < 24 && endHr < 24
+                && statMin < 60 && endMin < 60
+                && statHr * 100 + statMin < endHr * 100 + endMin)
+            {
+                DateTime now = DateTime.Now;
+                timer.StartTime = new DateTime(now.Year, now.Month, now.Day, statHr, statMin, 0);
+                timer.EndTime = new DateTime(now.Year, now.Month, now.Day, endHr, endMin, 0);
+
+                return timer;
+            }
+            else return null;
+        }
+        else return null;
+    }
+
 
     public void CloseRecordOnClick()
     {
