@@ -29,7 +29,8 @@ public class Button_Input : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        //when press backward on keyboard, cancel input
+        if (Input.GetKeyDown(KeyCode.Escape)) InputCancel();
 	}
 
     public void OpenInputField()
