@@ -33,9 +33,17 @@ public class Counter_Button : MonoBehaviour {
         totalNumText.text = totalNum + " " + unit;
 
         //show daily feeding total at bottle buttom
-        if(gameObject.name == "Bottle_Button")
-        DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140
-            + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;        
+        if (gameObject.name == "Bottle_Button")
+        {
+            if (PlayerPrefs.GetInt("babyWeight") !=0)
+            {
+                DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140
+                + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;
+            }
+            else DailyTotalText.text = "daily feeding base on weight";
+
+        }
+                
     }
 
     public void EnterToInput()
