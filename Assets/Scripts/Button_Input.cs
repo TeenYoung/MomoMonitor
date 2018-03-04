@@ -9,9 +9,10 @@ public class Button_Input : MonoBehaviour {
 
     public InputField inputNumField;
     public Text Text_Num;
+    public Text Text_Unit;
 
     //give title a name for saving input
-    public string unit, titleInSaving;
+    public string titleInSaving, unit;
     
     private string number;
 
@@ -22,6 +23,8 @@ public class Button_Input : MonoBehaviour {
     void Start () {
 
         inputNumField.gameObject.SetActive(false);
+        Text_Unit.text = unit;
+
     }
 	
 	// Update is called once per frame
@@ -44,7 +47,7 @@ public class Button_Input : MonoBehaviour {
 
         //number = Convert.ToString(inputNumField.text);
         
-        Text_Num.text = Convert.ToString((inputNumField.text)) + " " + unit;     
+        Text_Num.text = Convert.ToString((inputNumField.text));        
 
         //save update time
         InputTime = DateTime.Now;

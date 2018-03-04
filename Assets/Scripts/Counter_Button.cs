@@ -16,16 +16,25 @@ public class Counter_Button : MonoBehaviour {
 
     private int number, totalNum;
     private Counter counter;
+
+    //use for daily feeding estimate
+    //private int dailyTotal;
+    public Text DailyTotalText;
     
     // Use this for initialization
     void Start() {
-        titleText.text = title;
+        titleText.text = title;     
+       
 
         //load saved data
         if (PlayerPrefs.HasKey(title))
             totalNum = PlayerPrefs.GetInt(title);
 
         totalNumText.text = totalNum + " " + unit;
+
+        //show daily feeding total at bottle buttom
+        DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140
+            + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;        
     }
 
     public void EnterToInput()
@@ -40,6 +49,10 @@ public class Counter_Button : MonoBehaviour {
         number = Convert.ToInt32(inputNumField.text);
         totalNum += number;
         totalNumText.text = totalNum + " " + unit;
+
+        //show daily feeding total at bottle buttom
+        //DailyTotalText.text = " / " + PlayerPrefs.GetInt("babyWeight") * 140
+        //   + " ~ " + PlayerPrefs.GetInt("babyWeight") * 160 + unit;
 
         counter = new Counter()
         {
