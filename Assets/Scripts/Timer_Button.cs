@@ -157,7 +157,7 @@ public class Timer_Button : MonoBehaviour {
         recordsText.text = records;
     }
 
-    public void ManualInputOnClick()
+    public void ManualInputOnClick(Button button)
     {
         panel_TimerInput.SetActive(true);
         panel_TimerInput.GetComponentInChildren<InputField>().Select();
