@@ -8,7 +8,7 @@ public class Timer_Button : MonoBehaviour {
 
     public Text titleText, timeText, recordsText, text_StatusTitle, text_LastTime;
     public string title,titlePast;
-    public GameObject recordsPanel; 
+    public GameObject recordsPanel, panel_TimerInput; 
 
     private string titleTiming, saveStartTime, saveEndTime;
     private bool timing = false;
