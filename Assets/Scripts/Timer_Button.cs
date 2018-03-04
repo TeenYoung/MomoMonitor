@@ -157,6 +157,11 @@ public class Timer_Button : MonoBehaviour {
         recordsText.text = records;
     }
 
+    public void ManualInputOnClick()
+    {
+
+    }
+
     public void CloseRecordOnClick()
     {
         recordsPanel.SetActive(false);
