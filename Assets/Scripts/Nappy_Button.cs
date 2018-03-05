@@ -25,6 +25,13 @@ public class Nappy_Button : MonoBehaviour {
         
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        //when press backward on keyboard, cancel input
+        if (Input.GetKeyDown(KeyCode.Escape)) CloseInputPanel();
+    }
+
     public void WeeButtonOnClick() {
         weesNum ++;
 

@@ -45,6 +45,13 @@ public class Counter_Button : MonoBehaviour {
                 
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        //when press backward on keyboard, cancel input
+        if (Input.GetKeyDown(KeyCode.Escape))EnterToCancel();
+    }
+
     public void EnterToInput()
     {
         inputPanel.SetActive(true);
