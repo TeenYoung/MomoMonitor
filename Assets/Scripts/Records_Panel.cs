@@ -14,7 +14,7 @@ public class Records_Panel : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) CloseRecord();
     }
 
-    void CloseRecord()
+    public void CloseRecord()
     {
         gameObject.SetActive(false);
     }
