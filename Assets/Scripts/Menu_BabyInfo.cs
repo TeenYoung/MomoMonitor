@@ -20,7 +20,7 @@ public class Menu_BabyInfo : MonoBehaviour {
     //   Text_BirthDay, Text_BirthMonth, Text_BirthYear;
 
 
-    // Use this for initialization
+    //Use this for initialization
     void Start() {
         if (PlayerPrefs.HasKey("babyName"))
         {

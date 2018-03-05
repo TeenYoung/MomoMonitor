@@ -24,15 +24,11 @@ public class Setting_Button : MonoBehaviour
     public void SettingOnClick()
     {
         Setting_Panel.gameObject.SetActive(true);
-        NewDay_Button.gameObject.SetActive(true);
-        Reset_Button.gameObject.SetActive(true);
     }
 
     public void Cancel()
     {
-        Setting_Panel.gameObject.SetActive(false);
-        NewDay_Button.gameObject.SetActive(false);
-        Reset_Button.gameObject.SetActive(false);
+        Setting_Panel.gameObject.SetActive(false);       
     }
 
 }

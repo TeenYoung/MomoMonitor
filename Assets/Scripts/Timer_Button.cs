@@ -201,13 +201,7 @@ public class Timer_Button : MonoBehaviour {
         }
         else return null;
     }
-
-
-    public void CloseRecordOnClick()
-    {
-        recordsPanel.SetActive(false);
-    }
-
+    
     string FormatTimeSpan(TimeSpan timeSpan)
     {
         string  d, h, m, dhm;
