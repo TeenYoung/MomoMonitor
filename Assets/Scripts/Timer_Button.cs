@@ -265,9 +265,7 @@ public class Timer_Button : MonoBehaviour {
 
     void AddData()
     {
-
         Main_Menu.menu.timerLists[gameObject.name].Add(timer);
-
     }
 }
 
@@ -282,5 +280,20 @@ public class Timer
     {
         TimeSpan duration = EndTime.Subtract(StartTime);
         return duration;
+    }
+}
+
+public class TimerComp : IComparer<Timer>
+{
+    public int Compare(Timer x, Timer y)
+    {
+        if (x.StartTime.CompareTo(y.StartTime) != 0)
+        {
+            return x.StartTime.CompareTo(y.StartTime);
+        }
+        else
+        {
+            return 0;
+        }
     }
 }

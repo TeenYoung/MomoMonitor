@@ -28,6 +28,7 @@ public class Panel_Input : MonoBehaviour {
             if (timer != null)
             {
                 Main_Menu.menu.timerLists[sourceButton.name].Add(timer);
+                Main_Menu.menu.timerLists[sourceButton.name].Sort(new TimerComp());
                 Main_Menu.menu.Save();
                 ClosePanel();
             }
