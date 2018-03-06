@@ -31,7 +31,8 @@ public class Button_Input : MonoBehaviour {
 	void Update () {
         //when press backward on keyboard, cancel input
         if (Input.GetKeyDown(KeyCode.Escape)) InputCancel();
-	}
+        if (Input.GetKeyDown(KeyCode.KeypadEnter)) InputConfirm();
+    }
 
     public void OpenInputField()
     {

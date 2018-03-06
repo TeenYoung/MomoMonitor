@@ -114,6 +114,43 @@ public class Main_Menu : MonoBehaviour
         SceneManager.LoadScene("BabyInfo", LoadSceneMode.Single);
     }
 
+    public string FormatTimeSpan(TimeSpan timeSpan)
+    {
+        string d, h, m, dhm;
+
+        if (timeSpan > new TimeSpan(0, 0, 59))
+        {
+            if (timeSpan.Days == 0)
+            {
+                d = "";
+                m = timeSpan.Minutes + "m";
+            }
+            else
+            {
+                d = timeSpan.Days + "d";
+                m = "";
+            }
+
+
+            if (timeSpan.Hours == 0)
+            {
+                h = "";
+                m = timeSpan.Minutes + "m";
+            }
+            else
+                h = timeSpan.Hours + "h";
+
+            if (timeSpan.Minutes == 0)
+                m = "";
+
+            dhm = d + h + m;
+        }
+        else dhm = "< 1min";
+
+
+        return dhm;
+    }
+
 }
 
 [Serializable]

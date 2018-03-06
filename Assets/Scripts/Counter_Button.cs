@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Counter_Button : MonoBehaviour {
 
-    public Text titleText, totalNumText, recordsText;
+    public Text statusTitleText, lastTimeText, recordsText;
     public GameObject recordsPanel, panel_Input;
 
     public string title;
@@ -17,41 +17,67 @@ public class Counter_Button : MonoBehaviour {
     Panel_Input pI;
     private int number, totalNum;
     private Counter counter;
+    private TimeSpan timeSpanFromLastTime;
 
     //use for daily feeding estimate
     //private int dailyTotal;
     public Text DailyTotalText;
     
     // Use this for initialization
-    void Start() {
-        titleText.text = title;     
-       
+    void Start()
+    {
+        statusTitleText.text = title;
+        saveTime = title + "time";
 
         //load saved data
         if (PlayerPrefs.HasKey(title))
             totalNum = PlayerPrefs.GetInt(title);
-
-        //Grab the last start time from the player prefs as a long
-        long temp = Convert.ToInt64(PlayerPrefs.GetString(saveTime));
-        //Convert the last start time from binary to a DataTime variable
-        counter = new Counter()
+        if (PlayerPrefs.HasKey(saveTime))
         {
-            Time = DateTime.FromBinary(temp)
-        };
+            //Grab the last start time from the player prefs as a long
+            long temp = Convert.ToInt64(PlayerPrefs.GetString(saveTime));
+            //Convert the last start time from binary to a DataTime variable
+            counter = new Counter()
+            {
+                Time = DateTime.FromBinary(temp)
+            };
+        }       
 
-        totalNumText.text = totalNum + " " + unit;
+        statusTitleText.text = title + ": " + totalNum + " " + unit;
+
+        //show last time info
+        if (PlayerPrefs.HasKey(saveTime))
+        {
+            timeSpanFromLastTime = DateTime.Now.Subtract(counter.Time);
+            lastTimeText.text = Main_Menu.menu.FormatTimeSpan(timeSpanFromLastTime) + "   ago";
+
+        }
+        else lastTimeText.text = "Never";
 
         //show daily feeding total at bottle buttom
         if (gameObject.name == "Bottle_Button")
-        {            
-            if(PlayerPrefs.HasKey("babyWeight"))              
-            DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140
-            + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;
+        {
+            if (PlayerPrefs.HasKey("babyWeight"))
+                DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140 + unit;
+           // + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;
             else DailyTotalText.text = "daily feeding base on weight";                
         }
 
         pI = panel_Input.GetComponent<Panel_Input>();
 
+    }
+    
+
+    void Update()
+    {
+        //show last time info
+        if (PlayerPrefs.HasKey(saveTime))
+        {
+            timeSpanFromLastTime = DateTime.Now.Subtract(counter.Time);
+            lastTimeText.text = Main_Menu.menu.FormatTimeSpan(timeSpanFromLastTime) + "  ago";
+
+        }
+        else lastTimeText.text = "Never";
     }
 
     public void OnClick(Button button)
@@ -77,7 +103,7 @@ public class Counter_Button : MonoBehaviour {
         {
             number = Convert.ToInt32(pI.inputField_2.text);
             totalNum += number;
-            totalNumText.text = totalNum + " " + unit;
+            statusTitleText.text = title + ": " + totalNum + " " + unit;
 
             counter = new Counter()
             {
