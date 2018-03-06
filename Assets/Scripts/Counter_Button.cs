@@ -12,6 +12,8 @@ public class Counter_Button : MonoBehaviour {
 
     public string title;
     public string unit;
+
+    private string saveTime;
     Panel_Input pI;
     private int number, totalNum;
     private Counter counter;
@@ -28,6 +30,14 @@ public class Counter_Button : MonoBehaviour {
         //load saved data
         if (PlayerPrefs.HasKey(title))
             totalNum = PlayerPrefs.GetInt(title);
+
+        //Grab the last start time from the player prefs as a long
+        long temp = Convert.ToInt64(PlayerPrefs.GetString(saveTime));
+        //Convert the last start time from binary to a DataTime variable
+        counter = new Counter()
+        {
+            Time = DateTime.FromBinary(temp)
+        };
 
         totalNumText.text = totalNum + " " + unit;
 
@@ -77,6 +87,10 @@ public class Counter_Button : MonoBehaviour {
 
             //save data
             PlayerPrefs.SetInt(title, totalNum);
+            //Save the start time as a string in the player prefs class
+            PlayerPrefs.SetString(saveTime, counter.Time.ToBinary().ToString());
+
+
             AddData();
             Main_Menu.menu.Save();
         }
