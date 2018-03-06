@@ -151,6 +151,14 @@ public class Timer_Button : MonoBehaviour {
                 + FormatTimeSpan(timer.CalculateDuration()) + "\n";
 
             records = records + record;
+
+            if (sourceTimerList.IndexOf(timer) != sourceTimerList.Count - 1 
+                && timer.EndTime.Date != sourceTimerList[sourceTimerList.IndexOf(timer) + 1].StartTime.Date)
+            {
+                records = records + "-------------------- " +
+                    sourceTimerList[sourceTimerList.IndexOf(timer) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
+            }
+
         }
 
         recordsPanel.SetActive(true);
