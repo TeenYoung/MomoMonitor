@@ -8,12 +8,11 @@ using UnityEngine.UI;
 public class Counter_Button : MonoBehaviour {
 
     public Text titleText, totalNumText, recordsText;
-    public InputField inputNumField;
-    public GameObject recordsPanel,inputPanel;
+    public GameObject recordsPanel, panel_Input;
 
     public string title;
     public string unit;
-
+    Panel_Input pI;
     private int number, totalNum;
     private Counter counter;
 
@@ -39,88 +38,108 @@ public class Counter_Button : MonoBehaviour {
             DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140
             + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;
             else DailyTotalText.text = "daily feeding base on weight";                
-            
-
         }
-                
+
+        pI = panel_Input.GetComponent<Panel_Input>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClick(Button button)
     {
-        //when press backward on keyboard, cancel input
-        if (Input.GetKeyDown(KeyCode.Escape))EnterToCancel();
+        panel_Input.SetActive(true);
+
+        pI.sourceButton = button;
+        pI.manualInputDateTime = false;
+
+        pI.inputField_2.Select();
+
+        pI.text_Title_2.text = "Input volume";
+        pI.text_Placeholder_2.text = "unit: ml";
+
+        pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
+
     }
 
-    public void EnterToInput()
+    public void ConfirmInput()
     {
-        inputPanel.SetActive(true);
-        inputNumField.Select();
-    }
-
-    public void EnterToShowTotal()
-    {
-        inputPanel.SetActive(false);
-        number = Convert.ToInt32(inputNumField.text);
-        totalNum += number;
-        totalNumText.text = totalNum + " " + unit;
-        
-
-        counter = new Counter()
+        panel_Input.SetActive(false);
+        if(pI.inputField_2.text.Length > 0)
         {
-            Number = number,
-            Time = DateTime.Now
-        };
+            number = Convert.ToInt32(pI.inputField_2.text);
+            totalNum += number;
+            totalNumText.text = totalNum + " " + unit;
 
-        //save data
-        PlayerPrefs.SetInt(title, totalNum);
-        AddData();
-        Main_Menu.menu.Save();
+            counter = new Counter()
+            {
+                Number = number,
+                Time = DateTime.Now
+            };
+
+            //save data
+            PlayerPrefs.SetInt(title, totalNum);
+            AddData();
+            Main_Menu.menu.Save();
+        }
 
         // ??find a way to rest to default 
-        inputNumField.text = "";
-        
+        pI.inputField_2.text = "";
+
     }
 
-    public void EnterToCancel() {
-        inputPanel.SetActive(false);
-
-        // ??find a way to rest to default 
-        inputNumField.text = "";
-    }
 
     void AddData()
     {
-
-        // if add another countr button, have to manuly add a case here
-        switch (gameObject.name)
-        {
-            case "Bottle_Button":
-                Main_Menu.menu.bottleCounterList.Add(counter);
-                break;
-            case "Pump_Button":
-                Main_Menu.menu.pumpCounterList.Add(counter);
-                break;
-        }
+        Main_Menu.menu.counterLists[gameObject.name].Add(counter);
     }
+
+
+    public void ManualInputOnClick(Button button)
+    {
+        panel_Input.SetActive(true);
+
+        pI.sourceButton = button;
+        pI.manualInputDateTime = true;
+
+        pI.inputField_1.gameObject.SetActive(true);
+        pI.inputField_1.Select();
+
+        pI.text_Title_1.text = "Input time";
+        pI.text_Title_2.text = "Input volume";
+        pI.text_Placeholder_1.text = "hhmm e.g. 1800 for 6pm";
+        pI.text_Placeholder_2.text = "unit: ml";
+
+        pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
+        pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
+    }
+
+    public Counter ManualAddCounterRecord(string time, string volume)
+    {
+        if (time.Length == 4 && volume.Length >0)
+        {
+            int Hr = Int32.Parse(time.Substring(0, time.Length - 2));
+            int Min = Int32.Parse(time.Substring(time.Length - 2));
+            Counter counter = new Counter();
+
+            if (Hr < 24 && Min < 60 )
+            {
+                DateTime now = DateTime.Now;
+                counter.Time = new DateTime(now.Year, now.Month, now.Day, Hr, Min, 0);
+                counter.Number = Int32.Parse(volume);
+
+                return counter;
+            }
+            else return null;
+        }
+        else return null;
+    }
+
 
     public void RecordOnClick()
     {
         List<Counter> sourceCounterList = new List<Counter>();
         string records = "";
 
-        //if add another timer button, have to manuly add a case here
-        switch (gameObject.name)
-        {
-            case "Bottle_Button":
-                sourceCounterList = Main_Menu.menu.bottleCounterList;
-                break;
-            case "Pump_Button":
-                sourceCounterList = Main_Menu.menu.pumpCounterList;
-                break;
-
-        }
-
+        sourceCounterList = Main_Menu.menu.counterLists[gameObject.name];
 
         foreach (Counter counter in sourceCounterList)
         {
@@ -144,5 +163,13 @@ public class Counter
     public int Number { get; set; }
     public DateTime Time { get; set; }
 
+}
+
+public class CounterComp : IComparer<Counter>
+{
+    public int Compare(Counter x, Counter y)
+    {
+        return x.Time.CompareTo(y.Time);
+    }
 }
 

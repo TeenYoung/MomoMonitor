@@ -287,13 +287,6 @@ public class TimerComp : IComparer<Timer>
 {
     public int Compare(Timer x, Timer y)
     {
-        if (x.StartTime.CompareTo(y.StartTime) != 0)
-        {
-            return x.StartTime.CompareTo(y.StartTime);
-        }
-        else
-        {
-            return 0;
-        }
+        return x.StartTime.CompareTo(y.StartTime);
     }
 }

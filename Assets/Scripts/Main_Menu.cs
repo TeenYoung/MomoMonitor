@@ -24,7 +24,8 @@ public class Main_Menu : MonoBehaviour
     public List<Nappy> nappyList = new List<Nappy>();
 
     public Dictionary<string, List<Timer>> timerLists = new Dictionary<string, List<Timer>>();
-    
+    public Dictionary<string, List<Counter>> counterLists = new Dictionary<string, List<Counter>>();
+
 
     // Use this for initialization
     void Awake()
@@ -96,6 +97,9 @@ public class Main_Menu : MonoBehaviour
         timerLists.Add("Breastfeed_Button", bfTimerList);
         timerLists.Add("Sleep_Button", sleepTimerList);
         timerLists.Add("Play_Button", playTimerList);
+
+        counterLists.Add("Bottle_Button", bottleCounterList);
+        counterLists.Add("Pump_Button", pumpCounterList);
     }
 
     public void MainButtonOnClick()
