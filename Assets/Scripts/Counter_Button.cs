@@ -58,11 +58,11 @@ public class Counter_Button : MonoBehaviour {
         if (gameObject.name == "Bottle_Button")
         {
             if (PlayerPrefs.HasKey("babyWeight"))
-                DailyTotalText.text = " / " + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140 + unit;
+                DailyTotalText.text = " / " + Convert.ToInt16(Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 140) + unit;
            // + "~" + Convert.ToDecimal(PlayerPrefs.GetString("babyWeight")) * 160 + unit;
             else DailyTotalText.text = "daily feeding base on weight";                
         }
-
+        
         pI = panel_Input.GetComponent<Panel_Input>();
 
     }
