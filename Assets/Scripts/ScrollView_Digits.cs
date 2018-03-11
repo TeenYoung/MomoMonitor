@@ -12,7 +12,7 @@ public class ScrollView_Digits : MonoBehaviour
     public RectTransform centerToCompare;  //empty object to compare 
     public GridLayoutGroup contentDigits;
 
-    private int input;
+    private int input; //獲得輸入值，存檔時調用即可
 
     private int distanceBetweenEles; //相邻两个元素的距离，在Start方法计算
     private float[] distanceToCenter; //每个元素距离center的距离，在Update方法计算
@@ -45,7 +45,7 @@ public class ScrollView_Digits : MonoBehaviour
             input = minEleNum;
         }
         
-        print("input = " + input);
+        //print("input = " + input);
     }
 
 
@@ -59,7 +59,6 @@ public class ScrollView_Digits : MonoBehaviour
         }
 
         float minDist = Mathf.Min(distanceToCenter);
-        //if (minDist > 150) minDist = minDist - 150;
 
         //print("minDist" + minDist);
 
@@ -77,6 +76,8 @@ public class ScrollView_Digits : MonoBehaviour
         { //如果目前没有在滑动
           //tempPosition.y = centerToCompare.transform.position.y - (contentDigits.spacing.y + contentDigits.cellSize.y) * (minEleNum - 1);
             LerpEleToCenter(content.transform.position.y + minDist - contentDigits.spacing.y); //LerpEleToCenter作用是自然地滑到目标距离
+            print(input);
+            input = minEleNum; //此時input為選中的數字
         }
     }
 
