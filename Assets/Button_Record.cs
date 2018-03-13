@@ -8,14 +8,37 @@ public class Button_Record : MonoBehaviour {
 
     public GameObject recordsPanel, sourceButton;
 
+    private List<Entry> sourceList;
+    private string records;
+
     //to move out into a new .cs file
     public void OnClick()
     {
-        List<Entry> sourceList = new List<Entry>();
-        string records = "";
+        sourceList = new List<Entry>();
+        records = "";
 
         sourceList = Main_Menu.menu.entryLists[sourceButton.name];
 
+        switch (sourceButton.GetComponent<Button_Entry>().buttonType)
+        {
+            case 0:
+                {
+                    ShowTimerRecords();
+                }
+                break;
+            case 1:
+                {
+                    ShowCounterRecords();
+                }
+                break;
+        }
+
+        recordsPanel.SetActive(true);
+        recordsPanel.GetComponentInChildren<Text>().text = records;
+    }
+
+    void ShowTimerRecords()
+    {
         foreach (Entry entry in sourceList)
         {
             string record = entry.StartTime.ToShortTimeString() + " ~ ";
@@ -35,8 +58,23 @@ public class Button_Record : MonoBehaviour {
             }
 
         }
+    }
 
-        recordsPanel.SetActive(true);
-        recordsPanel.GetComponentInChildren<Text>().text = records;
+    void ShowCounterRecords()
+    {
+        foreach (Entry entry in sourceList)
+        {
+            string record = entry.EndTime.ToShortTimeString() + "  " + entry.Number + sourceButton.GetComponent<Button_Entry>().unit + "\n";
+
+            records = records + record;
+
+            if (sourceList.IndexOf(entry) != sourceList.Count - 1
+                && entry.EndTime.Date != sourceList[sourceList.IndexOf(entry) + 1].EndTime.Date)
+            {
+                records = records + "-------------------- " +
+                    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
+            }
+
+        }
     }
 }

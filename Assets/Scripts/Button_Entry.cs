@@ -7,18 +7,17 @@ using System;
 public class Button_Entry : MonoBehaviour {
 
     public Text recordsText, text_Title, text_Property;
-    public string title, titlePast;
+    public string title, titlePast, unit;
     public GameObject recordsPanel, panel_Input;
     public int buttonType; // 0 : timer   1 : counter   2 : nappy
 
-    //private string titleTiming, saveStartTime, saveEndTime; // to be deleted
-
     private bool timing;
-    //private int intTiming;
     private Entry entry;
     private List<Entry> entrys;
     private TimeSpan duration;
     private TimeSpan totalDuration, timeSpanFromLastTime;
+    private int number, totalNum;
+
 
     // Use this for initialization
     void Start () {
@@ -31,15 +30,7 @@ public class Button_Entry : MonoBehaviour {
         {
             entry = entrys[entrys.Count - 1];
 
-            foreach (Entry entry in entrys)
-            {
-                if (entry.EndTime != new DateTime())
-                {
-                    TimeSpan dr = entry.CalculateDuration();
-                    totalDuration += dr;
-                }
-            }
-            UpdateTotalDuration();
+            CalculateAndShowSUM(buttonType);
         }
         else
         {
@@ -59,6 +50,45 @@ public class Button_Entry : MonoBehaviour {
         }
     }
 
+    void CalculateAndShowSUM(int buttonType)
+    {
+        switch (buttonType)
+        {
+            case 0:
+                {
+                    foreach (Entry entry in entrys)
+                    {
+                        if (entry.EndTime != new DateTime())
+                        {
+                            TimeSpan dr = entry.CalculateDuration();
+                            totalDuration += dr;
+                        }
+                    }
+
+                    UpdateTotalDuration();
+                }
+                break;
+
+            case 1:
+                {
+                    foreach (Entry entry in entrys)
+                    {
+                        int n = entry.Number;
+                        totalNum += n;
+                    }
+
+                    UpdateTotalNumber();
+                }
+                break;
+
+            case 2:
+                {
+
+                }
+                break;
+        }
+    }
+
     public void OnClick()
     {
         //call different fuction depend on button type
@@ -72,7 +102,7 @@ public class Button_Entry : MonoBehaviour {
 
             case 1:
                 {
-
+                    CounterOnClick();
                 }
                 break;
 
@@ -118,12 +148,29 @@ public class Button_Entry : MonoBehaviour {
 
         }
     }
+
+    public void CounterOnClick()
+    {
+        panel_Input.SetActive(true);
+
+        Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
+
+        pI.sourceButton = gameObject.GetComponent<Button>();
+        pI.manualInputDateTime = false;
+
+        pI.inputField_2.Select();
+
+        pI.text_Title_2.text = "Input number";
+        pI.text_Placeholder_2.text = "unit: " + unit;
+
+        pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
+    }
     
     // Update is called once per frame
     void Update()
     {
         // to add a switch case 
-        if (timing)
+        if (buttonType == 0 && timing)
         {
             duration = DateTime.Now.Subtract(entry.StartTime);
             text_Property.text = Main_Menu.menu.FormatTimeSpan(duration);
@@ -146,23 +193,39 @@ public class Button_Entry : MonoBehaviour {
                 text_Property.text = Main_Menu.menu.FormatTimeSpan(timeSpanFromLastTime) + " ago";
                 
             }
-            else
+            else if (buttonType == 0)
             {
                 text_Property.text = "Tap to Start";
+            }
+            else
+            {
+                text_Property.text = "Tap to Input";
             }
         }
     }
 
     public void UpdateTotalDuration()
     {
+        text_Title.text = titlePast + " " + Main_Menu.menu.FormatTimeSpan(totalDuration);
+    }
+
+    public void UpdateTotalDuration(TimeSpan addTimeSpan)
+    {
+        totalDuration += addTimeSpan;
         text_Title.text = titlePast + ": " + Main_Menu.menu.FormatTimeSpan(totalDuration);
     }
 
-    public void UpdateTotalDuration(TimeSpan timeSpan)
+    public void UpdateTotalNumber()
     {
-        totalDuration += timeSpan;
-        text_Title.text = titlePast + ": " + Main_Menu.menu.FormatTimeSpan(totalDuration);
+        text_Title.text = titlePast + " " + totalNum + " " + unit;
     }
+
+    public void UpdateTotalNumber(int addNumber)
+    {
+        totalNum += addNumber;
+        text_Title.text = titlePast + " " + totalNum + " " + unit;
+    }
+
 }
 
 // intergrate timer, counter and nappy into this class
@@ -185,6 +248,10 @@ public class EntryComp : IComparer<Entry>
 {
     public int Compare(Entry x, Entry y)
     {
-        return x.StartTime.CompareTo(y.StartTime);
+        if (x.StartTime == y.StartTime)
+        {
+            return x.EndTime.CompareTo(y.EndTime);
+        }
+        else return x.StartTime.CompareTo(y.StartTime);
     }
 }

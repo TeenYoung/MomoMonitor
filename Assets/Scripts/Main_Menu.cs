@@ -12,20 +12,17 @@ public class Main_Menu : MonoBehaviour
 
     public static Main_Menu menu;
 
-    // if add new timer/counter button have to manuly add a list here
     public Text timeLabel;
-    //public List<Timer> bfTimerList = new List<Timer>();
-    //public List<Timer> sleepTimerList = new List<Timer>();
-    //public List<Timer> playTimerList = new List<Timer>();
 
-    public List<Counter> bottleCounterList = new List<Counter>();
-    public List<Counter> pumpCounterList = new List<Counter>();
-
-    public List<Nappy> nappyList = new List<Nappy>();
 
     public List<Entry> breastfeedList = new List<Entry>();
     public List<Entry> sleepList = new List<Entry>();
+    public List<Entry> bottlefeedList = new List<Entry>();
+    public List<Entry> pumpList = new List<Entry>();
+    public List<Entry> playList = new List<Entry>();
     //add more
+
+    public List<Nappy> nappyList = new List<Nappy>();
 
 
     //public Dictionary<string, List<Timer>> timerLists = new Dictionary<string, List<Timer>>(); //del
@@ -68,10 +65,10 @@ public class Main_Menu : MonoBehaviour
         {
             breastfeedList = breastfeedList,
             sleepList = sleepList,
-            //playTimerList = playTimerList,
-
-            bottleCounterList = bottleCounterList,
-            pumpCounterList = pumpCounterList,
+            bottlefeedList = bottlefeedList,
+            pumpList = pumpList,
+            playList = playList,
+            //add more
 
             nappyList = nappyList,
         };
@@ -91,23 +88,19 @@ public class Main_Menu : MonoBehaviour
 
             breastfeedList = data.breastfeedList;
             sleepList = data.sleepList;
-            //playTimerList = data.playTimerList;
-
-            bottleCounterList = data.bottleCounterList;
-            pumpCounterList = data.pumpCounterList;
+            bottlefeedList = data.bottlefeedList;
+            pumpList = data.pumpList;
+            playList = data.playList;
+            //add more
 
             nappyList = data.nappyList;
         }
 
-        //timerLists.Add("Breastfeed_Button", bfTimerList);
-        //timerLists.Add("Sleep_Button", sleepTimerList);
-        //timerLists.Add("Play_Button", playTimerList);
-
-        counterLists.Add("Bottle_Button", bottleCounterList);
-        counterLists.Add("Pump_Button", pumpCounterList);
-
         entryLists.Add("Button_Breastfeed", breastfeedList);
         entryLists.Add("Button_Sleep", sleepList);
+        entryLists.Add("Button_Bottle", bottlefeedList);
+        entryLists.Add("Button_Pump", pumpList);
+        entryLists.Add("Button_Play", playList);
         //add more
     }
 
@@ -165,19 +158,14 @@ public class Main_Menu : MonoBehaviour
 [Serializable]
 class RecordData
 {
-    //public List<Timer> bfTimerList;
-    //public List<Timer> sleepTimerList;
-    //public List<Timer> playTimerList;
-    public List<Counter> bottleCounterList;
-    public List<Counter> pumpCounterList;
-    public List<Nappy> nappyList;
-
     public List<Entry> breastfeedList;
     public List<Entry> sleepList;
-    public List<Entry> playList;
     public List<Entry> bottlefeedList;
     public List<Entry> pumpList;
+    public List<Entry> playList;
+    //add more
 
+    public List<Nappy> nappyList;
 }
 
 

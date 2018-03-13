@@ -12,6 +12,7 @@ public class Panel_Input : MonoBehaviour {
     public bool manualInputDateTime;
 
     private string inputString_1, inputString_2;
+    private Entry entry;
 
     void Update()
     {
@@ -29,30 +30,26 @@ public class Panel_Input : MonoBehaviour {
         inputString_1 = inputField_1.text;
         inputString_2 = inputField_2.text;
 
-        if (sourceButton.GetComponent<Button_Entry>().buttonType == 0)
+        switch (sourceButton.GetComponent<Button_Entry>().buttonType)
         {
-            Entry entry = ManualAddTimerRecord(inputString_1, inputString_2);
+            case 0:
+                {
+                    InputTimer();
+                }
+                break;
 
-            if (entry != null)
-            {
-                TimeSpan dr = entry.CalculateDuration();
-                sourceButton.GetComponent<Button_Entry>().UpdateTotalDuration(dr);
+            case 1:
+                {
+                    InputCounter();
+                }
+                break;
 
-                Main_Menu.menu.entryLists[sourceButton.name].Add(entry);
-                Main_Menu.menu.entryLists[sourceButton.name].Sort(new EntryComp());
-                Main_Menu.menu.Save();
-                ClosePanel();
-            }
-            else if(inputString_2 == "")
-            {
-                
-            }
-            else
-            {
-                text_Warning.gameObject.SetActive(true);
-            }
+            case 2:
+                {
+
+                }
+                break;
         }
-
         //if (sourceButton.GetComponent<Counter_Button>() != null)
         //{
         //    if (manualInputDateTime)
@@ -84,15 +81,72 @@ public class Panel_Input : MonoBehaviour {
         //}
     }
 
+    void InputTimer()
+    {
+        entry = ManualAddEntry(inputString_1, inputString_2);
+
+        if (entry != null)
+        {
+            TimeSpan dr = entry.CalculateDuration();
+            sourceButton.GetComponent<Button_Entry>().UpdateTotalDuration(dr);
+
+            SaveEntry();
+            ClosePanel();
+        }
+        else
+        {
+            text_Warning.gameObject.SetActive(true);
+        }
+    }
+
+    void InputCounter()
+    {
+        int n = 0;
+
+        if (inputString_2 != "")
+        {
+            n = Convert.ToInt32(inputString_2);
+        }
+
+        if (manualInputDateTime)
+        {
+            entry = ManualAddEntry(inputString_1, n);
+        }
+        else
+        {
+            entry = AutoAddEntry(n);
+        }
+
+        if (entry != null)
+        {
+            int number = entry.Number;
+            sourceButton.GetComponent<Button_Entry>().UpdateTotalNumber(number);
+
+            SaveEntry();
+            ClosePanel();
+        }
+        else
+        {
+            text_Warning.gameObject.SetActive(true);
+        }
+    }
+
+    void SaveEntry()
+    {
+        Main_Menu.menu.entryLists[sourceButton.name].Add(entry);
+        Main_Menu.menu.entryLists[sourceButton.name].Sort(new EntryComp());
+        Main_Menu.menu.Save();
+    }
+
     //need to move it
-    public Entry ManualAddTimerRecord(string startTime, string endTime)
+    public Entry ManualAddEntry(string startTime, string endTime)
     {
         if (startTime.Length == 4 && endTime.Length == 4)
         {
-            int statHr = Int32.Parse(startTime.Substring(0, startTime.Length - 2));
-            int statMin = Int32.Parse(startTime.Substring(startTime.Length - 2));
-            int endHr = Int32.Parse(endTime.Substring(0, startTime.Length - 2));
-            int endMin = Int32.Parse(endTime.Substring(startTime.Length - 2));
+            int statHr = Int32.Parse(startTime.Substring(0, 2));
+            int statMin = Int32.Parse(startTime.Substring(2));
+            int endHr = Int32.Parse(endTime.Substring(0, 2));
+            int endMin = Int32.Parse(endTime.Substring(2));
             Entry entry = new Entry();
             
             if (statHr < 24 && endHr < 24
@@ -107,6 +161,43 @@ public class Panel_Input : MonoBehaviour {
                 else return null;
             }
             else return null;
+        }
+        else return null;
+    }
+
+    public Entry ManualAddEntry(string endTime, int number)
+    {
+        if (endTime.Length == 4)
+        {
+            int endHr = Int32.Parse(endTime.Substring(0, 2));
+            int endMin = Int32.Parse(endTime.Substring(2));
+            Entry entry = new Entry();
+
+            if (endHr < 24
+                && endMin < 60)
+            {
+                DateTime now = DateTime.Now;
+                entry.EndTime = new DateTime(now.Year, now.Month, now.Day, endHr, endMin, 0);
+                entry.Number = number;
+
+                if (entry.EndTime < now) return entry;
+                else return null;
+            }
+            else return null;
+        }
+        else return null;
+    }
+
+    public Entry AutoAddEntry(int number)
+    {
+        if (number > 0)
+        {
+            Entry entry = new Entry
+            {
+                EndTime = DateTime.Now,
+                Number = number
+            };
+            return entry;
         }
         else return null;
     }
