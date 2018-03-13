@@ -50,35 +50,6 @@ public class Panel_Input : MonoBehaviour {
                 }
                 break;
         }
-        //if (sourceButton.GetComponent<Counter_Button>() != null)
-        //{
-        //    if (manualInputDateTime)
-        //    {
-        //        Counter counter = sourceButton.GetComponent<Counter_Button>().ManualAddCounterRecord(inputString_1, inputString_2);
-
-        //        if(counter != null)
-        //        {
-        //            Main_Menu.menu.counterLists[sourceButton.name].Add(counter);
-        //            Main_Menu.menu.counterLists[sourceButton.name].Sort(new CounterComp());
-
-        //            Main_Menu.menu.Save();
-        //            ClosePanel();
-        //        }
-        //        else if (inputString_2 == "")
-        //        {
-                    
-        //        }
-        //        else
-        //        {
-        //            text_Warning.gameObject.SetActive(true);
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        sourceButton.GetComponent<Counter_Button>().ConfirmInput();
-        //    }
-        //}
     }
 
     void InputTimer()
@@ -167,7 +138,7 @@ public class Panel_Input : MonoBehaviour {
 
     public Entry ManualAddEntry(string endTime, int number)
     {
-        if (endTime.Length == 4)
+        if (endTime.Length == 4 && number > 0)
         {
             int endHr = Int32.Parse(endTime.Substring(0, 2));
             int endMin = Int32.Parse(endTime.Substring(2));
