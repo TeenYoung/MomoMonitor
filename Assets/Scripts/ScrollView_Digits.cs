@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ScrollView_Digits : MonoBehaviour
 {
 
     public RectTransform viewPort, content;
-    public RectTransform[] elements; //each elements in content
+    public List<Button> elements; //each elements in content
     public RectTransform centerToCompare;  //empty object to compare 
     public GridLayoutGroup contentDigits;
 
@@ -18,17 +19,17 @@ public class ScrollView_Digits : MonoBehaviour
     private float[] distanceToCenter; //每个元素距离center的距离，在Update方法计算
     private int minEleNum; //在所有元素中，距离centerToCompare最近的元素索引
     private bool dragging = false; //Element是否在被拖拽
+    private bool moveUp = false, moveDown = false;
 
-    
-    private bool select = false;
+    private int maxEleNum; //距離centerToCompare最遠的元素索引
 
     private Vector2 tempPosition;
-
+    private Vector2 first, second; //鼠標點擊和釋放時的坐標
 
     // Use this for initialization
     void Start()
     {
-        int eleLength = elements.Length;
+        int eleLength = elements.Count;
         distanceToCenter = new float[eleLength];
 
         //Get distance between elements
@@ -39,19 +40,30 @@ public class ScrollView_Digits : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //停止拖曳時把選項居中，且把選項賦值給input
         if (!dragging)
         {
             MoveToCenter();           
             input = minEleNum;
         }
-        
-        //print("input = " + input);
+
+        //拖曳時改變content的位置確保循環顯示
+        //if (dragging)
+        //{
+        //    if (moveUp) AddOnTop();
+        //    if (moveDown) AddToButton();
+        //    print("movedown = " + moveDown);
+
+        //    if (content.transform.position.y < centerToCompare.transform.position.y) elements.Remove(elements[maxEleNum]);
+        //    //else if (content.transform.position.y >= centerToCompare.transform.position.y + (15 + 150) * (elements.Count - 1)) AddToButton();
+        //    else if (content.transform.position.y >= centerToCompare.transform.position.y + (contentDigits.spacing.y + contentDigits.cellsize.y) * (elements.Count - 1)) AddToButton();
+        //}
     }
 
 
     public void MoveToCenter()
     {
-        for (int i = 0; i < elements.Length; i++)
+        for (int i = 0; i < elements.Count; i++)
         {
             //distanceToCenter[i] = Math.Abs(centerToCompare.position.y - elements[i].position.y);//计算每个元素距离center的距离
             distanceToCenter[i] = Math.Abs(centerToCompare.transform.position.y - elements[i].transform.position.y);//计算每个元素距离center的距离             
@@ -59,14 +71,19 @@ public class ScrollView_Digits : MonoBehaviour
         }
 
         float minDist = Mathf.Min(distanceToCenter);
+        float maxDist = Mathf.Max(distanceToCenter);
 
         //print("minDist" + minDist);
 
-        for (int i = 0; i < elements.Length; i++)
+        for (int i = 0; i < elements.Count; i++)
         {
             if (minDist == distanceToCenter[i])
             {
                 minEleNum = i; //找到最小距离的元素索引
+            }
+            if (maxDist == distanceToCenter[i])
+            {
+                maxEleNum = i;
             }
             
         }
@@ -75,10 +92,12 @@ public class ScrollView_Digits : MonoBehaviour
         if (!dragging)
         { //如果目前没有在滑动
           //tempPosition.y = centerToCompare.transform.position.y - (contentDigits.spacing.y + contentDigits.cellSize.y) * (minEleNum - 1);
-            LerpEleToCenter(content.transform.position.y + minDist - contentDigits.spacing.y); //LerpEleToCenter作用是自然地滑到目标距离
-            print(input);
-            input = minEleNum; //此時input為選中的數字
-        }
+            //LerpEleToCenter(content.transform.position.y + minDist - 15); //用LerpEleToCenter自然地滑到目标距离
+            LerpEleToCenter(content.transform.position.y + minDist - contentDigits.spacing.y); //用LerpEleToCenter自然地滑到目标距离
+            input = System.Convert.ToInt32(content.GetChild(minEleNum).GetComponentInChildren<Text>().text);//把選中的button的text轉化為int輸出給input
+
+            //print(input);
+        }        
     }
 
 
@@ -90,6 +109,19 @@ public class ScrollView_Digits : MonoBehaviour
         content.transform.position = newPosition;
     }
 
+    //void AddOnTop()
+    //{
+    //    Button tempListContent = elements[elements.Count - 1];
+    //    elements.Remove(elements[elements.Count]);
+    //    elements.Insert(0, tempListContent);
+    //}
+
+    //void AddToButton()
+    //{
+    //    Button tempListContent = elements[0];
+    //    elements.Remove(elements[elements.Count - 1]);
+    //    elements.Add(tempListContent);
+    //}
 
     public void BeginDrag()
     {
@@ -101,4 +133,11 @@ public class ScrollView_Digits : MonoBehaviour
         dragging = false;
     }
 
+    public void OnGUI()
+    {
+        if (Event.current.type == EventType.MouseDown) first = Event.current.mousePosition;
+        if (Event.current.type == EventType.MouseDrag) second = Event.current.mousePosition;
+        if (first.y < second.y) moveUp = true;
+        if (first.y > second.y) moveDown = true;
+    }
 }
