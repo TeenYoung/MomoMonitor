@@ -10,6 +10,7 @@ public class Button_Entry : MonoBehaviour {
     public string title, titlePast, unit;
     public GameObject recordsPanel, panel_Input;
     public int buttonType; // 0 : timer   1 : counter   2 : nappy
+    public Text dailyTotalText;
 
     private bool timing;
     private Entry entry;
@@ -48,6 +49,22 @@ public class Button_Entry : MonoBehaviour {
             //maybe need another public string
             text_Title.text = title + "ing";
         }
+
+        if (gameObject.name == "Button_Bottle")
+        {
+            if (PlayerPrefs.HasKey("babyWeight"))
+            {
+                Decimal babyWeightTemp = Convert.ToDecimal(PlayerPrefs.GetString("babyWeight"));
+                int babyAgeTemp = Convert.ToInt16(PlayerPrefs.GetInt("babyAge"));
+                Decimal babyFeedingTotalTemp = babyWeightTemp * (50 + 50 * babyAgeTemp);
+                if (babyFeedingTotalTemp / babyWeightTemp >= 150)
+                    dailyTotalText.text = " / " + babyWeightTemp * 140 + unit;
+                else dailyTotalText.text = " / " + babyFeedingTotalTemp.ToString() + unit;
+            }
+
+            else dailyTotalText.text = "daily feeding base on weight";
+        }
+
     }
 
     void CalculateAndShowSUM(int buttonType)
