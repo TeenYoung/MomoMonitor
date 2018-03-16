@@ -29,6 +29,8 @@ public class Button_Record : MonoBehaviour {
         text_Title.text = button_Entry.text_Title.text;
         text_Property.text = button_Entry.text_Property.text;
         scrollView = Records_Panel.FindObjectOfType<GameObject>();
+
+        
     }
 
     private void Update()
@@ -36,6 +38,8 @@ public class Button_Record : MonoBehaviour {
         text_Title.text = button_Entry.text_Title.text;
         text_Property.text = button_Entry.text_Property.text;
         //if (!recordsPanel.activeInHierarchy) buttonManualInput.enabled = false;//hide manual input button if record panel is hide
+
+        
     }
 
 
@@ -63,9 +67,7 @@ public class Button_Record : MonoBehaviour {
         }
 
         recordsPanel.SetActive(true);
-        buttonManualInput.enabled = true;        
-
-        recordsPanel.GetComponentInChildren<Text>().text = records;
+        buttonManualInput.enabled = true;   
 
         //for (int i = 0; i < records.Count; i++) //transform record to scrollview contents
         //{
@@ -98,6 +100,7 @@ public class Button_Record : MonoBehaviour {
             }
 
         }
+        recordsPanel.GetComponentInChildren<Text>().text = records;
     }
 
     void ShowCounterRecords()
@@ -120,5 +123,6 @@ public class Button_Record : MonoBehaviour {
             }
 
         }
+        recordsPanel.GetComponentInChildren<Text>().text = records;
     }
 }
