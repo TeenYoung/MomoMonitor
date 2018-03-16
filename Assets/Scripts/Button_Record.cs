@@ -65,7 +65,7 @@ public class Button_Record : MonoBehaviour {
         recordsPanel.SetActive(true);
         buttonManualInput.enabled = true;        
 
-        //recordsPanel.GetComponentInChildren<Text>().text = records[];
+        recordsPanel.GetComponentInChildren<Text>().text = records;
 
         //for (int i = 0; i < records.Count; i++) //transform record to scrollview contents
         //{
