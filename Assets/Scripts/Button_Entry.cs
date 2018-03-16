@@ -11,13 +11,14 @@ public class Button_Entry : MonoBehaviour {
     public GameObject recordsPanel, panel_Input;
     public int buttonType; // 0 : timer   1 : counter   2 : nappy
     public Text dailyTotalText;
+    public bool timing;
 
-    private bool timing;
-    private Entry entry;
+    private Entry entry, lastEntry;
     private List<Entry> entrys;
     private TimeSpan duration;
     private TimeSpan totalDuration, timeSpanFromLastTime;
     private int number, totalNum;
+
 
 
     // Use this for initialization
@@ -196,7 +197,7 @@ public class Button_Entry : MonoBehaviour {
         {
             if (entrys.Count != 0)
             {
-                Entry lastEntry = entrys[entrys.Count - 1];
+                lastEntry = entrys[entrys.Count - 1];
 
                 if (entry.EndTime != new DateTime() && entry.EndTime >= lastEntry.EndTime)
                 {
@@ -219,6 +220,10 @@ public class Button_Entry : MonoBehaviour {
                 text_Property.text = "Tap to Input";
             }
         }
+
+        // set title to zero when a new day begins 
+        if (!timing && lastEntry.EndTime.Day < DateTime.Now.Day)text_Title.text = title;           
+       
     }
 
     public void UpdateTotalDuration()

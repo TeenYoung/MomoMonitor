@@ -149,6 +149,7 @@ public class Panel_Input : MonoBehaviour {
             {
                 DateTime now = DateTime.Now;
                 entry.EndTime = new DateTime(now.Year, now.Month, now.Day, endHr, endMin, 0);
+                entry.StartTime = entry.EndTime;
                 entry.Number = number;
 
                 if (entry.EndTime < now) return entry;
@@ -166,6 +167,7 @@ public class Panel_Input : MonoBehaviour {
             Entry entry = new Entry
             {
                 EndTime = DateTime.Now,
+                StartTime = DateTime.Now,
                 Number = number
             };
             return entry;
