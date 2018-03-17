@@ -51,7 +51,7 @@ public class Button_ManualInput : MonoBehaviour {
                     pI.text_Placeholder_2.text = "unit: " + button.GetComponent<Button_Entry>().unit;
 
                     pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
-                    pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
+                    pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
                 }
                 break;
         }

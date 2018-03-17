@@ -221,8 +221,13 @@ public class Button_Entry : MonoBehaviour {
             }
         }
 
-        // set title to zero when a new day begins 
-        if (!timing && lastEntry.EndTime.Day < DateTime.Now.Day)text_Title.text = title;           
+        // set title to zero when a new day begins         
+        if (lastEntry!=null && !timing && (lastEntry.EndTime.Day < DateTime.Now.Day) )
+        {            
+            text_Title.text = title;
+            if (buttonType == 1) totalNum = 0;
+        }
+                   
        
     }
 
