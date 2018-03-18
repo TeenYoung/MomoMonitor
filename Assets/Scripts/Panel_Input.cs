@@ -7,17 +7,22 @@ using UnityEngine.UI;
 public class Panel_Input : MonoBehaviour {
 
     public InputField inputField_1, inputField_2;
-    public Button sourceButton; //對應的sourceButton，從button manualinput 裏傳入
+    public GameObject sourceButton; //對應的sourceButton，從button manualinput 傳入
     public Text text_Placeholder_1, text_Placeholder_2, text_Title_1, text_Title_2, text_Warning;
     public bool manualInputDateTime;
-    public int sourceButtonType; //對應的sourceButtonType，從button manualinput裏傳入
+    public int sourceButtonType; //對應的sourceButtonType，從button manualinput傳入
+    public GameObject recordsPanel;
 
     private string inputString_1, inputString_2;
     private Entry entry;
+    private Button_Entry sourceButtonEntry;
    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ClosePanel();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClosePanel();
+        }
     }
 
 
@@ -60,7 +65,7 @@ public class Panel_Input : MonoBehaviour {
 
         if (entry != null)
         {
-            TimeSpan dr = entry.CalculateDuration();
+            TimeSpan dr = entry.CalculateDuration();            
             sourceButton.GetComponent<Button_Entry>().UpdateTodayDuration(dr);
 
             SaveEntry();
@@ -93,6 +98,7 @@ public class Panel_Input : MonoBehaviour {
         if (entry != null)
         {
             int number = entry.Number;
+            //sourceButton = 
             sourceButton.GetComponent<Button_Entry>().UpdateTotalNumber(number);
 
             SaveEntry();
@@ -156,7 +162,7 @@ public class Panel_Input : MonoBehaviour {
 
                 if (entry.EndTime < now) return entry;
 
-                //修完
+                //待修完，儅正在計時時，增加的補充記錄，若其結束時間晚於計時的開始時間，輸入無效
                 //if (entry.EndTime == new DateTime() && entry.EndTime > lastEntry.StartTime) ;
                 else return null;
             }

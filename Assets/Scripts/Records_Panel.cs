@@ -4,7 +4,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Records_Panel : MonoBehaviour {
+public class Records_Panel : MonoBehaviour
+{
 
     public List<Text> contents;
     public Button sourceButton;
@@ -21,8 +22,6 @@ public class Records_Panel : MonoBehaviour {
     // Use this for initialization at every time when this panel be called
     void OnEnable ()
     {
-        //print("rp=" + name);
-        //print(buttonType);
         sourceList = Main_Menu.menu.entryLists[name];
         //if (buttonType == 0) ShowTimerRecords();
         //else if (buttonType == 1) ShowCounterRecords();

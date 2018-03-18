@@ -80,7 +80,8 @@ public class Counter_Button : MonoBehaviour {
         else lastTimeText.text = "Never";
     }
 
-    public void OnClick(Button button)
+    public void OnClick(GameObject button)
+    //public void OnClick(Button button)
     {
         panel_Input.SetActive(true);
 
@@ -132,8 +133,8 @@ public class Counter_Button : MonoBehaviour {
         Main_Menu.menu.counterLists[gameObject.name].Add(counter);
     }
 
-
-    public void ManualInputOnClick(Button button)
+    public void ManualInputOnClick(GameObject button)
+    //public void ManualInputOnClick(Button button)
     {
         panel_Input.SetActive(true);
 

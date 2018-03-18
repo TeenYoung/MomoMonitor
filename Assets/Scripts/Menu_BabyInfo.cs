@@ -62,7 +62,8 @@ public class Menu_BabyInfo : MonoBehaviour {
         TimeSpan_babyAge = DateTime.Now.Subtract(DateTime_babyBirth);
         //print(TimeSpan_babyAge.Days.ToString());
         Text_AgeNum.text = TimeSpan_babyAge.Days.ToString() + " days";
-        PlayerPrefs.SetString("babyAge", Text_AgeNum.text);
+        
+        PlayerPrefs.SetString("babyAge", TimeSpan_babyAge.Days.ToString());
 
 
         Text_GenderInfo.text = PlayerPrefs.GetString("babyGender");

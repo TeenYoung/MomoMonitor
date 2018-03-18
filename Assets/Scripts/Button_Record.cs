@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class Button_Record : MonoBehaviour {
 
-    public GameObject recordsPanel;
-    public Button sourceButton;
+    public GameObject recordsPanel, sourceButton;
     public Text text_Title, text_Property;
     
     public Button buttonManualInput;
@@ -26,47 +25,19 @@ public class Button_Record : MonoBehaviour {
     {
         button_Entry = sourceButton.GetComponent<Button_Entry>();
         text_Title.text = button_Entry.text_Title.text;
-        text_Property.text = button_Entry.text_Property.text;        
+        text_Property.text = button_Entry.text_Property.text;
     }
+
 
     private void Update()
     {
         //update status at title, update last time at property
         text_Title.text = button_Entry.text_Title.text;
-        text_Property.text = button_Entry.text_Property.text;
-
-        //if (!recordsPanel.activeInHierarchy) buttonManualInput.enabled = false;//hide manual input button if record panel is hide
-
-        //sourceList = new List<Entry>();
-        ////records = "";
-
-        //sourceList = Main_Menu.menu.entryLists[sourceButton.name];
-        //recordsPanel.name = button_Entry.name;
-        ////recordsPanel.GetComponents<Records_Panel>(). = button_Entry.buttonType;
-        //print(button_Entry.name);
-
-        //switch (sourceButton.GetComponent<Button_Entry>().buttonType)
-        //{
-        //    case 0:
-        //        {
-        //            AddTimerRecords();
-        //        }
-        //        break;
-        //    case 1:
-        //        {
-        //            AddCounterRecords();
-        //        }
-        //        break;
-        //} 
+        text_Property.text = button_Entry.text_Property.text;      
 
         buttonManualInput.enabled = true;
-
-        //recordsPanel.GetComponentInChildren<Text>().text = records;//show records
-
     }
     
-
-
     //to move out into a new .cs file
     public void OnClick()
     {
@@ -106,34 +77,17 @@ public class Button_Record : MonoBehaviour {
             recordsPanel.gameObject.GetComponent<Records_Panel>().buttonType = button_Entry.buttonType; //為recordsPanel 傳入打開其面板的button type
             recordsPanel.gameObject.GetComponent<Records_Panel>().sourceButtonUnit = button_Entry.gameObject.GetComponent<Button_Entry>().unit; //為recordsPanel 傳入打開其面板的button 的unit
 
-            //buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButton = button_Entry.name; //為button manualinput 傳入打開其面板的button name
+            buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButton = button_Entry.gameObject; //為button manualinput 傳入打開其面板的button name
             buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButtonType = button_Entry.buttonType; //為button manualinput 傳入打開其面板的button type
             buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButtonUnit = button_Entry.gameObject.GetComponent<Button_Entry>().unit;
             recordsPanel.SetActive(true);
         }
             
         //如果recordsPanel打開著，再次點擊關閉recordsPanel，同時關閉buttonManualInput
-        else if (recordsPanel.activeInHierarchy) recordsPanel.SetActive(false);
+        else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecord();
         //buttonManualInput.enabled = true;   
 
-    }
-
-    //void AddRecord()
-    //{
-    //    switch (sourceButton.GetComponent<Button_Entry>().buttonType)
-    //    {
-    //        case 0:
-    //            {
-    //                ShowTimerRecords();
-    //            }
-    //            break;
-    //        case 1:
-    //            {
-    //                ShowCounterRecords();
-    //            }
-    //            break;
-    //    }
-    //}
+    }   
 
     //void ShowTimerRecords()
     //{

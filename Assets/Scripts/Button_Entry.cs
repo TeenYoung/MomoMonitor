@@ -12,6 +12,7 @@ public class Button_Entry : MonoBehaviour {
     public int buttonType; // 0 : timer   1 : counter   2 : nappy
     public Text dailyTotalText;
     public bool timing;
+    public int babyAgeNum;
 
     private Entry entry, lastEntry;
     private List<Entry> entrys;
@@ -56,9 +57,9 @@ public class Button_Entry : MonoBehaviour {
             if (PlayerPrefs.HasKey("babyWeight"))
             {
                 Decimal babyWeightTemp = Convert.ToDecimal(PlayerPrefs.GetString("babyWeight"));
-                int babyAgeTemp = Convert.ToInt16(PlayerPrefs.GetInt("babyAge"));
+                int babyAgeTemp = Convert.ToInt32(PlayerPrefs.GetString("babyAge"));
                 Decimal babyFeedingTotalTemp = babyWeightTemp * (50 + 50 * babyAgeTemp);
-                if (babyFeedingTotalTemp / babyWeightTemp >= 150)
+                if (babyFeedingTotalTemp / babyWeightTemp > 150)
                     dailyTotalText.text = " / " + babyWeightTemp * 140 + unit;
                 else dailyTotalText.text = " / " + babyFeedingTotalTemp.ToString() + unit;
             }
@@ -132,6 +133,7 @@ public class Button_Entry : MonoBehaviour {
                 }
                 break;
         }
+        panel_Input.GetComponent<Panel_Input>().sourceButton = gameObject;
     }
 
 
@@ -175,7 +177,7 @@ public class Button_Entry : MonoBehaviour {
 
         Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
 
-        pI.sourceButton = gameObject.GetComponent<Button>();
+        pI.sourceButton = gameObject.GetComponent<GameObject>();
         pI.manualInputDateTime = false;
 
         pI.inputField_2.Select();
