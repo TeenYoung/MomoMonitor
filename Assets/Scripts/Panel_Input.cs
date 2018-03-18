@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class Panel_Input : MonoBehaviour {
 
     public InputField inputField_1, inputField_2;
-    public GameObject sourceButton; //對應的sourceButton，從button manualinput 傳入
+    public GameObject sourceButton; //對應的sourceButton，從button manualinput 傳入或button entry傳入
     public Text text_Placeholder_1, text_Placeholder_2, text_Title_1, text_Title_2, text_Warning;
     public bool manualInputDateTime;
-    public int sourceButtonType; //對應的sourceButtonType，從button manualinput傳入
+    public int sourceButtonType; //對應的sourceButtonType，從button manualinput傳入或button entry傳入
     public GameObject recordsPanel;
 
     private string inputString_1, inputString_2;
@@ -89,10 +89,12 @@ public class Panel_Input : MonoBehaviour {
         if (manualInputDateTime)
         {
             entry = ManualAddEntry(inputString_1, n);
+            print(manualInputDateTime);
         }
         else
         {
             entry = AutoAddEntry(n);
+            print(manualInputDateTime);
         }
 
         if (entry != null)

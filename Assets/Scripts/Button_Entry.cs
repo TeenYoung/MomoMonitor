@@ -112,6 +112,7 @@ public class Button_Entry : MonoBehaviour {
 
     public void OnClick()
     {
+        panel_Input.gameObject.GetComponent<Panel_Input>().sourceButtonType = buttonType;
         //call different fuction depend on button type
         switch (buttonType)
         {
@@ -177,7 +178,7 @@ public class Button_Entry : MonoBehaviour {
 
         Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
 
-        pI.sourceButton = gameObject.GetComponent<GameObject>();
+        pI.sourceButton = gameObject;
         pI.manualInputDateTime = false;
 
         pI.inputField_2.Select();
