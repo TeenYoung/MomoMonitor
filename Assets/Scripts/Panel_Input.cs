@@ -7,13 +7,14 @@ using UnityEngine.UI;
 public class Panel_Input : MonoBehaviour {
 
     public InputField inputField_1, inputField_2;
-    public Button sourceButton;
+    public Button sourceButton; //對應的sourceButton，從button manualinput 裏傳入
     public Text text_Placeholder_1, text_Placeholder_2, text_Title_1, text_Title_2, text_Warning;
     public bool manualInputDateTime;
+    public int sourceButtonType; //對應的sourceButtonType，從button manualinput裏傳入
 
     private string inputString_1, inputString_2;
     private Entry entry;
-
+   
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) ClosePanel();
@@ -30,7 +31,8 @@ public class Panel_Input : MonoBehaviour {
         inputString_1 = inputField_1.text;
         inputString_2 = inputField_2.text;
 
-        switch (sourceButton.GetComponent<Button_Entry>().buttonType)
+        switch (sourceButtonType)
+        //switch (sourceButton.GetComponent<Button_Entry>().buttonType)
         {
             case 0:
                 {
@@ -59,7 +61,7 @@ public class Panel_Input : MonoBehaviour {
         if (entry != null)
         {
             TimeSpan dr = entry.CalculateDuration();
-            sourceButton.GetComponent<Button_Entry>().UpdateTotalDuration(dr);
+            sourceButton.GetComponent<Button_Entry>().UpdateTodayDuration(dr);
 
             SaveEntry();
             ClosePanel();
@@ -143,7 +145,7 @@ public class Panel_Input : MonoBehaviour {
             int endHr = Int32.Parse(endTime.Substring(0, 2));
             int endMin = Int32.Parse(endTime.Substring(2));
             Entry entry = new Entry();
-
+            
             if (endHr < 24
                 && endMin < 60)
             {
@@ -153,6 +155,9 @@ public class Panel_Input : MonoBehaviour {
                 entry.Number = number;
 
                 if (entry.EndTime < now) return entry;
+
+                //修完
+                //if (entry.EndTime == new DateTime() && entry.EndTime > lastEntry.StartTime) ;
                 else return null;
             }
             else return null;

@@ -16,7 +16,7 @@ public class Button_Entry : MonoBehaviour {
     private Entry entry, lastEntry;
     private List<Entry> entrys;
     private TimeSpan duration;
-    private TimeSpan totalDuration, timeSpanFromLastTime;
+    private TimeSpan todayDuration, timeSpanFromLastTime;
     private int number, totalNum;
 
 
@@ -70,20 +70,22 @@ public class Button_Entry : MonoBehaviour {
 
     void CalculateAndShowSUM(int buttonType)
     {
+        lastEntry = entrys[entrys.Count - 1];
+
         switch (buttonType)
         {
             case 0:
                 {
                     foreach (Entry entry in entrys)
                     {
-                        if (entry.EndTime != new DateTime())
+                        if (entry.StartTime.Date == lastEntry.StartTime.Date && entry.EndTime != new DateTime())
                         {
                             TimeSpan dr = entry.CalculateDuration();
-                            totalDuration += dr;
+                            todayDuration += dr;
                         }
                     }
 
-                    UpdateTotalDuration();
+                    UpdateTodayDuration();
                 }
                 break;
 
@@ -148,7 +150,7 @@ public class Button_Entry : MonoBehaviour {
             Main_Menu.menu.Save();
 
             //calculate and show total duration
-            UpdateTotalDuration(duration);
+            UpdateTodayDuration(duration);
         }
         else
         {
@@ -231,15 +233,16 @@ public class Button_Entry : MonoBehaviour {
        
     }
 
-    public void UpdateTotalDuration()
-    {
-        text_Title.text = titlePast + " " + Main_Menu.menu.FormatTimeSpan(totalDuration);
+    public void UpdateTodayDuration()
+    {        
+        text_Title.text = titlePast + " " + Main_Menu.menu.FormatTimeSpan(todayDuration);        
     }
 
-    public void UpdateTotalDuration(TimeSpan addTimeSpan)
+    public void UpdateTodayDuration(TimeSpan addTimeSpan)
     {
-        totalDuration += addTimeSpan;
-        text_Title.text = titlePast + ": " + Main_Menu.menu.FormatTimeSpan(totalDuration);
+        if (lastEntry != null && lastEntry.StartTime.Date == entry.StartTime.Date)todayDuration += addTimeSpan;
+        else todayDuration = addTimeSpan;
+        text_Title.text = titlePast + ": " + Main_Menu.menu.FormatTimeSpan(todayDuration);
     }
 
     public void UpdateTotalNumber()

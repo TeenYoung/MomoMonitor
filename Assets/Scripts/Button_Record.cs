@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class Button_Record : MonoBehaviour {
 
-    public GameObject recordsPanel, sourceButton;
+    public GameObject recordsPanel;
+    public Button sourceButton;
     public Text text_Title, text_Property;
     
     public Button buttonManualInput;
@@ -102,8 +103,12 @@ public class Button_Record : MonoBehaviour {
         //如果recordsPanel未打開則打開，且把打開panel的buttontype,name, unit傳給records_Panel,同時顯示mannualInput
         if (!recordsPanel.activeInHierarchy)
         {   
-            recordsPanel.gameObject.GetComponent<Records_Panel>().buttonType = button_Entry.buttonType;
-            recordsPanel.gameObject.GetComponent<Records_Panel>().sourceButtonUnit = button_Entry.gameObject.GetComponent<Button_Entry>().unit;
+            recordsPanel.gameObject.GetComponent<Records_Panel>().buttonType = button_Entry.buttonType; //為recordsPanel 傳入打開其面板的button type
+            recordsPanel.gameObject.GetComponent<Records_Panel>().sourceButtonUnit = button_Entry.gameObject.GetComponent<Button_Entry>().unit; //為recordsPanel 傳入打開其面板的button 的unit
+
+            //buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButton = button_Entry.name; //為button manualinput 傳入打開其面板的button name
+            buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButtonType = button_Entry.buttonType; //為button manualinput 傳入打開其面板的button type
+            buttonManualInput.gameObject.GetComponent<Button_ManualInput>().sourceButtonUnit = button_Entry.gameObject.GetComponent<Button_Entry>().unit;
             recordsPanel.SetActive(true);
         }
             
