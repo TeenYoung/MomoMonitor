@@ -94,8 +94,11 @@ public class Button_Entry : MonoBehaviour {
                 {
                     foreach (Entry entry in entrys)
                     {
-                        int n = entry.Number;
-                        totalNum += n;
+                        if (entry.StartTime.Date == lastEntry.StartTime.Date && entry.EndTime != new DateTime())
+                        {
+                            int n = entry.Number;
+                            totalNum += n;
+                        }                            
                     }
 
                     UpdateTotalNumber();
@@ -243,7 +246,7 @@ public class Button_Entry : MonoBehaviour {
 
     public void UpdateTodayDuration(TimeSpan addTimeSpan)
     {
-        if (lastEntry != null && lastEntry.StartTime.Date == entry.StartTime.Date)todayDuration += addTimeSpan;
+        if (lastEntry != null && lastEntry.StartTime.Date == entry.StartTime.Date && lastEntry.StartTime.Date == DateTime.Now.Date)todayDuration += addTimeSpan;
         else todayDuration = addTimeSpan;
         text_Title.text = titlePast + ": " + Main_Menu.menu.FormatTimeSpan(todayDuration);
     }

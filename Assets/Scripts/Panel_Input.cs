@@ -89,12 +89,10 @@ public class Panel_Input : MonoBehaviour {
         if (manualInputDateTime)
         {
             entry = ManualAddEntry(inputString_1, n);
-            print(manualInputDateTime);
         }
         else
         {
             entry = AutoAddEntry(n);
-            print(manualInputDateTime);
         }
 
         if (entry != null)
