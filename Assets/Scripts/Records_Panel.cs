@@ -12,6 +12,7 @@ public class Records_Panel : MonoBehaviour
     public int buttonType;
     public Text text;
     public string sourceButtonUnit;
+    public GameObject scrollPanel;
 
     private List<Entry> sourceList;
     //private List<string> record;
