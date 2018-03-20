@@ -46,6 +46,8 @@ public class Button_Record : MonoBehaviour {
 
         sourceList = Main_Menu.menu.entryLists[sourceButton.name];
         recordsPanel.name = button_Entry.name;
+
+        
         //recordsPanel.GetComponents<Records_Panel>(). = button_Entry.buttonType;
         //print(button_Entry.name);
 
@@ -73,7 +75,8 @@ public class Button_Record : MonoBehaviour {
 
         //如果recordsPanel未打開則打開，且把打開panel的buttontype,name, unit傳給records_Panel,同時顯示mannualInput
         if (!recordsPanel.activeInHierarchy)
-        {   
+        {
+            recordsPanel.gameObject.GetComponent<Records_Panel>().sourceButton = sourceButton; //把source button傳給records panel
             recordsPanel.gameObject.GetComponent<Records_Panel>().buttonType = button_Entry.buttonType; //為recordsPanel 傳入打開其面板的button type
             recordsPanel.gameObject.GetComponent<Records_Panel>().sourceButtonUnit = button_Entry.gameObject.GetComponent<Button_Entry>().unit; //為recordsPanel 傳入打開其面板的button 的unit
 
