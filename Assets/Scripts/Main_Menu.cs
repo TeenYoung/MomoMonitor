@@ -116,6 +116,12 @@ public class Main_Menu : MonoBehaviour
         SceneManager.LoadScene("BabyInfo", LoadSceneMode.Single);
     }
 
+    public void PatternButtonOnClick()
+    {
+        if (SceneManager.GetActiveScene().name != "Pattern")
+            SceneManager.LoadScene("Pattern", LoadSceneMode.Single);
+    }
+
     public string FormatTimeSpan(TimeSpan timeSpan)
     {
         string d, h, m, dhm;
