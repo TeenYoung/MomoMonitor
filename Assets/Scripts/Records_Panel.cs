@@ -72,7 +72,7 @@ public class Records_Panel : MonoBehaviour
             int j = 0;
             for (int i = records.Count - contents.Count; i < records.Count; i++)
             {
-                print("i =" + i + ":  " + records[i]);
+                //print("i =" + i + ":  " + records[i]);
                 contents[j].gameObject.GetComponent<Text>().text = records[i].ToString();
                 j++;
             }
@@ -88,7 +88,6 @@ public class Records_Panel : MonoBehaviour
     public void CloseRecord()
     {
         gameObject.SetActive(false);
-
         //reset all records
         //for (int i = 0; i < records.Count; i++)
         //{
@@ -127,7 +126,7 @@ public class Records_Panel : MonoBehaviour
                 tempRecord = "";
                 record = "";                
             }
-            if(i == sourceList.Count-1) records.Insert(j, record);            
+            if(i == sourceList.Count-1) records.Insert(j, record); //將未結束的當天記錄計入contents           
         }
     }
 
@@ -155,7 +154,7 @@ public class Records_Panel : MonoBehaviour
                 tempRecord = "";
                 record = "";
             }
-            if (i == sourceList.Count - 1) records.Insert(j, record);
+            if (i == sourceList.Count - 1) records.Insert(j, record); 
         }
     }
 }    
