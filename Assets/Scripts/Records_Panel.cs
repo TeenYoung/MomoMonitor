@@ -9,15 +9,15 @@ public class Records_Panel : MonoBehaviour
 
     public List<Text> contents;
     public GameObject sourceButton; //由button record傳入
-    public int buttonType;
+    public int buttonType; //由button record傳入
     public Text text;
-    public string sourceButtonUnit;
+    public string sourceButtonUnit;  //由button record傳入
     public GameObject scrollPanel;
 
     private List<Entry> sourceList;
     private List<string> records ;//every member keep the records in the same day
-    private string record;//
-    private string tempRecord;    
+    private string record;//用于計算每日記錄，并寫入到records list里
+    private string tempRecord;   // 暫時存儲每條記錄
 
     //private string records;
 
@@ -28,7 +28,6 @@ public class Records_Panel : MonoBehaviour
     {
         records = new List<string>();
         sourceList = Main_Menu.menu.entryLists[name];
-        print(buttonType);      
         switch (buttonType)
         {
             case 0:
@@ -42,16 +41,42 @@ public class Records_Panel : MonoBehaviour
                 }
                 break;
         }
-        //text.text = records;
-        for (int j = 0; j < contents.Count; j++)
+        
+     //判斷records的天數和contents的大小，并顯示將同一日的records顯示在一個content內
+
+        //若record天數小于contents，將無records的contents清空
+        if (records.Count < contents.Count)
+        {
+            for (int j = 0; j < contents.Count; j++)
+            {
+                for (int i = 0; i < records.Count; i++)
+                {
+                    contents[i].gameObject.GetComponent<Text>().text = records[i].ToString();
+                }
+                contents[j].gameObject.GetComponent<Text>().text = "";
+            }
+        }
+
+        //records天數等于contents
+        else if (records.Count == contents.Count)
         {
             for (int i = 0; i < records.Count; i++)
             {
                 contents[i].gameObject.GetComponent<Text>().text = records[i].ToString();
             }
-            contents[j].gameObject.GetComponent<Text>().text = "";
         }
-       
+
+        //records天數大于contents，輸入最后contetnts.count天的記錄
+        else if (records.Count > contents.Count)
+        {
+            int j = 0;
+            for (int i = records.Count - contents.Count; i < records.Count; i++)
+            {
+                print("i =" + i + ":  " + records[i]);
+                contents[j].gameObject.GetComponent<Text>().text = records[i].ToString();
+                j++;
+            }
+        }               
     }
 	
 	// Update is called once per frame
@@ -65,39 +90,17 @@ public class Records_Panel : MonoBehaviour
         gameObject.SetActive(false);
 
         //reset all records
-        for (int i = 0; i < records.Count; i++)
-        {
-            contents[i].gameObject.GetComponent<Text>().text = "";
-        }
-        tempRecord = "";
-        record = "";
-        records.Clear();
+        //for (int i = 0; i < records.Count; i++)
+        //{
+        //    contents[i].gameObject.GetComponent<Text>().text = "";
+        //}
+        //tempRecord = "";
+        //record = "";
+        //records.Clear();
     }
 
-    void ShowTimerRecords()
-    {
-        //foreach (Entry entry in sourceList)
-        //{
-        //    string record = entry.StartTime.ToShortTimeString() + " ~ ";
-        //    if (entry.EndTime != new DateTime())
-        //    {
-        //        record += entry.EndTime.ToShortTimeString() + "     Duration:"
-        //            + Main_Menu.menu.FormatTimeSpan(entry.CalculateDuration()) + "\n";
-        //    }
-
-        //    records = records + record;
-        //    //records.Add(record);
-
-        //    if (sourceList.IndexOf(entry) != sourceList.Count - 1
-        //        && entry.StartTime.Date != sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date)
-        //    {
-        //        records = records + "-------------------- " +
-        //           sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-        //        //records.Add("-------------------- " + 
-        //        //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n");
-        //    }
-        //} 
-        //records = new List<string>();
+    void ShowTimerRecords() //records里的每一元素為每一天的記錄
+    {        
         tempRecord = "";
         record = "";
         records.Clear();
@@ -110,31 +113,25 @@ public class Records_Panel : MonoBehaviour
             {
                 tempRecord += sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
                     + Main_Menu.menu.FormatTimeSpan(sourceList[i].CalculateDuration()) + "\n";
-                //print(tempRecord);
-                //print(i);
             }
             record += tempRecord;
-            //print(record);
 
-            //// if date changes
+            // if date changes 將前一日記錄賦給records，records內的記錄從index=0的元素起，日期依次增長index越大，日期越接近now
             if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
                 && sourceList[i].StartTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date)
             {
                 record = record + "-------------------- " +
                    sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";                                                      
                 records.Insert(j, record);
-                //print("records[j]" + j + records[j]);
-                //print(records.Capacity);
                 j++;
                 tempRecord = "";
-                record = "";
-                //print("j=" + j);                
+                record = "";                
             }
-            if(i == sourceList.Count-1) records.Insert(j, record);
+            if(i == sourceList.Count-1) records.Insert(j, record);            
         }
     }
 
-    void ShowCounterRecords()
+    void ShowCounterRecords() //records里的每一元素為每一天的記錄
     {
         tempRecord = "";
         record = "";
@@ -145,8 +142,8 @@ public class Records_Panel : MonoBehaviour
         {
             tempRecord = sourceList[i].EndTime.ToShortTimeString() + "  " + sourceList[i].Number + sourceButton.GetComponent<Button_Entry>().unit + "\n";
             record += tempRecord;
-            //print(record);
 
+            //將前一日記錄賦給records，records內的記錄從index = 0的元素起，日期依次增長index越大，日期越接近now
             if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
                 && sourceList[i].EndTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].EndTime.Date)
             {
@@ -159,28 +156,6 @@ public class Records_Panel : MonoBehaviour
                 record = "";
             }
             if (i == sourceList.Count - 1) records.Insert(j, record);
-
-            //foreach (Entry entry in sourceList)
-            //{
-            //    string record = entry.EndTime.ToShortTimeString() + "  " + entry.Number + sourceButtonUnit + "\n";
-
-            //    records = records + record;
-            //    //records.Add(record);
-
-            //    if (sourceList.IndexOf(entry) != sourceList.Count - 1
-            //        && entry.EndTime.Date != sourceList[sourceList.IndexOf(entry) + 1].EndTime.Date)
-            //    {
-            //        records = records + "-------------------- " +
-            //          sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-            //        //records.Add("-------------------- " +
-            //        //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() +
-            //        //    " --------------------\n");
-            //    }
-
-            //}
-
-            //   
-
         }
     }
 }    
