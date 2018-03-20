@@ -77,6 +77,15 @@ public class Button_Entry : MonoBehaviour {
         {
             case 0:
                 {
+                    //for (int i = 0; i < entrys.Count; i++)
+                    //{
+                    //    if (entrys[i].StartTime.Date == lastEntry.StartTime.Date && entrys[i].EndTime != new DateTime())
+                    //    {
+                    //        TimeSpan dr = entrys[i].CalculateDuration();
+                    //        todayDuration += dr;
+                    //        print(entrys[i].StartTime.ToString() + entrys[i].EndTime.ToString() + entrys[i].Number.ToString());
+                    //    }
+                    //}
                     foreach (Entry entry in entrys)
                     {
                         if (entry.StartTime.Date == lastEntry.StartTime.Date && entry.EndTime != new DateTime())

@@ -87,6 +87,7 @@ public class Button_Record : MonoBehaviour {
         else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecord();
         //buttonManualInput.enabled = true;   
 
+
     }   
 
     //void ShowTimerRecords()
