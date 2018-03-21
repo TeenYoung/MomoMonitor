@@ -15,17 +15,22 @@ public class Records_Panel : MonoBehaviour
     public GameObject scrollPanel;
 
     private List<Entry> sourceList;
-    //private List<string> records;
-    private string records;
+    private List<string> records ;//every member keep the records in the same day
+    private string record;//
+    private string tempRecord;    
+
+    //private string records;
 
     //public Button buttonAddRecord;
 
     // Use this for initialization at every time when this panel be called
     void OnEnable ()
     {
+        records = new List<string>();
         sourceList = Main_Menu.menu.entryLists[name];
         //if (buttonType == 0) ShowTimerRecords();
         //else if (buttonType == 1) ShowCounterRecords();
+       
 
         switch (buttonType)
         {
@@ -40,8 +45,12 @@ public class Records_Panel : MonoBehaviour
                 }
                 break;
         }
-        text.text = records;
-        //contents[0].text = records.ToString();
+        //text.text = records;
+        for (int i = 0; i < records.Count; i++)
+        {
+            contents[i].gameObject.GetComponent<Text>().text = records[i].ToString();
+        }
+
 
     }
 	
@@ -56,82 +65,88 @@ public class Records_Panel : MonoBehaviour
         gameObject.SetActive(false);
 
         //reset all records
-        records = "";
-        //records.Clear();
+        tempRecord = null;
+        record = null;
+        records.Clear();
 
     }
 
     void ShowTimerRecords()
     {
-        foreach (Entry entry in sourceList)
+        //foreach (Entry entry in sourceList)
+        //{
+        //    string record = entry.StartTime.ToShortTimeString() + " ~ ";
+        //    if (entry.EndTime != new DateTime())
+        //    {
+        //        record += entry.EndTime.ToShortTimeString() + "     Duration:"
+        //            + Main_Menu.menu.FormatTimeSpan(entry.CalculateDuration()) + "\n";
+        //    }
+
+        //    records = records + record;
+        //    //records.Add(record);
+
+        //    if (sourceList.IndexOf(entry) != sourceList.Count - 1
+        //        && entry.StartTime.Date != sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date)
+        //    {
+        //        records = records + "-------------------- " +
+        //           sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
+        //        //records.Add("-------------------- " + 
+        //        //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n");
+        //    }
+        //} 
+        int j = 0;
+        for (int i = 0; i < sourceList.Count; i++)
         {
-            string record = entry.StartTime.ToShortTimeString() + " ~ ";
-            if (entry.EndTime != new DateTime())
+            tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
+            if (sourceList[i].EndTime != new DateTime())
             {
-                record += entry.EndTime.ToShortTimeString() + "     Duration:"
-                    + Main_Menu.menu.FormatTimeSpan(entry.CalculateDuration()) + "\n";
+                tempRecord += sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
+                    + Main_Menu.menu.FormatTimeSpan(sourceList[i].CalculateDuration()) + "\n";
+                //print(tempRecord);
+                //print(i);
             }
+            record += tempRecord;
+            //print(record);
 
-            records = records + record;
-            //records.Add(record);
-
-            if (sourceList.IndexOf(entry) != sourceList.Count - 1
-                && entry.StartTime.Date != sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date)
+            //// if date changes
+            if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
+                && sourceList[i].StartTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date)
             {
-                records = records + "-------------------- " +
-                   sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-                //records.Add("-------------------- " + 
-                //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n");
+                record = record + "-------------------- " +
+                   sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";                                                      
+                records.Insert(j, record);
+                print("records[j]" + j + records[j]);
+                print(records.Capacity);
+                j++;
+                tempRecord = null;
+                record = null;
+                //print("j=" + j);
+                
             }
-
-            //for (int i = 0; i < sourceList.Count; i++)
-            //{
-            //    for (int j = 0; j < records.count; j++)
-            //    {
-            //        string record = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
-            //        if (sourceList[i].EndTime != new DateTime())
-            //        {
-            //            contents[i].text = sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
-            //                + Main_Menu.menu.FormatTimeSpan(sourceList[i].CalculateDuration()) + "\n";
-            //        }
-
-            //        records[j] = records[j] + record;
-            //        //records.Add(record);
-
-            //        if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
-            //            && sourceList[i].StartTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date)
-            //        {
-            //            contents[i].text = contents[i].text + "-------------------- " +
-            //               sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-            //            //records.Add("-------------------- " + 
-            //            //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n");
-            //        }
-            //        //print(contents[i].text);
-            //    }
-
+            if(i == sourceList.Count-1) records.Insert(j, record);
         }
     }
 
     void ShowCounterRecords()
     {
-        foreach (Entry entry in sourceList)
-        {
-            string record = entry.EndTime.ToShortTimeString() + "  " + entry.Number + sourceButtonUnit + "\n";
+        //foreach (Entry entry in sourceList)
+        //{
+        //    string record = entry.EndTime.ToShortTimeString() + "  " + entry.Number + sourceButtonUnit + "\n";
 
-            records = records + record;
-            //records.Add(record);
+        //    records = records + record;
+        //    //records.Add(record);
 
-            if (sourceList.IndexOf(entry) != sourceList.Count - 1
-                && entry.EndTime.Date != sourceList[sourceList.IndexOf(entry) + 1].EndTime.Date)
-            {
-                records = records + "-------------------- " +
-                  sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-                //records.Add("-------------------- " +
-                //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() +
-                //    " --------------------\n");
-            }
+        //    if (sourceList.IndexOf(entry) != sourceList.Count - 1
+        //        && entry.EndTime.Date != sourceList[sourceList.IndexOf(entry) + 1].EndTime.Date)
+        //    {
+        //        records = records + "-------------------- " +
+        //          sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
+        //        //records.Add("-------------------- " +
+        //        //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() +
+        //        //    " --------------------\n");
+        //    }
 
-        }
+        //}
 
         //    for (int i = 0; i < sourceList.Count; i++)
         //{
@@ -152,5 +167,5 @@ public class Records_Panel : MonoBehaviour
 
     }
 
-}     
+}    
 
