@@ -7,10 +7,8 @@ using UnityEngine.UI;
 public class Button_Record : MonoBehaviour {
 
     public GameObject recordsPanel, sourceButton;
-    public Text text_Title, text_Property;
-    
+    public Text text_Title, text_Property;    
     public Button buttonManualInput;
-
     public GameObject scrollView;
 
     //public GameObject contents;

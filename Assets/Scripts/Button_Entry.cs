@@ -13,6 +13,7 @@ public class Button_Entry : MonoBehaviour {
     public Text dailyTotalText;
     public bool timing;
     public int babyAgeNum;
+    public GameObject imageNotTiming, imageTiming;
 
     private Entry entry, lastEntry;
     private List<Entry> entrys;
@@ -27,6 +28,9 @@ public class Button_Entry : MonoBehaviour {
 
         //load last entry
         entrys = Main_Menu.menu.entryLists[gameObject.name];
+
+        //imageTiming.SetActive(false);
+        imageNotTiming.SetActive(true);
 
         //load total duration and update it
         if (entrys.Count != 0)
@@ -157,6 +161,9 @@ public class Button_Entry : MonoBehaviour {
 
             timing = false;
 
+            imageTiming.SetActive(false);
+            imageNotTiming.SetActive(true);
+
             entry.EndTime = DateTime.Now;
 
             //add data into log and save
@@ -166,10 +173,16 @@ public class Button_Entry : MonoBehaviour {
 
             //calculate and show total duration
             UpdateTodayDuration(duration);
+
+
         }
         else
         {
             timing = true;
+
+            imageTiming.SetActive(true);
+            imageNotTiming.SetActive(false);
+
             entry = new Entry
             {
                 StartTime = DateTime.Now
@@ -187,6 +200,7 @@ public class Button_Entry : MonoBehaviour {
     public void CounterOnClick()
     {
         panel_Input.SetActive(true);
+        imageNotTiming.SetActive(true);
 
         Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
 
