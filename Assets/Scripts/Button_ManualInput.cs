@@ -14,10 +14,10 @@ public class Button_ManualInput : MonoBehaviour {
 
     private Panel_Input pI;
 
-    public void OnEnable()
-    {
-        gameObject.GetComponent<Image>().color = sourceButton.gameObject.GetComponent<Image>().color;//與召喚此頁面的sourceButton 同色        
-    }
+    //public void OnEnable()
+    //{
+    //    gameObject.GetComponent<Image>().color = sourceButton.gameObject.GetComponent<Image>().color;//與召喚此頁面的sourceButton 同色        
+    //}
 
     public void OnClick()
     {

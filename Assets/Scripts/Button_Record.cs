@@ -46,6 +46,7 @@ public class Button_Record : MonoBehaviour {
 
         sourceList = Main_Menu.menu.entryLists[sourceButton.name];
         recordsPanel.name = button_Entry.name;
+        buttonManualInput.gameObject.GetComponent<Image>().color = gameObject.GetComponent<Image>().color; //使打開manual Input button與本button同色
 
         
         //recordsPanel.GetComponents<Records_Panel>(). = button_Entry.buttonType;

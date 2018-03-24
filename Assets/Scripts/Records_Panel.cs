@@ -18,10 +18,7 @@ public class Records_Panel : MonoBehaviour
     private List<string> records ;//every member keep the records in the same day
     private string record;//用于計算每日記錄，并寫入到records list里
     private string tempRecord;   // 暫時存儲每條記錄
-
-    //private string records;
-
-    //public Button buttonAddRecord;
+    private string tempDailyTS; // 暫時存儲每日縂時長
 
     // Use this for initialization at every time when this panel be called
     void OnEnable ()
@@ -72,7 +69,6 @@ public class Records_Panel : MonoBehaviour
             int j = 0;
             for (int i = records.Count - contents.Count; i < records.Count; i++)
             {
-                //print("i =" + i + ":  " + records[i]);
                 contents[j].gameObject.GetComponent<Text>().text = records[i].ToString();
                 j++;
             }
@@ -88,14 +84,6 @@ public class Records_Panel : MonoBehaviour
     public void CloseRecord()
     {
         gameObject.SetActive(false);
-        //reset all records
-        //for (int i = 0; i < records.Count; i++)
-        //{
-        //    contents[i].gameObject.GetComponent<Text>().text = "";
-        //}
-        //tempRecord = "";
-        //record = "";
-        //records.Clear();
     }
 
     void ShowTimerRecords() //records里的每一元素為每一天的記錄
@@ -105,6 +93,7 @@ public class Records_Panel : MonoBehaviour
         records.Clear();
 
         int j = 0;
+        TimeSpan dr = new TimeSpan(); //傳遞計算縂時長
         for (int i = 0; i < sourceList.Count; i++)
         {
             tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
@@ -112,17 +101,21 @@ public class Records_Panel : MonoBehaviour
             {
                 tempRecord += sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
                     + Main_Menu.menu.FormatTimeSpan(sourceList[i].CalculateDuration()) + "\n";
+
+                 dr += sourceList[i].CalculateDuration();
             }
             record += tempRecord;
+            tempDailyTS = Main_Menu.menu.FormatTimeSpan(dr); //記錄當日縂時長
 
             // if date changes 將前一日記錄賦給records，records內的記錄從index=0的元素起，日期依次增長index越大，日期越接近now
             if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
                 && sourceList[i].StartTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date)
             {
-                record = record + "-------------------- " +
+                record = record + "\n total amount : " + tempDailyTS + "\n"; //在輸出次日日期前輸入當日縂時長
+                record = record + "\n -------------------- " +
                    sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";                                                      
                 records.Insert(j, record);
-                j++;
+                j++;                
                 tempRecord = "";
                 record = "";                
             }
@@ -136,16 +129,19 @@ public class Records_Panel : MonoBehaviour
         record = "";
         records.Clear();
 
-        int j = 0;        
+        int j = 0;
+        int tempTotal = 0;
         for (int i = 0; i < sourceList.Count; i++)
         {
             tempRecord = sourceList[i].EndTime.ToShortTimeString() + "  " + sourceList[i].Number + sourceButton.GetComponent<Button_Entry>().unit + "\n";
             record += tempRecord;
+            tempTotal += sourceList[i].Number;
 
             //將前一日記錄賦給records，records內的記錄從index = 0的元素起，日期依次增長index越大，日期越接近now
             if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
                 && sourceList[i].EndTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].EndTime.Date)
             {
+                record = record + "\n total amount : " + tempTotal + sourceButtonUnit + "\n"; //在輸出次日日期前輸入當日縂量
                 record = record + "-------------------- " +
                   sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
                 records.Insert(j, record);
