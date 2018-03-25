@@ -111,13 +111,14 @@ public class Records_Panel : MonoBehaviour
             if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
                 && sourceList[i].StartTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date)
             {
-                record = record + "\n total amount : " + tempDailyTS + "\n"; //在輸出次日日期前輸入當日縂時長
+                record = record + "\n total duration : " + tempDailyTS + "\n"; //在輸出次日日期前輸入當日縂時長
                 record = record + "\n -------------------- " +
                    sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";                                                      
                 records.Insert(j, record);
                 j++;                
                 tempRecord = "";
-                record = "";                
+                record = "";
+                dr = new TimeSpan();
             }
             if(i == sourceList.Count-1) records.Insert(j, record); //將未結束的當天記錄計入contents           
         }
@@ -149,6 +150,7 @@ public class Records_Panel : MonoBehaviour
                 j++;
                 tempRecord = "";
                 record = "";
+                tempTotal = 0;
             }
             if (i == sourceList.Count - 1) records.Insert(j, record); 
         }

@@ -14,11 +14,6 @@ public class Button_ManualInput : MonoBehaviour {
 
     private Panel_Input pI;
 
-    //public void OnEnable()
-    //{
-    //    gameObject.GetComponent<Image>().color = sourceButton.gameObject.GetComponent<Image>().color;//與召喚此頁面的sourceButton 同色        
-    //}
-
     public void OnClick()
     {
         panel_Input.gameObject.GetComponent<Panel_Input>().sourceButton = sourceButton; //把召喚此頁面的button傳入panel input中

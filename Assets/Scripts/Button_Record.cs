@@ -41,38 +41,14 @@ public class Button_Record : MonoBehaviour {
     //to move out into a new .cs file
     public void OnClick()
     {
-        //sourceList = new List<Entry>();
-        ////records = "";
-
         sourceList = Main_Menu.menu.entryLists[sourceButton.name];
         recordsPanel.name = button_Entry.name;
         buttonManualInput.gameObject.GetComponent<Image>().color = gameObject.GetComponent<Image>().color; //使打開manual Input button與本button同色
 
-        
-        //recordsPanel.GetComponents<Records_Panel>(). = button_Entry.buttonType;
-        //print(button_Entry.name);
-
-        //switch (sourceButton.GetComponent<Button_Entry>().buttonType)
-        //{
-        //    case 0:
-        //        {
-        //            ShowTimerRecords();
-        //        }
-        //        break;
-        //    case 1:
-        //        {
-        //            ShowCounterRecords();
-        //        }
-        //        break;
-        //}
-
         sourceList = new List<Entry>();
-        //records = "";
         
         sourceList = Main_Menu.menu.entryLists[sourceButton.name];
         recordsPanel.name = button_Entry.name;
-        //recordsPanel.GetComponents<Records_Panel>(). = button_Entry.buttonType;
-        //print(button_Entry.name);
 
         //如果recordsPanel未打開則打開，且把打開panel的buttontype,name, unit傳給records_Panel,同時顯示mannualInput
         if (!recordsPanel.activeInHierarchy)
@@ -88,59 +64,6 @@ public class Button_Record : MonoBehaviour {
         }
             
         //如果recordsPanel打開著，再次點擊關閉recordsPanel，同時關閉buttonManualInput
-        else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecord();
-        //buttonManualInput.enabled = true;   
-
-
-    }   
-
-    //void ShowTimerRecords()
-    //{
-    //    foreach (Entry entry in sourceList)
-    //    {
-    //        string record = entry.StartTime.ToShortTimeString() + " ~ ";
-    //        if (entry.EndTime != new DateTime())
-    //        {
-    //            record += entry.EndTime.ToShortTimeString() + "     Duration:"
-    //                + Main_Menu.menu.FormatTimeSpan(entry.CalculateDuration()) + "\n";
-    //        }
-
-    //        records = records + record;
-    //        //records.Add(record);
-
-    //        if (sourceList.IndexOf(entry) != sourceList.Count - 1
-    //            && entry.StartTime.Date != sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date)
-    //        {
-    //            records = records + "-------------------- " +
-    //               sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-    //            //records.Add("-------------------- " + 
-    //            //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n");
-    //        }
-
-    //    }
-    //    //recordsPanel.GetComponentInChildren<Text>().text = records;
-    //}
-
-    //void ShowCounterRecords()
-    //{
-    //    foreach (Entry entry in sourceList)
-    //    {
-    //        string record = entry.EndTime.ToShortTimeString() + "  " + entry.Number + sourceButton.GetComponent<Button_Entry>().unit + "\n";
-
-    //        records = records + record;
-    //        //records.Add(record);
-
-    //        if (sourceList.IndexOf(entry) != sourceList.Count - 1
-    //            && entry.EndTime.Date != sourceList[sourceList.IndexOf(entry) + 1].EndTime.Date)
-    //        {
-    //            records = records + "-------------------- " +
-    //              sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-    //            //records.Add("-------------------- " +
-    //            //    sourceList[sourceList.IndexOf(entry) + 1].StartTime.Date.ToShortDateString() +
-    //            //    " --------------------\n");
-    //        }
-
-    //    }
-    //    //recordsPanel.GetComponentInChildren<Text>().text = records;
-    //}
+        else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecord();  
+    }       
 }

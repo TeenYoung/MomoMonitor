@@ -37,7 +37,6 @@ public class Panel_Input : MonoBehaviour {
         inputString_2 = inputField_2.text;
 
         switch (sourceButtonType)
-        //switch (sourceButton.GetComponent<Button_Entry>().buttonType)
         {
             case 0:
                 {
