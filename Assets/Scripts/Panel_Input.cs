@@ -52,7 +52,7 @@ public class Panel_Input : MonoBehaviour {
 
             case 2:
                 {
-
+                    InputNappy();
                 }
                 break;
         }
@@ -108,6 +108,25 @@ public class Panel_Input : MonoBehaviour {
             text_Warning.gameObject.SetActive(true);
         }
     }
+
+    void InputNappy()
+    {
+        entry = ManualAddEntry(inputString_2);
+
+        if (entry != null)
+        {
+            transform.Find("Wee_Button").gameObject.SetActive(true);
+            transform.Find("Poo_Button").gameObject.SetActive(true);
+            transform.Find("Both_Button").gameObject.SetActive(true);
+
+            Main_Menu.menu.entryLists[sourceButton.name].Add(entry);
+        }
+        else
+        {
+            text_Warning.gameObject.SetActive(true);
+        }
+    }
+
 
     void SaveEntry()
     {
@@ -170,6 +189,29 @@ public class Panel_Input : MonoBehaviour {
         else return null;
     }
 
+    public Entry ManualAddEntry(string endTime)
+    {
+        if (endTime.Length == 4)
+        {
+            int endHr = Int32.Parse(endTime.Substring(0, 2));
+            int endMin = Int32.Parse(endTime.Substring(2));
+            Entry entry = new Entry();
+
+            if (endHr < 24
+                && endMin < 60)
+            {
+                DateTime now = DateTime.Now;
+                entry.EndTime = new DateTime(now.Year, now.Month, now.Day, endHr, endMin, 0);
+                entry.StartTime = entry.EndTime;
+
+                if (entry.EndTime < now) return entry;
+                else return null;
+            }
+            else return null;
+        }
+        else return null;
+    }
+
     public Entry AutoAddEntry(int number)
     {
         if (number > 0)
@@ -191,62 +233,94 @@ public class Panel_Input : MonoBehaviour {
         inputField_2.text = "";
 
         inputField_1.gameObject.SetActive(false);
+        inputField_2.gameObject.SetActive(true);
         text_Warning.gameObject.SetActive(false);
+
+        transform.Find("Wee_Button").gameObject.SetActive(false);
+        transform.Find("Poo_Button").gameObject.SetActive(false);
+        transform.Find("Both_Button").gameObject.SetActive(false);
+
         gameObject.SetActive(false);
+        manualInputDateTime = false;
 
     }
 
     public void Wee()
     {
-        Entry nappy = new Entry
+
+        if (manualInputDateTime)
         {
-            EndTime = DateTime.Now,
-            Wee = true,
-            Poo = false
-        };
+            int count = Main_Menu.menu.entryLists[sourceButton.name].Count;
+            entry = Main_Menu.menu.entryLists[sourceButton.name][count - 1];
+            Main_Menu.menu.entryLists[sourceButton.name].RemoveAt(count - 1);
+        }
+        else
+        {
+            entry = new Entry
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now
+            };
+        }
 
-        Main_Menu.menu.nappyList.Add(nappy);
-        Main_Menu.menu.Save();
+        entry.Wee = true; entry.Poo = false;
 
-        gameObject.SetActive(false);
+        SaveEntry();
+        ClosePanel();
 
-        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(nappy.Wee, nappy.Poo);
+        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(entry.Wee, entry.Poo);
 
     }
 
     public void Poo()
     {
-        Entry nappy = new Entry
+        if (manualInputDateTime)
         {
-            EndTime = DateTime.Now,
-            Wee = false,
-            Poo = true
-        };
+            int count = Main_Menu.menu.entryLists[sourceButton.name].Count;
+            entry = Main_Menu.menu.entryLists[sourceButton.name][count - 1];
+            Main_Menu.menu.entryLists[sourceButton.name].RemoveAt(count - 1);
+        }
+        else
+        {
+            entry = new Entry
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now,
+            };
+        }
 
-        Main_Menu.menu.nappyList.Add(nappy);
-        Main_Menu.menu.Save();
+        entry.Wee = false; entry.Poo = true;
 
-        gameObject.SetActive(false);
+        SaveEntry();
+        ClosePanel();
 
-        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(nappy.Wee, nappy.Poo);
+        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(entry.Wee, entry.Poo);
 
     }
 
     public void Both()
     {
-        Entry nappy = new Entry
+        if (manualInputDateTime)
         {
-            EndTime = DateTime.Now,
-            Wee = true,
-            Poo = true
-        };
+            int count = Main_Menu.menu.entryLists[sourceButton.name].Count;
+            entry = Main_Menu.menu.entryLists[sourceButton.name][count - 1];
+            Main_Menu.menu.entryLists[sourceButton.name].RemoveAt(count - 1);
+        }
+        else
+        {
+            entry = new Entry
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now,
+            };
+        }
 
-        Main_Menu.menu.nappyList.Add(nappy);
-        Main_Menu.menu.Save();
+        entry.Wee = true; entry.Poo = true;
 
-        gameObject.SetActive(false);
+        SaveEntry();
+        ClosePanel();
 
-        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(nappy.Wee,nappy.Poo);
+        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(entry.Wee,entry.Poo);
     }
 
 }

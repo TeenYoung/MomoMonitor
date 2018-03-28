@@ -55,9 +55,21 @@ public class Button_ManualInput : MonoBehaviour {
                     pI.text_Title_2.text = "Input number";
                     pI.text_Placeholder_1.text = "hhmm e.g. 1800 for 6pm";
                     pI.text_Placeholder_2.text = "unit: " + sourceButtonUnit;
-                    //pI.text_Placeholder_2.text = "unit: " + sourceButton.GetComponent<Button_Entry>().unit;
 
                     pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
+                    pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
+                }
+                break;
+
+            case 2:
+                {
+                    pI.manualInputDateTime = true;
+
+                    pI.inputField_1.gameObject.SetActive(false);
+                    pI.inputField_2.Select();
+                    pI.text_Title_2.text = "Input end time";
+                    pI.text_Placeholder_2.text = "hhmm e.g. 1800 for 6pm";
+
                     pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
                 }
                 break;
