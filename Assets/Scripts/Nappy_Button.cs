@@ -11,7 +11,7 @@ public class Nappy_Button : MonoBehaviour {
     public GameObject recordsPanel;
 
     private int weesNum, poosNum;
-    private Nappy nappy;
+    private Entry nappy;
 
     // Use this for initialization
     void Start() {
@@ -33,17 +33,17 @@ public class Nappy_Button : MonoBehaviour {
     }
 
     public void WeeButtonOnClick() {
-        weesNum ++;
+        //weesNum ++;
 
-        //save data
-        PlayerPrefs.SetInt("wee: ", weesNum);
+        ////save data
+        //PlayerPrefs.SetInt("wee: ", weesNum);
 
-        text_wetNum.text = "wee: " + weesNum;
+        //text_wetNum.text = "wee: " + weesNum;
         CloseInputPanel();
 
-        nappy = new Nappy
+        nappy = new Entry
         {
-            Time = DateTime.Now,
+            EndTime = DateTime.Now,
             Wee = true,
             Poo = false
         };
@@ -63,9 +63,9 @@ public class Nappy_Button : MonoBehaviour {
 
         CloseInputPanel();
 
-        nappy = new Nappy
+        nappy = new Entry
         {
-            Time = DateTime.Now,
+            EndTime = DateTime.Now,
             Wee = false,
             Poo = true
         };
@@ -92,9 +92,9 @@ public class Nappy_Button : MonoBehaviour {
 
         CloseInputPanel();
 
-        nappy = new Nappy
+        nappy = new Entry
         {
-            Time = DateTime.Now,
+            EndTime = DateTime.Now,
             Wee = true,
             Poo = true
         };
@@ -117,7 +117,7 @@ public class Nappy_Button : MonoBehaviour {
         string wee, poo;
         string records = "";
 
-        foreach (Nappy nappy in Main_Menu.menu.nappyList)
+        foreach (Entry nappy in Main_Menu.menu.nappyList)
         {
             if (nappy.Wee) wee = "Wee  ";
             else wee = "";
@@ -125,7 +125,7 @@ public class Nappy_Button : MonoBehaviour {
             if (nappy.Poo) poo = "Poo";
             else poo = "";
 
-            string record = string.Format("{0}   {1}{2}\n",nappy.Time.ToShortTimeString(),wee,poo);
+            string record = string.Format("{0}   {1}{2}\n",nappy.EndTime.ToShortTimeString(),wee,poo);
 
             records = records + record;
         }

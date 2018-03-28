@@ -193,6 +193,60 @@ public class Panel_Input : MonoBehaviour {
         inputField_1.gameObject.SetActive(false);
         text_Warning.gameObject.SetActive(false);
         gameObject.SetActive(false);
+
+    }
+
+    public void Wee()
+    {
+        Entry nappy = new Entry
+        {
+            EndTime = DateTime.Now,
+            Wee = true,
+            Poo = false
+        };
+
+        Main_Menu.menu.nappyList.Add(nappy);
+        Main_Menu.menu.Save();
+
+        gameObject.SetActive(false);
+
+        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(nappy.Wee, nappy.Poo);
+
+    }
+
+    public void Poo()
+    {
+        Entry nappy = new Entry
+        {
+            EndTime = DateTime.Now,
+            Wee = false,
+            Poo = true
+        };
+
+        Main_Menu.menu.nappyList.Add(nappy);
+        Main_Menu.menu.Save();
+
+        gameObject.SetActive(false);
+
+        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(nappy.Wee, nappy.Poo);
+
+    }
+
+    public void Both()
+    {
+        Entry nappy = new Entry
+        {
+            EndTime = DateTime.Now,
+            Wee = true,
+            Poo = true
+        };
+
+        Main_Menu.menu.nappyList.Add(nappy);
+        Main_Menu.menu.Save();
+
+        gameObject.SetActive(false);
+
+        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(nappy.Wee,nappy.Poo);
     }
 
 }

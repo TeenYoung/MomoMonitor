@@ -37,9 +37,15 @@ public class Records_Panel : MonoBehaviour
                     ShowCounterRecords();
                 }
                 break;
+            case 2:
+                {
+                    ShowNappyRecords();
+                }
+                break;
+
         }
-        
-     //判斷records的天數和contents的大小，并顯示將同一日的records顯示在一個content內
+
+        //判斷records的天數和contents的大小，并顯示將同一日的records顯示在一個content內
 
         //若record天數小于contents，將無records的contents清空
         if (records.Count < contents.Count)
@@ -153,6 +159,45 @@ public class Records_Panel : MonoBehaviour
                 tempTotal = 0;
             }
             if (i == sourceList.Count - 1) records.Insert(j, record); 
+        }
+    }
+
+    void ShowNappyRecords()
+    {
+        tempRecord = "";
+        record = "";
+        records.Clear();
+        string wee, poo;
+
+        int j = 0;
+        int tempTotal = 0;
+        for (int i = 0; i < sourceList.Count; i++)
+        {
+            if (sourceList[i].Wee) wee = "Wee  ";
+            else wee = "";
+
+            if (sourceList[i].Poo) poo = "Poo";
+            else poo = "";
+
+            tempRecord = string.Format("{0}   {1}{2}\n", sourceList[i].EndTime.ToShortTimeString(), wee, poo);
+            record += tempRecord;
+            tempTotal += sourceList[i].Number;
+
+            //將前一日記錄賦給records，records內的記錄從index = 0的元素起，日期依次增長index越大，日期越接近now
+            if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
+                && sourceList[i].EndTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].EndTime.Date)
+            {
+                record = record + "\n total amount : " + tempTotal + sourceButtonUnit + "\n"; //在輸出次日日期前輸入當日縂量
+                record = record + "-------------------- " +
+                  sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
+                records.Insert(j, record);
+                print("records[j]" + j + records[j]);
+                j++;
+                tempRecord = "";
+                record = "";
+                tempTotal = 0;
+            }
+            if (i == sourceList.Count - 1) records.Insert(j, record);
         }
     }
 }    

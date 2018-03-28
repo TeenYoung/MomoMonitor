@@ -20,13 +20,12 @@ public class Main_Menu : MonoBehaviour
     public List<Entry> bottlefeedList = new List<Entry>();
     public List<Entry> pumpList = new List<Entry>();
     public List<Entry> playList = new List<Entry>();
+    public List<Entry> nappyList = new List<Entry>();
     //add more
-
-    public List<Nappy> nappyList = new List<Nappy>();
 
 
     //public Dictionary<string, List<Timer>> timerLists = new Dictionary<string, List<Timer>>(); //del
-    public Dictionary<string, List<Counter>> counterLists = new Dictionary<string, List<Counter>>(); //del
+    //public Dictionary<string, List<Counter>> counterLists = new Dictionary<string, List<Counter>>(); //del
     public Dictionary<string, List<Entry>> entryLists = new Dictionary<string, List<Entry>>();
 
     // Use this for initialization
@@ -91,9 +90,9 @@ public class Main_Menu : MonoBehaviour
             bottlefeedList = data.bottlefeedList;
             pumpList = data.pumpList;
             playList = data.playList;
+            nappyList = data.nappyList;
             //add more
 
-            nappyList = data.nappyList;
         }
 
         entryLists.Add("Button_Breastfeed", breastfeedList);
@@ -101,6 +100,7 @@ public class Main_Menu : MonoBehaviour
         entryLists.Add("Button_Bottle", bottlefeedList);
         entryLists.Add("Button_Pump", pumpList);
         entryLists.Add("Button_Play", playList);
+        entryLists.Add("Button_Nappy", nappyList);
         //add more
     }
 
@@ -169,9 +169,9 @@ class RecordData
     public List<Entry> bottlefeedList;
     public List<Entry> pumpList;
     public List<Entry> playList;
+    public List<Entry> nappyList;
     //add more
 
-    public List<Nappy> nappyList;
 }
 
 

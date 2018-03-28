@@ -19,7 +19,7 @@ public class Button_Entry : MonoBehaviour {
     private List<Entry> entrys;
     private TimeSpan duration;
     private TimeSpan todayDuration, timeSpanFromLastTime;
-    private int number, totalNum;
+    private int number, totalNum, totalWee, totalPoo;
 
 
 
@@ -81,15 +81,6 @@ public class Button_Entry : MonoBehaviour {
         {
             case 0:
                 {
-                    //for (int i = 0; i < entrys.Count; i++)
-                    //{
-                    //    if (entrys[i].StartTime.Date == lastEntry.StartTime.Date && entrys[i].EndTime != new DateTime())
-                    //    {
-                    //        TimeSpan dr = entrys[i].CalculateDuration();
-                    //        todayDuration += dr;
-                    //        print(entrys[i].StartTime.ToString() + entrys[i].EndTime.ToString() + entrys[i].Number.ToString());
-                    //    }
-                    //}
                     foreach (Entry entry in entrys)
                     {
                         if (entry.StartTime.Date == lastEntry.StartTime.Date && entry.EndTime != new DateTime())
@@ -107,7 +98,7 @@ public class Button_Entry : MonoBehaviour {
                 {
                     foreach (Entry entry in entrys)
                     {
-                        if (entry.StartTime.Date == lastEntry.StartTime.Date && entry.EndTime != new DateTime())
+                        if (entry.EndTime.Date == lastEntry.EndTime.Date)
                         {
                             int n = entry.Number;
                             totalNum += n;
@@ -120,6 +111,16 @@ public class Button_Entry : MonoBehaviour {
 
             case 2:
                 {
+                    foreach (Entry entry in entrys)
+                    {
+                        if (entry.EndTime.Date == lastEntry.EndTime.Date)
+                        {
+                            if (entry.Wee) totalWee++;
+                            if (entry.Poo) totalPoo++;
+                        }
+                    }
+
+                    UpdateTotalNappy();
 
                 }
                 break;
@@ -146,7 +147,7 @@ public class Button_Entry : MonoBehaviour {
 
             case 2:
                 {
-
+                    NappyOnClick();
                 }
                 break;
         }
@@ -200,7 +201,7 @@ public class Button_Entry : MonoBehaviour {
     public void CounterOnClick()
     {
         panel_Input.SetActive(true);
-        imageNotTiming.SetActive(true);
+        //imageNotTiming.SetActive(true);
 
         Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
 
@@ -214,7 +215,20 @@ public class Button_Entry : MonoBehaviour {
 
         pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
     }
-    
+
+    public void NappyOnClick()
+    {
+        panel_Input.SetActive(true);
+        panel_Input.transform.Find("Wee_Button").gameObject.SetActive(true);
+        panel_Input.transform.Find("Poo_Button").gameObject.SetActive(true);
+        panel_Input.transform.Find("Both_Button").gameObject.SetActive(true);
+
+        Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
+
+        pI.sourceButton = gameObject;
+        pI.inputField_2.gameObject.SetActive(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -285,6 +299,18 @@ public class Button_Entry : MonoBehaviour {
         text_Title.text = titlePast + " " + totalNum + " " + unit;
     }
 
+    public void UpdateTotalNappy()
+    {
+        text_Title.text = String.Format("Wee {0}   Poo {1}", totalWee, totalPoo);
+    }
+
+    public void UpdateTotalNappy(bool wee, bool poo)
+    {
+        if (wee) totalWee++;
+        if (poo) totalPoo++;
+        text_Title.text = String.Format("Wee {0}   Poo {1}", totalWee, totalPoo);
+    }
+
 }
 
 // intergrate timer, counter and nappy into this class
@@ -295,6 +321,8 @@ public class Entry
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int Number { get; set; }
+    public bool Wee { get; set; }
+    public bool Poo { get; set; }
 
     public TimeSpan CalculateDuration()
     {
