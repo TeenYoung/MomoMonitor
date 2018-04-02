@@ -11,9 +11,10 @@ public class Main_Menu : MonoBehaviour
 {
 
     public static Main_Menu menu;
-
     public Text timeLabel;
 
+    //public Color colorSleep;
+    public List<Color> colors;
 
     public List<Entry> breastfeedList = new List<Entry>();
     public List<Entry> sleepList = new List<Entry>();

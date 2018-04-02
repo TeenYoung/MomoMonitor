@@ -24,6 +24,8 @@ public class Button_Record : MonoBehaviour {
         button_Entry = sourceButton.GetComponent<Button_Entry>();
         text_Title.text = button_Entry.text_Title.text;
         text_Property.text = button_Entry.text_Property.text;
+
+        Main_Menu.menu.colors.Add(gameObject.GetComponent<Image>().color);
     }
 
 
@@ -32,8 +34,6 @@ public class Button_Record : MonoBehaviour {
         //update status at title, update last time at property
         text_Title.text = button_Entry.text_Title.text;
         text_Property.text = button_Entry.text_Property.text;      
-
-        buttonManualInput.enabled = true;
     }
     
     //to move out into a new .cs file
