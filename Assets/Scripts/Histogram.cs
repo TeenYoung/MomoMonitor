@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Histogram : MonoBehaviour {
 
-    public GameObject number_TimeScalePrefab, barPrefab, iconPrefab;
+    public GameObject number_TimeScalePrefab, gridlinePrefab, barPrefab, iconPrefab;
     public Transform content;
 
     Transform lineNow;
@@ -27,12 +27,6 @@ public class Histogram : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    void Update(){
-
-
-    }
-
 
     void LayoutTimeScale()
     {
@@ -46,7 +40,16 @@ public class Histogram : MonoBehaviour {
             {
                 numberTS.GetComponent<Text>().fontSize = 30;
                 numberTS.GetComponent<Text>().fontStyle = FontStyle.Bold;
+                GameObject gridline = Instantiate(gridlinePrefab, gameObject.transform);
+                gridline.GetComponent<RectTransform>().localPosition = new Vector3(470, i * -60.0F, 0);
             }
+        }
+
+        for (int j = 0; j < 7; j++)
+        {
+            GameObject day = Instantiate(number_TimeScalePrefab, content);
+            day.GetComponent<RectTransform>().localPosition = new Vector3(2000 - 150f * j, -1500, 0);
+            day.GetComponent<Text>().text = (DateTime.Now - new TimeSpan(j,0,0,0)).DayOfWeek.ToString();
         }
     }
 
@@ -70,7 +73,7 @@ public class Histogram : MonoBehaviour {
                     else if (yDuration < 0) yDuration = 1440 + yStart;// !! incomplate
 
                     bar.GetComponent<RectTransform>().sizeDelta = new Vector2(50, yDuration);
-                    bar.GetComponent<RectTransform>().localPosition = new Vector3(150f * i + posX, yStart, 0);
+                    bar.GetComponent<RectTransform>().localPosition = new Vector3(1900 - 150f * i + posX, yStart, 0);
 
                 }
             }
@@ -93,7 +96,7 @@ public class Histogram : MonoBehaviour {
                     else if (size < 50) size = 50;
 
                     icon.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
-                    icon.GetComponent<RectTransform>().localPosition = new Vector3(150f * i + posX, yStart, 0);
+                    icon.GetComponent<RectTransform>().localPosition = new Vector3(1900 - 150f * i + posX, yStart, 0);
 
                 }
             }
