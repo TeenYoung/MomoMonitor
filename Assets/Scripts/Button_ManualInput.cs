@@ -16,13 +16,13 @@ public class Button_ManualInput : MonoBehaviour {
 
     public void OnClick()
     {
-        panel_Input.gameObject.GetComponent<Panel_Input>().sourceButton = sourceButton; //把召喚此頁面的button傳入panel input中
-        panel_Input.gameObject.GetComponent<Panel_Input>().sourceButtonType = sourceButtonType;//把召喚此頁面的button Type傳入panel input中
         panel_Input.SetActive(true);
 
         pI = panel_Input.GetComponent<Panel_Input>();
 
         pI.sourceButton = sourceButton;
+        pI.sourceButtonType = sourceButtonType;//把召喚此頁面的button Type傳入panel input中
+
 
         pI.inputField_1.gameObject.SetActive(true);
         pI.inputField_1.Select();

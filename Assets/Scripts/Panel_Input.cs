@@ -61,14 +61,32 @@ public class Panel_Input : MonoBehaviour {
     void InputTimer()
     {
         entry = ManualAddEntry(inputString_1, inputString_2);
+        DateTime endTime = entry.EndTime;
 
         if (entry != null)
         {
-            TimeSpan dr = entry.CalculateDuration();            
+            TimeSpan dr = entry.CalculateDuration();
             sourceButton.GetComponent<Button_Entry>().UpdateTodayDuration(dr);
 
-            SaveEntry();
-            ClosePanel();
+            if (entry.StartTime.Date == entry.EndTime.Date)
+            {
+                SaveEntry();
+                ClosePanel();
+            }
+
+            //如果手動添加時間可以跨過午夜，用此代碼來分割成兩個entry
+            //else if (entry.EndTime.Date - entry.StartTime.Date == new TimeSpan(1, 0, 0, 0))
+            //{
+            //    entry.EndTime = new DateTime(entry.StartTime.Year, entry.StartTime.Month, entry.StartTime.Day, 24, 0, 0);
+            //    SaveEntry();
+
+            //    entry.EndTime = endTime;
+            //    entry.StartTime = new DateTime(entry.EndTime.Year, entry.EndTime.Month, entry.EndTime.Day, 0, 0, 0);
+            //    SaveEntry();
+
+            //    ClosePanel();
+            //}
+
         }
         else
         {

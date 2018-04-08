@@ -166,11 +166,34 @@ public class Button_Entry : MonoBehaviour {
             imageNotTiming.SetActive(true);
 
             entry.EndTime = DateTime.Now;
+            
 
-            //add data into log and save
             entrys.RemoveAt(entrys.Count - 1);
-            entrys.Add(entry);
-            Main_Menu.menu.Save();
+
+            if (entry.StartTime.Date == entry.EndTime.Date)
+            {
+                entrys.Add(entry);
+                Main_Menu.menu.Save();
+            }
+
+            else
+            {
+                Entry entry1 = new Entry()
+                {
+                    StartTime = entry.StartTime,
+                    EndTime = new DateTime(entry.StartTime.Year, entry.StartTime.Month, entry.StartTime.Day, 23, 59, 59)
+                };
+                entrys.Add(entry1);
+
+                Entry entry2 = new Entry()
+                {
+                    StartTime = new DateTime(entry.EndTime.Year, entry.EndTime.Month, entry.EndTime.Day, 0, 0, 0),
+                    EndTime = entry.EndTime
+                };
+                entrys.Add(entry2);
+
+                Main_Menu.menu.Save();
+            }
 
             //calculate and show total duration
             UpdateTodayDuration(duration);
