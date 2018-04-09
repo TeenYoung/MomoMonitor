@@ -123,6 +123,13 @@ public class Main_Menu : MonoBehaviour
             SceneManager.LoadScene("Pattern", LoadSceneMode.Single);
     }
 
+    public void CalendarButtonOnClick()
+    {
+        if (SceneManager.GetActiveScene().name != "Calendar")
+            SceneManager.LoadScene("Calendar", LoadSceneMode.Single);
+    }
+
+
     public string FormatTimeSpan(TimeSpan timeSpan)
     {
         string d, h, m, dhm;
