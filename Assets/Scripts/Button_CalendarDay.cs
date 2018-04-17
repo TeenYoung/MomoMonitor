@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class Button_CalendarDay : MonoBehaviour {
 
-    public GameObject panelAddNote;
+    public GameObject panelLogs;
     public DateTime date;
-    public Text textSpecialAge, textNote, textDay;
-     
+    public Text  textDay, textSpecialAge, textNote;
+    public Image imageLogTag;
+    public List<String> notes,reminder,growth;
 
     // Use this for initialization
     void Start () {
@@ -21,56 +22,59 @@ public class Button_CalendarDay : MonoBehaviour {
 		
 	}
 
-    public void ClickOpenPanelAddNote()
-    {
-        panelAddNote.SetActive(true);
-        panelAddNote.GetComponent<Panel_AddNote>().GetNoteDate(date);
-    }
-
-    public void ShowDate(int year, int month, int day, int mainMonth, DateTime dateTime_babyBirth, GameObject panelAddNoteTemp)
+    public void ShowDate(int year, int month, int day, int mainMonth, 
+        DateTime dateTime_babyBirth, GameObject panelLogsTemp)
     {
         textDay.text = day.ToString();
         if (month == mainMonth) textDay.color = Color.black; //非當前月字體為黑色
         else textDay.color = Color.gray;//非當前月字體為灰色
-        SetSpecialAge(gameObject,day,year,month, dateTime_babyBirth);
-        panelAddNote = panelAddNoteTemp;
+        if (new DateTime(year, month, day) == DateTime.Today) gameObject.GetComponent<Image>().color = new Color(0.878f,0.902f,0.69f);
+        SetSpecialAge(gameObject, day, year, month, dateTime_babyBirth);//,hasLog);        
+        panelLogs = panelLogsTemp;
         date = new DateTime(year, month, day);
-        //print(date);
     }
 
-    public void SetSpecialAge(GameObject gob, int day, int year, int month, DateTime dateTime_babyBirth)
+    public void ClickOpenPanelLogs()
     {
-        gob.transform.Find("Text_SpecialAge").gameObject.SetActive(false);
+        //panelLogs.GetComponent<Panel_Logs>().GetSourceButton(gameObject);
+        panelLogs.GetComponent<Panel_Logs>().GetButtonDate(date);
+        panelLogs.SetActive(true);
+    }
+
+    public void SetSpecialAge(GameObject buttonCalendarDay, int day, int year, int month, DateTime dateTime_babyBirth)
+    {
+        buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(false);
         DateTime tempDT = new DateTime(year, month, day);
         if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month >= 0 && day == dateTime_babyBirth.Day) //根據年齡顯示特殊日期，大於一個月顯示月，一年内按整月顯示，大於一年顯示年和周
         {
-            gob.transform.Find("Text_SpecialAge").gameObject.SetActive(true);
-            //gob.transform.Find("Text_SpecialAge").GetComponent<Text>().color = Color.HSVToRGB(157, 154, 214);
+            buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(true);            
             if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month < 12) //age小於1嵗，
             {
-                gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month + " Month";
+                buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month + " Month";
             }
-            //if (thisYear == DateTime_babyBirth.Year && thisMonth == DateTime_babyBirth.Month)gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text = "Birthday"; //生日當天
-            if (year == dateTime_babyBirth.Year && month == dateTime_babyBirth.Month)
+            if (year == dateTime_babyBirth.Year && month == dateTime_babyBirth.Month)//生日當天
             {
-                gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text = "Birthday";
-                gob.transform.Find("Text_SpecialAge").GetComponent<Text>().color = Color.HSVToRGB(0, 116, 251);
+                buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = "Birthday";
             }
             if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month >= 12) //age大於等於1嵗時，顯示整年和整月，月為0時衹顯示年
             {
-                if (month == dateTime_babyBirth.Month) gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) + " Year ";
-                else gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) / 12 + " Y "
+                if (month == dateTime_babyBirth.Month) buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) + " Year ";
+                else buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) / 12 + " Y "
                 + (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) % 12 + " M";
             }
         }
-        if (tempDT.Subtract(dateTime_babyBirth.Date).Days < 91 && tempDT > dateTime_babyBirth)// && gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text == "SpecialAge") //小於三個月顯示周
+        if (tempDT.Subtract(dateTime_babyBirth.Date).Days < 91 && tempDT > dateTime_babyBirth)//小於三個月顯示周
         {
             if ((tempDT.Subtract(dateTime_babyBirth.Date).Days) % 7 == 0 && (tempDT.Subtract(dateTime_babyBirth.Date).Days) / 7 > 0)
             {
-                //print(tempDT);
-                gob.transform.Find("Text_SpecialAge").gameObject.SetActive(true);
-                gob.transform.Find("Text_SpecialAge").GetComponent<Text>().text = tempDT.Subtract(dateTime_babyBirth.Date).Days / 7 + " Week";
+                buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(true);
+                buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = tempDT.Subtract(dateTime_babyBirth.Date).Days / 7 + " Week";
             }
         }
+    }
+
+    public void SetLogTag()
+    {
+        imageLogTag.gameObject.SetActive(true);
     }
 }

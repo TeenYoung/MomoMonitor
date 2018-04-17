@@ -106,57 +106,7 @@ public class Records_Panel : MonoBehaviour
         TimeSpan dr = new TimeSpan(); //傳遞計算縂時長
         bool newdayBegin = false;
         for (int i = 0; i < sourceList.Count; i++)
-        {
-            //if (sourceList[i].StartTime.Day != sourceList[i].EndTime.Day )//&& sourceList[i].EndTime != new DateTime())//計算到次日零點的時長
-            //{
-            //    DateTime tempDay = sourceList[i].StartTime.AddDays(1).Date;
-            //    tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
-            //    tempRecord += tempDay.ToShortTimeString() + "     Duration:" //改爲endtime 當日凌晨0點
-            //        + Main_Menu.menu.FormatTimeSpan(tempDay.Subtract(sourceList[i].StartTime)) + "\n";
-            //    dr += tempDay.Subtract(sourceList[i].StartTime);
-            //    tempDailyTS = Main_Menu.menu.FormatTimeSpan(dr);
-            //    record = record + tempRecord + "\n total duration : " + tempDailyTS + "\n"; //在輸出次日日期前輸入當日縂時長
-            //    //record = record + "\n -------------------- " +
-            //    //   sourceList[i].EndTime.Date.ToShortDateString() + " --------------------\n";
-            //    records.Insert(j, record);
-            //    j++;
-            //    newdayBegin = true;
-            //    tempRecord = "";
-            //    record = "";
-            //    dr = new TimeSpan();
-            //}
-            //else  //(sourceList[i].StartTime.Day == sourceList[i].EndTime.Day)
-            //{
-            //    tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
-            //    tempRecord += sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
-            //        + Main_Menu.menu.FormatTimeSpan(sourceList[i].CalculateDuration()) + "\n";
-            //    dr += sourceList[i].CalculateDuration();
-            //}
-            //record += tempRecord;
-            ////tempDailyTS = Main_Menu.menu.FormatTimeSpan(dr);
-            //if (newdayBegin)
-            //{
-            //    record = "  -------------------- " +
-            //       sourceList[i].StartTime.AddDays(1).ToShortDateString() + " --------------------\n";
-            //    DateTime tempDay = sourceList[i].EndTime.Date;                
-            //    tempRecord = tempDay.ToShortTimeString() + " ~ ";                
-            //    tempRecord += sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
-            //        + Main_Menu.menu.FormatTimeSpan(sourceList[i].EndTime.Subtract(tempDay)) + "\n";
-            //    record += tempRecord;
-            //    dr = sourceList[i].EndTime.Subtract(tempDay);
-            //    if(i == sourceList.Count - 1) records.Insert(j, record);
-            //    //tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
-            //    newdayBegin = false;                
-            //}
-            ////records.Insert(j, record);
-            //if (i == sourceList.Count - 1 && !newdayBegin)
-            //{
-            //    tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";                
-            //}
-            //record += tempRecord;
-            //records.Insert(j, record); //將未結束的當天記錄計入contents
-
-
+        {  
             tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
             if (sourceList[i].EndTime != new DateTime())
             {
