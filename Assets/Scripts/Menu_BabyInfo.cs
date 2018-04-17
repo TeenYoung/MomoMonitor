@@ -39,8 +39,7 @@ public class Menu_BabyInfo : MonoBehaviour {
 
     public void ShowPanel_BabyInfo()
     {
-        Text_Name.text = PlayerPrefs.GetString("babyName");
-        
+        Text_Name.text = PlayerPrefs.GetString("babyName");        
                 
         //read birth saving
         babyBirth = PlayerPrefs.GetString("babyBirth");

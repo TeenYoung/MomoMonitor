@@ -23,8 +23,11 @@ public class Panel_Calendar : MonoBehaviour {
     {        
         today = DateTime.Now;
         babyBirth = PlayerPrefs.GetString("babyBirth");
+        //print(babyBirth);
+
         //conver birthday formate from string to datetime
-        dateTime_babyBirth = DateTime.ParseExact(babyBirth, "ddMMyyyy HHmm",
+        dateTime_babyBirth = DateTime.ParseExact(babyBirth,
+            "ddMMyyyy HHmm",
             CultureInfo.InvariantCulture, DateTimeStyles.None);
         BackToToday();
     }
