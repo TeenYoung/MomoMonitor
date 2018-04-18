@@ -44,33 +44,37 @@ public class Button_CalendarDay : MonoBehaviour {
     public void SetSpecialAge(GameObject buttonCalendarDay, int day, int year, int month, DateTime dateTime_babyBirth)
     {
         buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(false);
-        DateTime tempDT = new DateTime(year, month, day);
-        if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month >= 0 && day == dateTime_babyBirth.Day) //根據年齡顯示特殊日期，大於一個月顯示月，一年内按整月顯示，大於一年顯示年和周
+        if (dateTime_babyBirth.Date.Year != 1900)
         {
-            buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(true);            
-            if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month < 12) //age小於1嵗，
-            {
-                buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month + " Month";
-            }
-            if (year == dateTime_babyBirth.Year && month == dateTime_babyBirth.Month)//生日當天
-            {
-                buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = "Birthday";
-            }
-            if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month >= 12) //age大於等於1嵗時，顯示整年和整月，月為0時衹顯示年
-            {
-                if (month == dateTime_babyBirth.Month) buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) + " Year ";
-                else buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) / 12 + " Y "
-                + (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) % 12 + " M";
-            }
-        }
-        if (tempDT.Subtract(dateTime_babyBirth.Date).Days < 91 && tempDT > dateTime_babyBirth)//小於三個月顯示周
-        {
-            if ((tempDT.Subtract(dateTime_babyBirth.Date).Days) % 7 == 0 && (tempDT.Subtract(dateTime_babyBirth.Date).Days) / 7 > 0)
+            DateTime tempDT = new DateTime(year, month, day);
+            if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month >= 0 && day == dateTime_babyBirth.Day) //根據年齡顯示特殊日期，大於一個月顯示月，一年内按整月顯示，大於一年顯示年和周
             {
                 buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(true);
-                buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = tempDT.Subtract(dateTime_babyBirth.Date).Days / 7 + " Week";
+                if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month < 12) //age小於1嵗，
+                {
+                    buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month + " Month";
+                }
+                if (year == dateTime_babyBirth.Year && month == dateTime_babyBirth.Month)//生日當天
+                {
+                    buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = "Birthday";
+                    buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().color = new Color(0.984f,0.537f, 0.537f);
+                }
+                if ((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month >= 12) //age大於等於1嵗時，顯示整年和整月，月為0時衹顯示年
+                {
+                    if (month == dateTime_babyBirth.Month) buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (year - dateTime_babyBirth.Year) + " Year ";
+                    else buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) / 12 + " Y "
+                    + (((year - dateTime_babyBirth.Year) * 12 + month - dateTime_babyBirth.Month)) % 12 + " M";
+                }
             }
-        }
+            if (tempDT.Subtract(dateTime_babyBirth.Date).Days < 91 && tempDT > dateTime_babyBirth)//小於三個月顯示周
+            {
+                if ((tempDT.Subtract(dateTime_babyBirth.Date).Days) % 7 == 0 && (tempDT.Subtract(dateTime_babyBirth.Date).Days) / 7 > 0)
+                {
+                    buttonCalendarDay.transform.Find("Text_SpecialAge").gameObject.SetActive(true);
+                    buttonCalendarDay.transform.Find("Text_SpecialAge").GetComponent<Text>().text = tempDT.Subtract(dateTime_babyBirth.Date).Days / 7 + " Week";
+                }
+            }
+        }           
     }
 
     public void SetLogTag()

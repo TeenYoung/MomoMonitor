@@ -12,7 +12,7 @@ public class Panel_Calendar : MonoBehaviour {
     public GameObject calendarDayPrefab, gameObjectDays, panelLogs;
     public GameObject buttonPreviousMonth, buttonNextMonthButton, buttonBackToToday, buttonSeeAllLogs;
 
-    private DateTime today, dateTime_babyBirth;
+    private DateTime today, dateTime_babyBirth;// = new DateTime(2018,04,17);
     private int  monthTemp, dayTemp, daysInMonths, yearTemp, firstDayIndex;
     private string babyBirth, weekOfFirstDay;
 
@@ -26,9 +26,11 @@ public class Panel_Calendar : MonoBehaviour {
         //print(babyBirth);
 
         //conver birthday formate from string to datetime
-        dateTime_babyBirth = DateTime.ParseExact(babyBirth,
-            "ddMMyyyy HHmm",
-            CultureInfo.InvariantCulture, DateTimeStyles.None);
+        if (babyBirth != "")
+            dateTime_babyBirth = DateTime.ParseExact(babyBirth,
+                "ddMMyyyy HHmm",
+                CultureInfo.InvariantCulture, DateTimeStyles.None);
+        else dateTime_babyBirth = new DateTime(1900,02,02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
         BackToToday();
     }
 

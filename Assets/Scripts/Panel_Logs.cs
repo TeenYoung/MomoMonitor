@@ -13,11 +13,14 @@ public class Panel_Logs : MonoBehaviour {
     public GameObject buttonBackToCalendar, buttonAddLogs, buttonShowAll,sourceDayButton;
     public GameObject buttonAddNote, buttonAddReminder, buttonAddGrowth;
 
-    public GameObject textSingleLogPrefab, gameObjectContent;
+    public GameObject panelLogDeleteCheck;
+
+    public GameObject buttonSingleLogPrefab, gameObjectContent;// textSingleLogPrefab, 
     public List<GameObject> dailyLogList;
 
     public InputField inputFieldLog;
     public Text textLogDetail, textLogTitle, textLogDate;
+    private string logDetailDelete;
 
     private DateTime date;
     private string logType;
@@ -48,18 +51,16 @@ public class Panel_Logs : MonoBehaviour {
         panelCalendar.SetActive(false);
         panelLogTypeChoose.SetActive(false);
         panelLogEditor.SetActive(false);
-        //if (days != null)
-        //{
         foreach (GameObject dailyLogList in dailyLogList) Destroy(dailyLogList);
         dailyLogList.Clear();
-        //}
-        for (int i = 0; i < logs.Count; i++)
+        for (int i = 0; i < logs.Count; i++) //有log的日期顯示log tag
         {
             GameObject gobLogTemp; ;
             if (logs[i].Date.Date == date) //textLogDetail.text += logs[i].Detail;
             {
-                gobLogTemp = Instantiate(textSingleLogPrefab, gameObjectContent.transform);
-                gobLogTemp.GetComponent<Text>().text = logs[i].Detail;
+                gobLogTemp = Instantiate(buttonSingleLogPrefab, gameObjectContent.transform);
+                gobLogTemp.GetComponentInChildren<Text>().text = logs[i].Detail;
+                gobLogTemp.GetComponent<Button_SingleLog>().GetPanelDeleteCheck(panelLogDeleteCheck,gameObject);
                 dailyLogList.Add(gobLogTemp);
             }
         }            
@@ -68,7 +69,11 @@ public class Panel_Logs : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))BackToCalendar();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (panelLogDeleteCheck.activeInHierarchy) panelLogDeleteCheck.SetActive(false);
+            else BackToCalendar();
+        }            
     }
 
     public void BackToCalendar()
@@ -83,8 +88,27 @@ public class Panel_Logs : MonoBehaviour {
     public void OpenPanelLogChoose()
     {
         panelLogTypeChoose.SetActive(true);       
-    }    
+    }   
     
+    public void ClosePanelLogDeleteCheck()
+    {
+        panelLogDeleteCheck.SetActive(false);
+    }
+
+    public void GetDeleteLogDetail(string logDetail)
+    {
+        logDetailDelete = logDetail;
+    }
+    
+    public void DeleteSingleLog()
+    {
+        for(int i = logs.Count-1; i >= 0; i--)
+        {
+            if (logDetailDelete == logs[i].Detail)logs.RemoveAt(i);
+        }
+        ClosePanelLogDeleteCheck();
+        BackToCalendar();
+    }
     //public void GetSourceButton(GameObject sourceButton)
     //{
     //    sourceDayButton = sourceButton;
