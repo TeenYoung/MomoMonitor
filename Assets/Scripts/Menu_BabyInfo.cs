@@ -13,6 +13,7 @@ public class Menu_BabyInfo : MonoBehaviour {
     public Text Text_Name, Text_BirthNum, Text_GenderInfo, Text_AgeNum, Text_Weight, Text_Height;
     public Button Button_ResetBabyInfo;
     public DateTime DateTime_babyBirth;
+    public Sprite boyPortrait, girlPortrait;
 
     private string babyName, babyBirth, babyGender;
     private TimeSpan TimeSpan_babyAge;
@@ -64,8 +65,14 @@ public class Menu_BabyInfo : MonoBehaviour {
         
         PlayerPrefs.SetString("babyAge", TimeSpan_babyAge.Days.ToString());
 
+        string babyGender = PlayerPrefs.GetString("babyGender");
+        Text_GenderInfo.text = babyGender;
+        if(babyGender == "boy")
+        Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = boyPortrait;
+        else Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = girlPortrait;
 
-        Text_GenderInfo.text = PlayerPrefs.GetString("babyGender");
+
+
         Panel_BabyInfo.gameObject.SetActive(true);
         Panel_BabyInfoInitialization.gameObject.SetActive(false);
 

@@ -29,8 +29,6 @@ public class Button_Entry : MonoBehaviour {
         //load last entry
         entrys = Main_Menu.menu.entryLists[gameObject.name];
 
-        //imageTiming.SetActive(false);
-        imageNotTiming.SetActive(true);
 
         //load total duration and update it
         if (entrys.Count != 0)
@@ -52,8 +50,9 @@ public class Button_Entry : MonoBehaviour {
 
         if (timing)
         {
-            //maybe need another public string
             text_Title.text = title + "ing";
+            imageNotTiming.SetActive(false);
+            imageTiming.SetActive(true);
         }
 
         if (gameObject.name == "Button_Bottle")

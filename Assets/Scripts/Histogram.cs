@@ -21,12 +21,43 @@ public class Histogram : MonoBehaviour {
 
 
         LayoutTimeScale();
-        LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[3]);//foreach list later
-        LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);//foreach list later
-        LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[2]);//foreach list later
+        LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
+        LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
+        LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
 
     }
 
+    void ClearChild()
+    {
+        foreach (Transform child in content.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+
+    public void ShowSleepOnly()
+    {
+        ClearChild();
+
+        LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
+    }
+
+    public void ShowFeedOnly()
+    {
+        ClearChild();
+
+        LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
+        LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
+    }
+
+    public void ShowAll()
+    {
+        ClearChild();
+        LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
+        LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
+        LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
+
+    }
 
     void LayoutTimeScale()
     {
@@ -48,7 +79,7 @@ public class Histogram : MonoBehaviour {
         for (int j = 0; j < 7; j++)
         {
             GameObject day = Instantiate(number_TimeScalePrefab, content);
-            day.GetComponent<RectTransform>().localPosition = new Vector3(2000 - 150f * j, -1500, 0);
+            day.GetComponent<RectTransform>().localPosition = new Vector3(2000 - 150f * j, -1470, 0);
             day.GetComponent<Text>().text = (DateTime.Now - new TimeSpan(j,0,0,0)).DayOfWeek.ToString();
         }
     }
@@ -64,6 +95,7 @@ public class Histogram : MonoBehaviour {
                 {
                     GameObject bar = Instantiate(barPrefab, content);
                     bar.GetComponent<Image>().color = color;
+
                     float yStart = entry.StartTime.Hour * -60 - entry.StartTime.Minute;
                     float yDuration = (float)entry.CalculateDuration().TotalMinutes;
                     if (yDuration < 0 && entry.StartTime.Date == DateTime.Now.Date)
