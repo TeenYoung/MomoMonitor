@@ -19,7 +19,7 @@ public class Button_Entry : MonoBehaviour {
     private List<Entry> entrys;
     private TimeSpan duration;
     private TimeSpan todayDuration, timeSpanFromLastTime;
-    private int number, totalNum, totalWee, totalPoo;
+    private int number, todayAmount, totalWee, totalPoo;
 
 
 
@@ -67,10 +67,22 @@ public class Button_Entry : MonoBehaviour {
                 else dailyTotalText.text = " / " + babyFeedingTotalTemp.ToString() + unit;
             }
 
-            else dailyTotalText.text = "daily feeding base on weight";
+            else dailyTotalText.text = "";
         }
 
     }
+
+    //private void OnEnable()
+    //{
+    //    // set title to zero when a new day begins         
+    //    if (lastEntry != null && !timing && (lastEntry.EndTime.Day < DateTime.Now.Day))
+    //    {
+    //        text_Title.text = title;
+    //        if (buttonType == 1) totalNum = 0;
+
+    //    }
+
+    //}
 
     void CalculateAndShowSUM(int buttonType)
     {
@@ -82,14 +94,14 @@ public class Button_Entry : MonoBehaviour {
                 {
                     foreach (Entry entry in entrys)
                     {
-                        if (entry.StartTime.Date == lastEntry.StartTime.Date && entry.EndTime != new DateTime())
+                        if (entry.StartTime.Date == DateTime.Now.Date && entry.EndTime != new DateTime())
                         {
                             TimeSpan dr = entry.CalculateDuration();
                             todayDuration += dr;
                         }
                     }
 
-                    UpdateTodayDuration();
+                    if (todayDuration != new TimeSpan()) UpdateTodayDuration();
                 }
                 break;
 
@@ -97,14 +109,14 @@ public class Button_Entry : MonoBehaviour {
                 {
                     foreach (Entry entry in entrys)
                     {
-                        if (entry.EndTime.Date == lastEntry.EndTime.Date)
+                        if (entry.EndTime.Date == DateTime.Now.Date)
                         {
                             int n = entry.Number;
-                            totalNum += n;
+                            todayAmount += n;
                         }                            
                     }
 
-                    UpdateTotalNumber();
+                    if (todayAmount != 0) UpdateTotalNumber();
                 }
                 break;
 
@@ -278,24 +290,11 @@ public class Button_Entry : MonoBehaviour {
                 text_Property.text = Main_Menu.menu.FormatTimeSpan(timeSpanFromLastTime) + " ago";
                 
             }
-            else if (buttonType == 0)
-            {
-                text_Property.text = "Tap to Start";
-            }
             else
             {
-                text_Property.text = "Tap to Input";
+                text_Property.text = "No Record";
             }
         }
-
-        // set title to zero when a new day begins         
-        if (lastEntry!=null && !timing && (lastEntry.EndTime.Day < DateTime.Now.Day) )
-        {            
-            text_Title.text = title;
-            if (buttonType == 1) totalNum = 0;
-        }
-                   
-       
     }
 
     public void UpdateTodayDuration()
@@ -312,13 +311,13 @@ public class Button_Entry : MonoBehaviour {
 
     public void UpdateTotalNumber()
     {
-        text_Title.text = titlePast + " " + totalNum + " " + unit;
+        text_Title.text = titlePast + " " + todayAmount + " " + unit;
     }
 
     public void UpdateTotalNumber(int addNumber)
     {
-        totalNum += addNumber;
-        text_Title.text = titlePast + " " + totalNum + " " + unit;
+        todayAmount += addNumber;
+        text_Title.text = titlePast + " " + todayAmount + " " + unit;
     }
 
     public void UpdateTotalNappy()
