@@ -22,17 +22,8 @@ public class Button_Record : MonoBehaviour {
     private void Start()
     {
         button_Entry = sourceButton.GetComponent<Button_Entry>();
-        text_Title.text = button_Entry.text_Title.text;
-        text_Property.text = button_Entry.text_Property.text;
     }
 
-
-    private void Update()
-    {
-        //update status at title, update last time at property
-        text_Title.text = button_Entry.text_Title.text;
-        text_Property.text = button_Entry.text_Property.text;      
-    }
     
     //to move out into a new .cs file
     public void OnClick()
@@ -61,5 +52,5 @@ public class Button_Record : MonoBehaviour {
 
         //如果recordsPanel打開著，再次點擊關閉recordsPanel，同時關閉buttonManualInput
         else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecord();                 
-    }       
+    }
 }

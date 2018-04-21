@@ -21,6 +21,7 @@ public class Histogram : MonoBehaviour {
 
 
         LayoutTimeScale();
+        LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
         LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
         LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
@@ -38,14 +39,14 @@ public class Histogram : MonoBehaviour {
     public void ShowSleepOnly()
     {
         ClearChild();
-
+        LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
     }
 
     public void ShowFeedOnly()
     {
         ClearChild();
-
+        LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
         LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
     }
@@ -53,6 +54,7 @@ public class Histogram : MonoBehaviour {
     public void ShowAll()
     {
         ClearChild();
+        LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
         LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
         LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
@@ -75,13 +77,17 @@ public class Histogram : MonoBehaviour {
                 gridline.GetComponent<RectTransform>().localPosition = new Vector3(470, i * -60.0F, 0);
             }
         }
+    }
 
+    void LayoutDaysOfWeek()
+    {
         for (int j = 0; j < 7; j++)
         {
             GameObject day = Instantiate(number_TimeScalePrefab, content);
             day.GetComponent<RectTransform>().localPosition = new Vector3(2000 - 150f * j, -1470, 0);
-            day.GetComponent<Text>().text = (DateTime.Now - new TimeSpan(j,0,0,0)).DayOfWeek.ToString();
+            day.GetComponent<Text>().text = (DateTime.Now - new TimeSpan(j, 0, 0, 0)).DayOfWeek.ToString();
         }
+
     }
 
     void LayoutBarContents(List<Entry> sourceList, float posX, Color color)
