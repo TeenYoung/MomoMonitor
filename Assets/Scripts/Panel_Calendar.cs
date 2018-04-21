@@ -19,8 +19,8 @@ public class Panel_Calendar : MonoBehaviour {
     List<Log> logs = new List<Log>();
     //public GameObject panelAddNote;    
 
-    public void OnEnable()
-    {        
+    public void Start()
+    {
         today = DateTime.Now;
         babyBirth = PlayerPrefs.GetString("babyBirth");
         //print(babyBirth);
@@ -30,8 +30,27 @@ public class Panel_Calendar : MonoBehaviour {
             dateTime_babyBirth = DateTime.ParseExact(babyBirth,
                 "ddMMyyyy HHmm",
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
-        else dateTime_babyBirth = new DateTime(1900,02,02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
+        else dateTime_babyBirth = new DateTime(1900, 02, 02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
+        //BackToDay(DateTime.Now.Year,DateTime.Now.Month);
+        //BackToCertainDay(DateTime.Now);
         BackToToday();
+    }
+
+    public void BackToCertainDay(DateTime date)
+    {
+        babyBirth = PlayerPrefs.GetString("babyBirth");
+        //print(babyBirth);
+
+        //conver birthday formate from string to datetime
+        if (babyBirth != "")
+            dateTime_babyBirth = DateTime.ParseExact(babyBirth,
+                "ddMMyyyy HHmm",
+                CultureInfo.InvariantCulture, DateTimeStyles.None);
+        else dateTime_babyBirth = new DateTime(1900, 02, 02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
+        //BackToDay(DateTime.Now.Year,DateTime.Now.Month);
+        SetDays(date.Year,date.Month);
+        monthTemp = date.Month;
+        yearTemp = date.Year;
     }
 
     public int ChangeWeekIntoNum(string week)
@@ -67,10 +86,18 @@ public class Panel_Calendar : MonoBehaviour {
         }
         else monthTemp--;
         SetDays(yearTemp, monthTemp);
-    }    
+    }
+
+    //public void BackToDay(int year,int month) //button BackToToday
+    //{
+    //    dayTemp = DateTime.Now.Day;
+    //    monthTemp = month;
+    //    yearTemp = year;
+    //    SetDays(yearTemp, monthTemp);
+    //}
 
     public void BackToToday() //button BackToToday
-    {        
+    {
         dayTemp = DateTime.Now.Day;
         monthTemp = DateTime.Now.Month;
         yearTemp = DateTime.Now.Year;
@@ -82,7 +109,7 @@ public class Panel_Calendar : MonoBehaviour {
         logs = logListTemp;
     }
 
-    void SetDays(int thisYear, int thisMonth)
+    public void SetDays(int thisYear, int thisMonth)
     {
         int daysInThisMonths, firstDayIndex, lastMonth, lastYear, nextMonth, nextYear; //lastMonth, lastYear為日曆中上個月部分的入參，nextMonth, nextYear為日曆下個月部分的入參
         daysInThisMonths = DateTime.DaysInMonth(thisYear, thisMonth);
@@ -110,7 +137,7 @@ public class Panel_Calendar : MonoBehaviour {
         {
             nextMonth = thisMonth + 1;
             nextYear = thisYear;
-        }       
+        }
         int j = DateTime.DaysInMonth(lastYear, lastMonth) - firstDayIndex + 1;
         int j2 = 1;
         int j3 = 1;
@@ -130,11 +157,12 @@ public class Panel_Calendar : MonoBehaviour {
                 ShowLogTag(lastYear, lastMonth, j, gob);
                 j++;
             }
+            
             if (i >= firstDayIndex && i < daysInThisMonths + firstDayIndex) //填充當月日期,j為日期
             {
                 gob.GetComponent<Button_CalendarDay>().ShowDate(thisYear, thisMonth, j2, thisMonth, dateTime_babyBirth, panelLogs);//, SetLogTag(new DateTime(lastYear, lastMonth, j2)));
                 ShowLogTag(thisYear, thisMonth, j2, gob);
-                if (new DateTime(yearTemp, monthTemp, j2) == DateTime.Today) days[i].gameObject.GetComponent<Image>().color = Color.gray;
+                if (new DateTime(yearTemp, monthTemp, j2) == DateTime.Today) days[i].gameObject.GetComponent<Image>().color = new  Color(0.784f, 0.784f, 0.784f);
                 j2++;
             }
             if (i >= daysInThisMonths + firstDayIndex) //填充下月初幾日

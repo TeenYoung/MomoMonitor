@@ -78,10 +78,11 @@ public class Panel_Logs : MonoBehaviour {
 
     public void BackToCalendar()
     {
-        panelCalendar.SetActive(true);
         gameObject.SetActive(false);
         panelLogTypeChoose.SetActive(false);
         panelLogEditor.SetActive(false);
+        panelCalendar.GetComponent<Panel_Calendar>().BackToCertainDay(date);
+        panelCalendar.SetActive(true);
         //textLogDetail.text = "";
     }
 
@@ -104,7 +105,11 @@ public class Panel_Logs : MonoBehaviour {
     {
         for(int i = logs.Count-1; i >= 0; i--)
         {
-            if (logDetailDelete == logs[i].Detail)logs.RemoveAt(i);
+            if (logDetailDelete == logs[i].Detail)
+            {
+                //DateTime dateOfDeleteTemp = logs[i].Date;
+                logs.RemoveAt(i);
+            }            
         }
         ClosePanelLogDeleteCheck();
         BackToCalendar();
@@ -147,6 +152,7 @@ public class Panel_Logs : MonoBehaviour {
         logs.Add(logTemp);//設一個log class 内含date，type，detail等properties，儲存時按照type分別存爲不同list
         panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
         //sourceDayButton.GetComponent<Button_CalendarDay>().GetLogs(logs); //把記錄傳入button calendardays
+        //panelCalendar.GetComponent<Panel_Calendar>().SetDays(date.Year,date.Month);
         BackToCalendar();
         panelLogEditor.GetComponent<Panel_LogEditor>().GetLog(logTemp);
         //sourceDayButton.GetComponent<Button_CalendarDay>().SaveLogs(logType, inputFieldNote.text.ToString());
