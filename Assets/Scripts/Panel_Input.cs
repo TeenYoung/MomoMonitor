@@ -66,7 +66,7 @@ public class Panel_Input : MonoBehaviour {
         if (entry != null)
         {
             TimeSpan dr = entry.CalculateDuration();
-            sourceButton.GetComponent<Button_Entry>().UpdateTodayDuration(dr);
+            sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(dr);
 
             if (entry.StartTime.Date == entry.EndTime.Date)
             {
@@ -116,7 +116,7 @@ public class Panel_Input : MonoBehaviour {
         {
             int number = entry.Number;
             //sourceButton = 
-            sourceButton.GetComponent<Button_Entry>().UpdateTotalNumber(number);
+            sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(number);
 
             SaveEntry();
             ClosePanel();
@@ -286,7 +286,7 @@ public class Panel_Input : MonoBehaviour {
         SaveEntry();
         ClosePanel();
 
-        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(entry.Wee, entry.Poo);
+        sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(entry.Wee, entry.Poo);
 
     }
 
@@ -312,7 +312,7 @@ public class Panel_Input : MonoBehaviour {
         SaveEntry();
         ClosePanel();
 
-        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(entry.Wee, entry.Poo);
+        sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(entry.Wee, entry.Poo);
 
     }
 
@@ -338,7 +338,7 @@ public class Panel_Input : MonoBehaviour {
         SaveEntry();
         ClosePanel();
 
-        sourceButton.GetComponent<Button_Entry>().UpdateTotalNappy(entry.Wee,entry.Poo);
+        sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(entry.Wee,entry.Poo);
     }
 
 }

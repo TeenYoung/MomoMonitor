@@ -19,7 +19,7 @@ public class Button_Entry : MonoBehaviour {
     private List<Entry> entrys;
     private TimeSpan duration;
     private TimeSpan todayDuration, timeSpanFromLastTime;
-    private int number, todayAmount, totalWee, totalPoo;
+    private int number, todayAmount, todayWee, todayPoo;
 
 
 
@@ -72,18 +72,6 @@ public class Button_Entry : MonoBehaviour {
 
     }
 
-    //private void OnEnable()
-    //{
-    //    // set title to zero when a new day begins         
-    //    if (lastEntry != null && !timing && (lastEntry.EndTime.Day < DateTime.Now.Day))
-    //    {
-    //        text_Title.text = title;
-    //        if (buttonType == 1) totalNum = 0;
-
-    //    }
-
-    //}
-
     void CalculateAndShowSUM(int buttonType)
     {
         lastEntry = entrys[entrys.Count - 1];
@@ -101,10 +89,11 @@ public class Button_Entry : MonoBehaviour {
                         }
                     }
 
-                    if (todayDuration != new TimeSpan()) UpdateTodayDuration();
+                    if (todayDuration != new TimeSpan()) ShowTodayAmount(new TimeSpan());
+                    else text_Title.text = title;
                 }
                 break;
-
+                
             case 1:
                 {
                     foreach (Entry entry in entrys)
@@ -116,7 +105,7 @@ public class Button_Entry : MonoBehaviour {
                         }                            
                     }
 
-                    if (todayAmount != 0) UpdateTotalNumber();
+                    if (todayAmount != 0) ShowTodayAmount(0);
                 }
                 break;
 
@@ -126,12 +115,12 @@ public class Button_Entry : MonoBehaviour {
                     {
                         if (entry.EndTime.Date == lastEntry.EndTime.Date)
                         {
-                            if (entry.Wee) totalWee++;
-                            if (entry.Poo) totalPoo++;
+                            if (entry.Wee) todayWee++;
+                            if (entry.Poo) todayPoo++;
                         }
                     }
 
-                    UpdateTotalNappy();
+                    ShowTodayAmount(false, false);
 
                 }
                 break;
@@ -207,7 +196,7 @@ public class Button_Entry : MonoBehaviour {
             }
 
             //calculate and show total duration
-            UpdateTodayDuration(duration);
+            ShowTodayAmount(duration);
 
 
         }
@@ -297,39 +286,39 @@ public class Button_Entry : MonoBehaviour {
         }
     }
 
-    public void UpdateTodayDuration()
-    {        
-        text_Title.text = titlePast + " " + Main_Menu.menu.FormatTimeSpan(todayDuration);        
+    //public void ShowTodayAmount()
+    //{        
+    //    text_Title.text = titlePast + " " + Main_Menu.menu.FormatTimeSpan(todayDuration);        
+    //}
+
+    public void ShowTodayAmount(TimeSpan duration)
+    {
+        todayDuration += duration;
+        text_Title.text = String.Format("{0} {1}", titlePast, Main_Menu.menu.FormatTimeSpan(todayDuration));
     }
 
-    public void UpdateTodayDuration(TimeSpan addTimeSpan)
+    //public void UpdateTotalNumber()
+    //{
+    //    text_Title.text = titlePast + " " + todayAmount + " " + unit;
+    //}
+
+    public void ShowTodayAmount(int amount)
     {
-        if (lastEntry != null && lastEntry.StartTime.Date == entry.StartTime.Date && lastEntry.StartTime.Date == DateTime.Now.Date)todayDuration += addTimeSpan;
-        else todayDuration = addTimeSpan;
-        text_Title.text = titlePast + ": " + Main_Menu.menu.FormatTimeSpan(todayDuration);
+        todayAmount += amount;
+        text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
     }
 
-    public void UpdateTotalNumber()
-    {
-        text_Title.text = titlePast + " " + todayAmount + " " + unit;
-    }
+    //public void UpdateTotalNappy()
+    //{
+    //    text_Title.text = String.Format("Wee {0}   Poo {1}", totalWee, totalPoo);
+    //}
 
-    public void UpdateTotalNumber(int addNumber)
+    public void ShowTodayAmount(bool isWee, bool isPoo)
     {
-        todayAmount += addNumber;
-        text_Title.text = titlePast + " " + todayAmount + " " + unit;
-    }
+        if (isWee) todayWee++;
+        if (isPoo) todayPoo++;
 
-    public void UpdateTotalNappy()
-    {
-        text_Title.text = String.Format("Wee {0}   Poo {1}", totalWee, totalPoo);
-    }
-
-    public void UpdateTotalNappy(bool wee, bool poo)
-    {
-        if (wee) totalWee++;
-        if (poo) totalPoo++;
-        text_Title.text = String.Format("Wee {0}   Poo {1}", totalWee, totalPoo);
+        text_Title.text = String.Format("Wee {0}   Poo {1}", todayWee, todayPoo);
     }
 
 }
