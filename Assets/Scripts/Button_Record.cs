@@ -51,6 +51,6 @@ public class Button_Record : MonoBehaviour {
         }
 
         //如果recordsPanel打開著，再次點擊關閉recordsPanel，同時關閉buttonManualInput
-        else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecord();                 
+        else if (recordsPanel.activeInHierarchy) recordsPanel.GetComponent<Records_Panel>().CloseRecordsPanel();                 
     }
 }

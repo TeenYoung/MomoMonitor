@@ -60,7 +60,6 @@ public class Main_Menu : MonoBehaviour
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/record.dat");
 
-
         RecordData data = new RecordData
         {
             breastfeedList = breastfeedList,

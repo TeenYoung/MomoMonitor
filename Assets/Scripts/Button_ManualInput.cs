@@ -28,7 +28,7 @@ public class Button_ManualInput : MonoBehaviour {
         pI.inputField_1.Select();
 
         SetManualInputPanel(sourceButtonType);
-        recordsPanel.GetComponent<Records_Panel>().CloseRecord(); //關閉record面板好讓推出輸入時record界面更新最新加入的record        
+        recordsPanel.GetComponent<Records_Panel>().CloseRecordsPanel(); //關閉record面板好讓推出輸入時record界面更新最新加入的record        
     }
 
     void SetManualInputPanel(int buttonType)
