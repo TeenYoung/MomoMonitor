@@ -9,6 +9,7 @@ public class Panel_LogEditor : MonoBehaviour {
 
     public InputField inputFieldLog;
     public Text textLogDate;
+    public GameObject panelCalendar;
     //public DateTime logDate;
     public Log singleLog;
 
@@ -23,7 +24,7 @@ public class Panel_LogEditor : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Escape)) panelCalendar.SetActive(true) ;
 	}
 
     public void GetLog(Log log)

@@ -11,6 +11,7 @@ public class Records_Panel : MonoBehaviour
     public int buttonType; //由button record傳入
     public string sourceButtonUnit;  //由button record傳入
     public GameObject scrollPanel, buttonManualInput;
+    public GameObject buttonEntry;
     private List<Entry> sourceList;
 
     //private List<string> records;//every member keep the records in the same day
@@ -23,6 +24,9 @@ public class Records_Panel : MonoBehaviour
     private int everyClickAddContentNum = 7, contentsNumTotal; //when every click LoadMore Button, change num to N to see N more days of records 
     private GameObject gob;// to hold prefab when they created
     private string record;//用于計算每日記錄，并寫入到prefab里
+
+    //TimeSpan dr = new TimeSpan(); //hold every duration        
+    //string tempDailyTS = ""; // hold duration of a whole day
 
     //variables use for delete record
     public GameObject panelRecordDeleteCheck, buttonRDDelete, buttonRDCancelDelete;
@@ -451,6 +455,7 @@ public class Records_Panel : MonoBehaviour
                 break;
         }
     }
+
     public void OpenPanelDeleteRecord()
     {
         panelRecordDeleteCheck.SetActive(true);
@@ -469,6 +474,24 @@ public class Records_Panel : MonoBehaviour
 
     public void DeleteRecord()
     {
+        switch (buttonType)
+        {
+            case 0:
+                {
+                    sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].CalculateDuration());
+                }
+                break;
+            case 1:
+                {
+                    sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].Number);
+                }
+                break;
+            case 2:
+                {
+                    //sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].要減的Poo 和wee NUM); //待修改
+                }
+                break;
+        }        
         sourceList.RemoveAt(deleteIndex);
         Main_Menu.menu.Save();
         ClosePanelDeleteRecord();

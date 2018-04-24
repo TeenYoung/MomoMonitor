@@ -20,6 +20,7 @@ public class Button_Entry : MonoBehaviour {
     private TimeSpan duration;
     private TimeSpan todayDuration, timeSpanFromLastTime;
     private int number, todayAmount, todayWee, todayPoo;
+    private int deleteIndex;
 
 
 
@@ -71,6 +72,7 @@ public class Button_Entry : MonoBehaviour {
         }
 
     }
+
 
     void CalculateAndShowSUM(int buttonType)
     {
