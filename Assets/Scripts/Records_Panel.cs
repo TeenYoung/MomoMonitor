@@ -14,10 +14,6 @@ public class Records_Panel : MonoBehaviour
     public GameObject buttonEntry;
     private List<Entry> sourceList;
 
-    //private List<string> records;//every member keep the records in the same day
-    //private string tempRecord;   // 暫時存儲每條記錄
-    //public Dictionary<string, List<string>> daysOfRecords = new Dictionary<string, List<string>>();
-
     //variables of records prefab to show records
     public GameObject textSingleRecordPrefab, buttonSingleRecordPrefab, recordsView, buttonLoadMore;
 
@@ -26,9 +22,6 @@ public class Records_Panel : MonoBehaviour
     private int everyClickAddContentNum = 7, contentsNumTotal; //when every click LoadMore Button, change num to N to see N more days of records 
     private GameObject gob;// to hold prefab when they created
     private string record;//用于計算每日記錄，并寫入到prefab里
-
-    //TimeSpan dr = new TimeSpan(); //hold every duration        
-    //string tempDailyTS = ""; // hold duration of a whole day
 
     //variables use for delete record
     public GameObject panelRecordDeleteCheck, buttonRDDelete, buttonRDCancelDelete;
@@ -148,7 +141,6 @@ public class Records_Panel : MonoBehaviour
         }
         for (int i = startFromIndex; i < sourceList.Count; i++)
         {
-            //print(sourceList.Count);
             if (i == 0 || sourceList[i - 1].EndTime.Date != sourceList[i].StartTime.Date)
             {
                 newdayBegin = true;
@@ -436,7 +428,7 @@ public class Records_Panel : MonoBehaviour
     //first time show records in 7 days,and every click at load more show records of 7(everyClickAddContentNum) more days 
     public void LoadMoreRecord() 
     {
-        contentsNumTotal = initialContentNum + everyClickAddContentNum;
+        //contentsNumTotal = initialContentNum + everyClickAddContentNum;
         initialContentNum += everyClickAddContentNum;
         ShowRecords();
     }

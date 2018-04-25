@@ -10,10 +10,10 @@ public class Panel_Calendar : MonoBehaviour {
     public Text month;
     public List<GameObject> days;
     public GameObject calendarDayPrefab, gameObjectDays, panelLogs;
-    public GameObject buttonPreviousMonth, buttonNextMonthButton, buttonBackToToday, buttonSeeAllLogs;
+    public GameObject buttonBackToToday, buttonSeeAllLogs;
 
-    private DateTime today, dateTime_babyBirth;// = new DateTime(2018,04,17);
-    private int  monthTemp, dayTemp, daysInMonths, yearTemp, firstDayIndex;
+    private DateTime dateTime_babyBirth;
+    private int  monthTemp, daysInMonths, yearTemp, firstDayIndex;
     private string babyBirth, weekOfFirstDay;
 
     List<Log> logs = new List<Log>();
@@ -21,9 +21,7 @@ public class Panel_Calendar : MonoBehaviour {
 
     public void Start()
     {
-        today = DateTime.Now;
         babyBirth = PlayerPrefs.GetString("babyBirth");
-        //print(babyBirth);
 
         //conver birthday formate from string to datetime
         if (babyBirth != "")
@@ -31,8 +29,6 @@ public class Panel_Calendar : MonoBehaviour {
                 "ddMMyyyy HHmm",
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
         else dateTime_babyBirth = new DateTime(1900, 02, 02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
-        //BackToDay(DateTime.Now.Year,DateTime.Now.Month);
-        //BackToCertainDay(DateTime.Now);
         BackToToday();
     }
 
@@ -47,7 +43,6 @@ public class Panel_Calendar : MonoBehaviour {
                 "ddMMyyyy HHmm",
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
         else dateTime_babyBirth = new DateTime(1900, 02, 02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
-        //BackToDay(DateTime.Now.Year,DateTime.Now.Month);
         SetDays(date.Year,date.Month);
         monthTemp = date.Month;
         yearTemp = date.Year;
@@ -88,17 +83,20 @@ public class Panel_Calendar : MonoBehaviour {
         SetDays(yearTemp, monthTemp);
     }
 
-    //public void BackToDay(int year,int month) //button BackToToday
-    //{
-    //    dayTemp = DateTime.Now.Day;
-    //    monthTemp = month;
-    //    yearTemp = year;
-    //    SetDays(yearTemp, monthTemp);
-    //}
+    public void ToNextYear()
+    {
+        yearTemp++;
+        SetDays(yearTemp, monthTemp);
+    }
+
+    public void ToPreviousYear()
+    {
+        yearTemp--;
+        SetDays(yearTemp, monthTemp);
+    }
 
     public void BackToToday() //button BackToToday
     {
-        dayTemp = DateTime.Now.Day;
         monthTemp = DateTime.Now.Month;
         yearTemp = DateTime.Now.Year;
         SetDays(yearTemp, monthTemp);
