@@ -266,14 +266,17 @@ public class Button_Entry : MonoBehaviour {
             {
                 lastEntry = entrys[entrys.Count - 1];
 
-                if (entry.EndTime != new DateTime() && entry.EndTime >= lastEntry.EndTime)
-                {
-                    timeSpanFromLastTime = DateTime.Now.Subtract(entry.EndTime);
-                }
-                else
-                {
+                //if (entry.EndTime != new DateTime() && entry.EndTime >= lastEntry.EndTime)
+                //{
+                //    timeSpanFromLastTime = DateTime.Now.Subtract(entry.EndTime);
+                //}
+                //else
+                //{
+                //    timeSpanFromLastTime = DateTime.Now.Subtract(lastEntry.EndTime);
+                //}
+
                     timeSpanFromLastTime = DateTime.Now.Subtract(lastEntry.EndTime);
-                }
+
 
                 text_Property.text = Main_Menu.menu.FormatTimeSpan(timeSpanFromLastTime) + " ago";
                 
