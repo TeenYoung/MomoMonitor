@@ -24,6 +24,8 @@ public class Histogram : MonoBehaviour {
         LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
         LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
+        LayoutBarContents(Main_Menu.menu.playList, 90, Main_Menu.menu.colors[4]);
+
         LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
 
     }
@@ -42,6 +44,14 @@ public class Histogram : MonoBehaviour {
         LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
     }
+
+    public void ShowPlayOnly()
+    {
+        ClearChild();
+        LayoutDaysOfWeek();
+        LayoutBarContents(Main_Menu.menu.playList, 90, Main_Menu.menu.colors[4]);
+    }
+
 
     public void ShowFeedOnly()
     {
@@ -66,15 +76,16 @@ public class Histogram : MonoBehaviour {
         for (int i = 0; i < 25; i++)
         {
             GameObject numberTS = Instantiate(number_TimeScalePrefab, gameObject.transform);
-            numberTS.GetComponent<RectTransform>().localPosition = new Vector3(0, i * -60.0F, 0);
-            numberTS.GetComponent<Text>().text = i.ToString();
+            numberTS.GetComponent<RectTransform>().localPosition = new Vector3(-460, i * -60.0f + 800f , 0);
+            if (i < 13) numberTS.GetComponent<Text>().text = i.ToString();
+            else numberTS.GetComponent<Text>().text = (i - 12).ToString();
 
             if (i % 3 == 0)
             {
                 numberTS.GetComponent<Text>().fontSize = 30;
                 numberTS.GetComponent<Text>().fontStyle = FontStyle.Bold;
                 GameObject gridline = Instantiate(gridlinePrefab, gameObject.transform);
-                gridline.GetComponent<RectTransform>().localPosition = new Vector3(470, i * -60.0F, 0);
+                gridline.GetComponent<RectTransform>().localPosition = new Vector3(10, i * -60.0f +800f, 0);
             }
         }
     }
