@@ -288,32 +288,17 @@ public class Button_Entry : MonoBehaviour {
         }
     }
 
-    //public void ShowTodayAmount()
-    //{        
-    //    text_Title.text = titlePast + " " + Main_Menu.menu.FormatTimeSpan(todayDuration);        
-    //}
-
     public void ShowTodayAmount(TimeSpan duration)
     {
         todayDuration += duration;
         text_Title.text = String.Format("{0} {1}", titlePast, Main_Menu.menu.FormatTimeSpan(todayDuration));
     }
 
-    //public void UpdateTotalNumber()
-    //{
-    //    text_Title.text = titlePast + " " + todayAmount + " " + unit;
-    //}
-
     public void ShowTodayAmount(int amount)
     {
         todayAmount += amount;
         text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
     }
-
-    //public void UpdateTotalNappy()
-    //{
-    //    text_Title.text = String.Format("Wee {0}   Poo {1}", totalWee, totalPoo);
-    //}
 
     public void ShowTodayAmount(bool isWee, bool isPoo)
     {
@@ -322,6 +307,16 @@ public class Button_Entry : MonoBehaviour {
 
         text_Title.text = String.Format("Wee {0}   Poo {1}", todayWee, todayPoo);
     }
+
+    public void SubtractTodayAmount(bool isWee, bool isPoo)
+    {
+        if (isWee) todayWee--;
+        if (isPoo) todayPoo--;
+
+        text_Title.text = String.Format("Wee {0}   Poo {1}", todayWee, todayPoo);
+    }
+
+
 
 }
 

@@ -328,7 +328,7 @@ public class Records_Panel : MonoBehaviour
     {
         string wee, poo;
         record = "";
-        int tempTotal = 0;
+        int tempWee = 0, tempPoo = 0;
         foreach (GameObject contents in contents) Destroy(contents);
         bool newdayBegin = false;
         int startFromIndex = 0;
@@ -347,15 +347,16 @@ public class Records_Panel : MonoBehaviour
 
             if (sourceList[i].Poo) poo = "Poo";
             else poo = "";                      
-            tempTotal += sourceList[i].Number;
+            if (sourceList[i].Wee) tempWee++;
+            if (sourceList[i].Poo) tempPoo++;
 
             if (i == 0 || sourceList[i - 1].StartTime.Date != sourceList[i].StartTime.Date)
             {
                 newdayBegin = true;
-                if (tempTotal != 0 && newdayBegin) //show total amount when a new day begins
+                if (tempWee != 0 && tempPoo != 0 && newdayBegin) //show total amount when a new day begins
                 {
-                    record = "\n total amount : " + tempTotal + sourceButtonUnit;
-                    tempTotal = 0;
+                    record = String.Format("total  wee {0} Poo {1}", tempWee, tempPoo);
+                    tempWee = 0; tempPoo = 0;
                     AddTextSingleRecordPrefab();
                 }
             }
@@ -371,13 +372,14 @@ public class Records_Panel : MonoBehaviour
             {
                 record = string.Format("{0}   {1}{2}", sourceList[i].EndTime.ToShortTimeString(), wee, poo);                
                 AddButtonSingleRecordPrefab(i);
-                tempTotal += sourceList[i].Number;
+                if (sourceList[i].Wee) tempWee++;
+                if (sourceList[i].Poo) tempPoo++;
             }
             //print date and total num for last record if date changes but no new record add 
             if (i == sourceList.Count - 1 && sourceList[i].EndTime.Date != DateTime.Now.Date)
             {
-                record = "\n total amount : " + tempTotal + sourceButtonUnit;
-                tempTotal = 0;
+                record = String.Format("total  wee {0} Poo {1}", tempWee, tempPoo);
+                tempWee = 0; tempPoo = 0;
                 AddTextSingleRecordPrefab();
                 record = "\n --------------------" + DateTime.Now.ToString("d")
                     + "-------------------- \n";
@@ -488,7 +490,8 @@ public class Records_Panel : MonoBehaviour
                 break;
             case 2:
                 {
-                    //sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].要減的Poo 和wee NUM); //待修改
+                    sourceButton.GetComponent<Button_Entry>().SubtractTodayAmount(sourceList[deleteIndex].Wee, sourceList[deleteIndex].Poo);
+
                 }
                 break;
         }        
