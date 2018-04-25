@@ -317,9 +317,6 @@ public class Button_Entry : MonoBehaviour {
 
         text_Title.text = String.Format("Wee {0}   Poo {1}", todayWee, todayPoo);
     }
-
-
-
 }
 
 // intergrate timer, counter and nappy into this class

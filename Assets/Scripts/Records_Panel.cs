@@ -47,65 +47,7 @@ public class Records_Panel : MonoBehaviour
         gameObject.SetActive(false);
         panelRecordDeleteCheck.SetActive(false);
         initialContentNum = 6;
-    }
-
-    //public void SetRecordsText(int num)
-    //{
-    //    foreach (GameObject contents in contents) Destroy(contents);
-    //    GameObject gob;
-    //    //if (daysOfRecords.Count <= num)
-    //    //{
-    //    //    for (int i = daysOfRecords.Count-1 ; i >= 0 ; i--)
-    //    //    {
-    //    //        List<string> tempRecords = new List<string>();
-    //    //        string dayRecordTemp;
-    //    //        dayRecordTemp = DateTime.Now.AddDays(-i).ToString();
-    //    //        daysOfRecords.TryGetValue(dayRecordTemp, out tempRecords);
-    //    //        print(tempRecords[0]);
-    //    //        for(int j = 0; j < tempRecords.Count; j++)
-    //    //        {
-    //    //            gob = Instantiate(recordTextPrefab, recordsView.transform);
-    //    //            gob.gameObject.GetComponent<Text>().text = tempRecords[j].ToString();
-    //    //            contents.Add(gob);
-    //    //        }   
-    //    //    }
-    //    //}
-    //    //else if (daysOfRecords.Count > num)
-    //    //{
-    //    //    for (int i = 0; i < num; i++)
-    //    //    {
-    //    //        List<string> tempRecords = new List<string>();
-    //    //        daysOfRecords.TryGetValue(DateTime.Now.Date.ToString(), out tempRecords);
-    //    //        for (int j = 0; j < tempRecords.Count; j++)
-    //    //        {
-    //    //            gob = Instantiate(recordTextPrefab, recordsView.transform);
-    //    //            gob.gameObject.GetComponent<Text>().text = tempRecords[j].ToString();
-    //    //            contents.Add(gob);
-    //    //        }
-    //    //    }
-    //    //}
-
-    //    if (records.Count <= num)
-    //    {
-    //        for (int i = 0; i < records.Count; i++)
-    //        {
-    //            gob = Instantiate(recordTextPrefab, recordsView.transform);
-    //            gob.gameObject.GetComponent<Text>().text = records[i].ToString();
-    //            contents.Add(gob);
-    //        }
-    //    }
-    //    else if (records.Count > num)
-    //    {
-    //        int j = records.Count - num;
-    //        for (int i = 0; i < num; i++)
-    //        {
-    //            gob = Instantiate(recordTextPrefab, recordsView.transform);
-    //            gob.gameObject.GetComponent<Text>().text = records[j].ToString();
-    //            contents.Add(gob);
-    //            j++;
-    //        }
-    //    }
-    //}
+    }    
 
     public void AddButtonSingleRecordPrefab(int index)  //add record with timer detail
     {
@@ -188,82 +130,7 @@ public class Records_Panel : MonoBehaviour
         }
         HideButtonLoadMore();
     }
-
-    //void ShowTimerRecords() //records里的每一元素為每一天的記錄
-    //{
-    //    tempRecord = "";
-    //    record = "";
-    //    //record = "\n --------------------  --------------------\n";
-    //    records.Clear();
-    //    bool newdayBegin = false;
-    //    int j = 0;
-    //    TimeSpan dr = new TimeSpan(); //傳遞計算縂時長        
-    //    for (int i = 0; i < sourceList.Count; i++)
-    //    {
-    //        //if(newdayBegin)record = " --------------------" + sourceList[i].StartTime.Date.ToShortDateString() + "  --------------------\n";
-    //        tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
-    //        if (sourceList[i].EndTime != new DateTime())
-    //        {
-    //            tempRecord += sourceList[i].EndTime.ToShortTimeString() + "     Duration:"
-    //                + Main_Menu.menu.FormatTimeSpan(sourceList[i].CalculateDuration()) + "\n";
-    //            dr += sourceList[i].CalculateDuration();
-    //        }
-    //        record += tempRecord;
-    //        tempDailyTS = Main_Menu.menu.FormatTimeSpan(dr); //記錄當日縂時長
-
-    //        // if date changes 將前一日記錄賦給records，records內的記錄從index=0的元素起，日期依次增長index越大，日期越接近now
-    //        if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
-    //            && sourceList[i].StartTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date)
-    //        {
-    //            record = record + "\n total duration : " + tempDailyTS + "\n"; //在輸出次日日期前輸入當日縂時長
-    //            record = record + "\n -------------------- " +
-    //               sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-    //            records.Insert(j, record);
-    //            j++;
-    //            tempRecord = "";
-    //            record = "";
-    //            dr = new TimeSpan();
-    //        }
-    //        if (i == sourceList.Count - 1 && !newdayBegin)
-    //        {
-    //            tempRecord = sourceList[i].StartTime.ToShortTimeString() + " ~ ";
-    //            records.Insert(j, record); //將未結束的當天記錄計入records
-    //        }
-    //    }
-    //}
-
-    //void ShowCounterRecords() //records里的每一元素為每一天的記錄
-    //{
-    //    tempRecord = "";
-    //    record = "";
-    //    records.Clear();
-
-    //    int j = 0;
-    //    int tempTotal = 0;
-    //    for (int i = 0; i < sourceList.Count; i++)
-    //    {
-    //        tempRecord = sourceList[i].EndTime.ToShortTimeString() + "  " + sourceList[i].Number + sourceButton.GetComponent<Button_Entry>().unit + "\n";
-    //        record += tempRecord;
-    //        tempTotal += sourceList[i].Number;
-
-    //        //將前一日記錄賦給records，records內的記錄從index = 0的元素起，日期依次增長index越大，日期越接近now
-    //        if (sourceList.IndexOf(sourceList[i]) != sourceList.Count - 1
-    //            && sourceList[i].EndTime.Date != sourceList[sourceList.IndexOf(sourceList[i]) + 1].EndTime.Date)
-    //        {
-    //            record = record + "\n total amount : " + tempTotal + sourceButtonUnit + "\n"; //在輸出次日日期前輸入當日縂量
-    //            record = record + "-------------------- " +
-    //              sourceList[sourceList.IndexOf(sourceList[i]) + 1].StartTime.Date.ToShortDateString() + " --------------------\n";
-    //            records.Insert(j, record);
-    //            print("records[j]" + j + records[j]);
-    //            j++;
-    //            tempRecord = "";
-    //            record = "";
-    //            tempTotal = 0;
-    //        }
-    //        if (i == sourceList.Count - 1) records.Insert(j, record);
-    //    }
-    //}
-
+   
     void ShowCounterRecords() 
     {
         record = "";
@@ -444,8 +311,8 @@ public class Records_Panel : MonoBehaviour
         {
             case 0:
                 {
-                    sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].CalculateDuration());
-
+                    if(sourceButton.GetComponent<Button_Entry>().timing)sourceButton.GetComponent<Button_Entry>().TimerOnClick();
+                    sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].CalculateDuration());                    
                 }
                 break;
             case 1:

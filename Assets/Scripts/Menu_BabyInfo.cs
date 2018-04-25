@@ -8,8 +8,7 @@ using UnityEngine.UI;
 
 public class Menu_BabyInfo : MonoBehaviour {
 
-    public GameObject Panel_BabyInfoInitialization,
-        Panel_BabyInfo;
+    public GameObject Panel_BabyInfoInitialization,Panel_BabyInfo;
     public Text Text_Name, Text_BirthNum, Text_GenderInfo, Text_Weight, Text_Height;
     public Button Button_ResetBabyInfo;
     public DateTime DateTime_babyBirth;
@@ -57,7 +56,7 @@ public class Menu_BabyInfo : MonoBehaviour {
         //output birth in format "dd/MM/yyyy HH:mm", and MM show in character
         Text_BirthNum.text = DateTime_babyBirth.ToString("dd ")
             + DateTime_babyBirth.ToString("MMM", new CultureInfo("en-us")).Substring(0, 3)
-            + DateTime_babyBirth.ToString(" yyyy ")
+            + DateTime_babyBirth.ToString(" yyyy ") + "\n"
             + DateTime_babyBirth.ToString("HH:mm");
 
         //count and output baby's age
