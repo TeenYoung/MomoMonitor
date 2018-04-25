@@ -79,8 +79,12 @@ public class Menu_BabyInfo : MonoBehaviour {
 
         string babyGender = PlayerPrefs.GetString("babyGender");
         Text_GenderInfo.text = babyGender;
-        if(babyGender == "boy")
-        Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = boyPortrait;
+        if (babyGender == "boy")
+        {
+            Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = boyPortrait;
+            //Panel_BabyInfo.GetComponent<Image>().color = new Color(0.141f,0.349f,0.537f,1);
+        }
+        
         else Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = girlPortrait;
 
         Panel_BabyInfo.gameObject.SetActive(true);
