@@ -82,7 +82,6 @@ public class Panel_Logs : MonoBehaviour {
         panelLogEditor.SetActive(false);
         panelCalendar.GetComponent<Panel_Calendar>().BackToCertainDay(date);
         panelCalendar.SetActive(true);
-        //textLogDetail.text = "";
     }
 
     public void OpenPanelLogChoose()
@@ -104,25 +103,17 @@ public class Panel_Logs : MonoBehaviour {
     {
         for(int i = logs.Count-1; i >= 0; i--)
         {
-            if (logDetailDelete == logs[i].Detail)
-            {
-                //DateTime dateOfDeleteTemp = logs[i].Date;
-                logs.RemoveAt(i);
-            }            
+            if (logDetailDelete == logs[i].Detail)logs.RemoveAt(i);
         }
         ClosePanelLogDeleteCheck();
         BackToCalendar();
     }
-    //public void GetSourceButton(GameObject sourceButton)
-    //{
-    //    sourceDayButton = sourceButton;
-    //}
 
     public void ClickAddLogs(GameObject logButton)  //add log button點擊通用,設if 判斷切換打開的editor 樣式,note，growth,reminder等；
     {
         gameObject.SetActive(true);
         SaveLog(logButton);
-        if (logButton == buttonAddNote)    //增加note記錄
+        if (logButton == buttonAddNote)    //note
         {
             panelLogEditor.gameObject.SetActive(true);
             panelCalendar.SetActive(false);
@@ -130,13 +121,15 @@ public class Panel_Logs : MonoBehaviour {
             inputFieldLog.Select();
         }
 
-        if (logButton == buttonAddReminder)
+        if (logButton == buttonAddReminder)  //reminder
         {
             logType = "reminder";
         }
 
-        if (logButton == buttonAddGrowth)
+        if (logButton == buttonAddGrowth)  //growth
         {
+            panelLogEditor.gameObject.SetActive(true);
+            panelCalendar.SetActive(false);
             logType = "growth";
         }
     }
@@ -150,11 +143,8 @@ public class Panel_Logs : MonoBehaviour {
         if(logTemp.Detail!="")
         logs.Add(logTemp);//設一個log class 内含date，type，detail等properties，儲存時按照type分別存爲不同list
         panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
-        //sourceDayButton.GetComponent<Button_CalendarDay>().GetLogs(logs); //把記錄傳入button calendardays
-        //panelCalendar.GetComponent<Panel_Calendar>().SetDays(date.Year,date.Month);
         BackToCalendar();
         panelLogEditor.GetComponent<Panel_LogEditor>().GetLog(logTemp);
-        //sourceDayButton.GetComponent<Button_CalendarDay>().SaveLogs(logType, inputFieldNote.text.ToString());
         inputFieldLog.text = "";
     }
 
