@@ -30,21 +30,8 @@ public class Button_Entry : MonoBehaviour {
         //load last entry
         entrys = Main_Menu.menu.entryLists[gameObject.name];
 
+        RefreshTexts();
 
-        //load total duration and update it
-        if (entrys.Count != 0)
-        {
-            entry = entrys[entrys.Count - 1];
-
-            CalculateAndShowSUM(buttonType);
-        }
-        else
-        {
-            entry = new Entry();
-            text_Title.text = title;
-        }
-
-        //a switch case needed here
         //determing and change the status of timer
         if (entry.StartTime != new DateTime() && entry.EndTime == new DateTime()) timing = true;
         else timing = false;
@@ -73,10 +60,27 @@ public class Button_Entry : MonoBehaviour {
 
     }
 
+    public void RefreshTexts()
+    {
+        //load total duration and update it
+        if (entrys.Count != 0)
+        {
+            entry = entrys[entrys.Count - 1];
+
+            CalculateAndShowSUM(buttonType);
+        }
+        else
+        {
+            entry = new Entry();
+            text_Title.text = title;
+        }
+    }
 
     void CalculateAndShowSUM(int buttonType)
     {
-        lastEntry = entrys[entrys.Count - 1];
+        //lastEntry = entrys[entrys.Count - 1];
+        todayDuration = new TimeSpan();
+        todayAmount = 0; todayPoo = 0; todayWee = 0;
 
         switch (buttonType)
         {
@@ -304,14 +308,6 @@ public class Button_Entry : MonoBehaviour {
     {
         if (isWee) todayWee++;
         if (isPoo) todayPoo++;
-
-        text_Title.text = String.Format("Wee {0}   Poo {1}", todayWee, todayPoo);
-    }
-
-    public void SubtractTodayAmount(bool isWee, bool isPoo)
-    {
-        if (isWee) todayWee--;
-        if (isPoo) todayPoo--;
 
         text_Title.text = String.Format("Wee {0}   Poo {1}", todayWee, todayPoo);
     }

@@ -307,29 +307,13 @@ public class Records_Panel : MonoBehaviour
 
     public void DeleteRecord()
     {
-        switch (buttonType)
-        {
-            case 0:
-                {
-                    if(sourceButton.GetComponent<Button_Entry>().timing)sourceButton.GetComponent<Button_Entry>().TimerOnClick();
-                    sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].CalculateDuration());                    
-                }
-                break;
-            case 1:
-                {
-                    sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].Number);
-                }
-                break;
-            case 2:
-                {
-                    sourceButton.GetComponent<Button_Entry>().SubtractTodayAmount(sourceList[deleteIndex].Wee, sourceList[deleteIndex].Poo);
-                }
-                break;
-        }        
         sourceList.RemoveAt(deleteIndex);
         Main_Menu.menu.Save();
         ClosePanelDeleteRecord();
         ShowRecords();
+
+        sourceButton.GetComponent<Button_Entry>().RefreshTexts();
+
     }
 }    
 
