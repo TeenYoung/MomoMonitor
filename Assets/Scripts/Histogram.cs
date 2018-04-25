@@ -21,13 +21,7 @@ public class Histogram : MonoBehaviour {
 
 
         LayoutTimeScale();
-        LayoutDaysOfWeek();
-        LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
-        LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
-        LayoutBarContents(Main_Menu.menu.playList, 90, Main_Menu.menu.colors[4]);
-
-        LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
-
+        ShowAll();
     }
 
     void ClearChild()
@@ -67,6 +61,7 @@ public class Histogram : MonoBehaviour {
         LayoutDaysOfWeek();
         LayoutBarContents(Main_Menu.menu.sleepList, 120, Main_Menu.menu.colors[1]);
         LayoutBarContents(Main_Menu.menu.breastfeedList, 60, Main_Menu.menu.colors[0]);
+        LayoutBarContents(Main_Menu.menu.playList, 90, Main_Menu.menu.colors[4]);
         LayoutIconContents(Main_Menu.menu.bottlefeedList, 60);
 
     }
