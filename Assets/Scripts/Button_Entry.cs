@@ -163,14 +163,12 @@ public class Button_Entry : MonoBehaviour {
     {
         if (timing)
         {
-
             timing = false;
 
             imageTiming.SetActive(false);
             imageNotTiming.SetActive(true);
 
-            entry.EndTime = DateTime.Now;
-            
+            entry.EndTime = DateTime.Now;            
 
             entrys.RemoveAt(entrys.Count - 1);
 
@@ -201,8 +199,6 @@ public class Button_Entry : MonoBehaviour {
 
             //calculate and show total duration
             ShowTodayAmount(duration);
-
-
         }
         else
         {
@@ -221,7 +217,6 @@ public class Button_Entry : MonoBehaviour {
             Main_Menu.menu.Save();
 
             text_Title.text = title + "ing";
-
         }
     }
 

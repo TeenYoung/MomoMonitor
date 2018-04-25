@@ -18,8 +18,6 @@ public class Menu_BabyInfo : MonoBehaviour {
     private string babyName, babyBirth, babyGender;
     private TimeSpan TimeSpan_babyAge;
     private string status;
-    //private Text Text_BirthHour, Text_BirthMinute, Text_Birth,
-    //   Text_BirthDay, Text_BirthMonth, Text_BirthYear;
 
 
     //Use this for initialization
@@ -45,13 +43,11 @@ public class Menu_BabyInfo : MonoBehaviour {
                 
         //read birth saving
         babyBirth = PlayerPrefs.GetString("babyBirth");
-        //print(babyBirth);
         
         //conver birthday formate from string to datetime
         DateTime_babyBirth = DateTime.ParseExact(babyBirth, 
             "ddMMyyyy HHmm",
             CultureInfo.InvariantCulture, DateTimeStyles.None);
-        //print(DateTime_babyBirth.ToString());
 
         //output birth in format "dd/MM/yyyy HH:mm", and MM show in character
         Text_BirthNum.text = DateTime_babyBirth.ToString("dd ")
@@ -84,7 +80,6 @@ public class Menu_BabyInfo : MonoBehaviour {
         if(babyGender == "boy")
         Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = boyPortrait;
         else Panel_BabyInfo.transform.Find("Image").GetComponent<Image>().sprite = girlPortrait;
-
 
         Panel_BabyInfo.gameObject.SetActive(true);
         Panel_BabyInfoInitialization.gameObject.SetActive(false);
