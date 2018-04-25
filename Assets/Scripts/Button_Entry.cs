@@ -116,7 +116,7 @@ public class Button_Entry : MonoBehaviour {
                 {
                     foreach (Entry entry in entrys)
                     {
-                        if (entry.EndTime.Date == lastEntry.EndTime.Date)
+                        if (entry.EndTime.Date == DateTime.Now.Date)
                         {
                             if (entry.Wee) todayWee++;
                             if (entry.Poo) todayPoo++;

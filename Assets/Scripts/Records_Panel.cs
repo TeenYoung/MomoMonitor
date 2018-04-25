@@ -445,6 +445,7 @@ public class Records_Panel : MonoBehaviour
             case 0:
                 {
                     sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(-sourceList[deleteIndex].CalculateDuration());
+
                 }
                 break;
             case 1:
@@ -455,7 +456,6 @@ public class Records_Panel : MonoBehaviour
             case 2:
                 {
                     sourceButton.GetComponent<Button_Entry>().SubtractTodayAmount(sourceList[deleteIndex].Wee, sourceList[deleteIndex].Poo);
-
                 }
                 break;
         }        
