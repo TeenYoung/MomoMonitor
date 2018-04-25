@@ -16,8 +16,8 @@ public class Histogram : MonoBehaviour {
 	void Start () {
         //locate the line of now
         lineNow = transform.Find("Timeline");
-        yNow = DateTime.Now.Hour * -60 - DateTime.Now.Minute;
-        lineNow.GetComponent<RectTransform>().localPosition = new Vector3(460, yNow, 0);
+        yNow = DateTime.Now.Hour * -60 - DateTime.Now.Minute + 800;
+        lineNow.GetComponent<RectTransform>().localPosition = new Vector3(0, yNow, 0);
 
 
         LayoutTimeScale();
