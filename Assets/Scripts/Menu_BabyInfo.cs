@@ -10,12 +10,14 @@ public class Menu_BabyInfo : MonoBehaviour {
 
     public GameObject Panel_BabyInfoInitialization,Panel_BabyInfo;
     public Text Text_Name, Text_BirthNum, Text_GenderInfo, Text_Weight, Text_Height;
-    public Button Button_ResetBabyInfo;
     public DateTime DateTime_babyBirth;
     public Sprite boyPortrait, girlPortrait;
-    public GameObject buttonAge;    
+    public GameObject buttonAge;
+    public InputField inputFieldGrowth;
+    public GameObject buttonHeight, buttonWeight;
 
-    private string babyName, babyBirth, babyGender;
+    private GameObject buttonGrowth;
+    private string babyBirth;
     private TimeSpan TimeSpan_babyAge;
     private string status;
 
@@ -93,6 +95,37 @@ public class Menu_BabyInfo : MonoBehaviour {
     {
         Panel_BabyInfo.gameObject.SetActive(false);
         Panel_BabyInfoInitialization.gameObject.SetActive(true);
+    }
+
+    public void AddGrowth(GameObject gobButton)
+    {   
+        inputFieldGrowth.gameObject.SetActive(true);
+        inputFieldGrowth.Select();
+        buttonGrowth = gobButton;
+        if(buttonGrowth == buttonWeight)inputFieldGrowth.placeholder.GetComponent<Text>().text = "Update weight ( Unit: kg):";
+        if(buttonGrowth == buttonHeight) inputFieldGrowth.placeholder.GetComponent<Text>().text = "Update height ( Unit: cm):";
+    } 
+
+    public void SaveGrowth()
+    {
+        if (buttonGrowth == buttonWeight)
+        {
+            Text_Weight.text = inputFieldGrowth.text;
+            PlayerPrefs.SetString("babyWeight", Text_Weight.text);
+        }
+        if (buttonGrowth == buttonHeight)
+        {
+            Text_Height.text = inputFieldGrowth.text;
+            PlayerPrefs.SetString("babyHeight", Text_Height.text);
+        } 
+        inputFieldGrowth.gameObject.SetActive(false);
+        inputFieldGrowth.text = "";
+    }
+
+    public void CancelGrowth()
+    {
+        inputFieldGrowth.gameObject.SetActive(false);
+        inputFieldGrowth.text = "";
     }
 
     public void ChangeAgeUnit()

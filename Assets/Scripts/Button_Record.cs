@@ -11,19 +11,14 @@ public class Button_Record : MonoBehaviour {
     public Button buttonManualInput;
     public GameObject scrollView;
 
-    //public GameObject contents;
-
     private Button_Entry button_Entry;
-
     private List<Entry> sourceList;
     private string records;
-
 
     private void Start()
     {
         button_Entry = sourceButton.GetComponent<Button_Entry>();
     }
-
     
     //to move out into a new .cs file
     public void OnClick()
