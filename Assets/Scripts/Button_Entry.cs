@@ -108,6 +108,7 @@ public class Button_Entry : MonoBehaviour {
                     }
 
                     if (todayAmount != 0) ShowTodayAmount(0);
+                    else text_Title.text = title;
                 }
                 break;
 
@@ -122,7 +123,8 @@ public class Button_Entry : MonoBehaviour {
                         }
                     }
 
-                    ShowTodayAmount(false, false);
+                    if (todayPoo!=0 || todayWee !=0) ShowTodayAmount(false, false);
+                    else text_Title.text = title;
 
                 }
                 break;
