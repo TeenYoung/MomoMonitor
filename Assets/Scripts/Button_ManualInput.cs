@@ -44,6 +44,8 @@ public class Button_ManualInput : MonoBehaviour {
 
                     pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
                     pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
+
+                    if (!sourceButton.GetComponent<Button_Entry>().timing)pI.button_Ongoing.SetActive(true);
                 }
                 break;
 

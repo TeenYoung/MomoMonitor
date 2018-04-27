@@ -24,7 +24,7 @@ public class Records_Panel : MonoBehaviour
     private string record;//用于計算每日記錄，并寫入到prefab里
 
     //variables use for delete record
-    public GameObject panelRecordDeleteCheck, buttonRDDelete, buttonRDCancelDelete;
+    public GameObject panelRecordDeleteCheck;// buttonRDDelete, buttonRDCancelDelete;
     public Text textChosenRecordToDelete;
     private int deleteIndex;
 
@@ -307,6 +307,9 @@ public class Records_Panel : MonoBehaviour
 
     public void DeleteRecord()
     {
+        if (buttonType == 0 && sourceList[deleteIndex].EndTime == new DateTime())
+            sourceButton.GetComponent<Button_Entry>().TimerOnClick();
+
         sourceList.RemoveAt(deleteIndex);
         Main_Menu.menu.Save();
         ClosePanelDeleteRecord();

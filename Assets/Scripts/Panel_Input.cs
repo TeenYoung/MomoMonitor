@@ -11,11 +11,12 @@ public class Panel_Input : MonoBehaviour {
     public Text text_Placeholder_1, text_Placeholder_2, text_Title_1, text_Title_2, text_Warning;
     public bool manualInputDateTime;
     public int sourceButtonType; //對應的sourceButtonType，從button manualinput傳入或button entry傳入
-    public GameObject recordsPanel;
+    //public GameObject recordsPanel;
+    public GameObject button_Ongoing;
 
     private string inputString_1, inputString_2;
     private Entry entry;
-    private Button_Entry sourceButtonEntry;
+    //private Button_Entry sourceButtonEntry;
    
     void Update()
     {
@@ -40,7 +41,7 @@ public class Panel_Input : MonoBehaviour {
         {
             case 0:
                 {
-                    InputTimer();
+                    InputTimer(false);
                 }
                 break;
 
@@ -58,40 +59,60 @@ public class Panel_Input : MonoBehaviour {
         }
     }
 
-    void InputTimer()
+    public void ButtonOngoingOnClick()
     {
-        entry = ManualAddEntry(inputString_1, inputString_2);
-        DateTime endTime = entry.EndTime;
+        inputString_1 = inputField_1.text;
 
-        if (entry != null)
+        InputTimer(true);
+
+        
+    }
+
+    void InputTimer(bool isOngoing)
+    {
+        if (isOngoing)
         {
-            TimeSpan dr = entry.CalculateDuration();
-            sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(dr);
+            entry = ManualAddEntry(inputString_1, true);
 
-            if (entry.StartTime.Date == entry.EndTime.Date)
+            if (entry != null)
             {
+                //TimeSpan dr = entry.CalculateDuration();
+                //sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(dr);
+
+                sourceButton.GetComponent<Button_Entry>().entry = entry;
+                sourceButton.GetComponent<Button_Entry>().SetTimingTitle();
+                sourceButton.GetComponent<Button_Entry>().timing = true;
+
                 SaveEntry();
                 ClosePanel();
+
             }
-
-            //如果手動添加時間可以跨過午夜，用此代碼來分割成兩個entry
-            //else if (entry.EndTime.Date - entry.StartTime.Date == new TimeSpan(1, 0, 0, 0))
-            //{
-            //    entry.EndTime = new DateTime(entry.StartTime.Year, entry.StartTime.Month, entry.StartTime.Day, 24, 0, 0);
-            //    SaveEntry();
-
-            //    entry.EndTime = endTime;
-            //    entry.StartTime = new DateTime(entry.EndTime.Year, entry.EndTime.Month, entry.EndTime.Day, 0, 0, 0);
-            //    SaveEntry();
-
-            //    ClosePanel();
-            //}
+            else
+            {
+                text_Warning.gameObject.SetActive(true);
+            }
 
         }
         else
         {
-            text_Warning.gameObject.SetActive(true);
+            entry = ManualAddEntry(inputString_1, inputString_2);
+
+            if (entry != null)
+            {
+                TimeSpan dr = entry.CalculateDuration();
+                sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(dr);
+
+                SaveEntry();
+                ClosePanel();
+
+            }
+            else
+            {
+                text_Warning.gameObject.SetActive(true);
+            }
+
         }
+
     }
 
     void InputCounter()
@@ -180,6 +201,28 @@ public class Panel_Input : MonoBehaviour {
         else return null;
     }
 
+    public Entry ManualAddEntry(string startTime, bool isOngoing)
+    {
+        if (startTime.Length == 4)
+        {
+            int statHr = Int32.Parse(startTime.Substring(0, 2));
+            int statMin = Int32.Parse(startTime.Substring(2));
+            Entry entry = new Entry();
+
+            if (statHr < 24 && statMin < 60 )
+            {
+                DateTime now = DateTime.Now;
+                entry.StartTime = new DateTime(now.Year, now.Month, now.Day, statHr, statMin, 0);
+
+                if (entry.StartTime < now) return entry;
+                else return null;
+            }
+            else return null;
+        }
+        else return null;
+    }
+
+
     public Entry ManualAddEntry(string endTime, int number)
     {
         if (endTime.Length == 4 && number > 0)
@@ -253,6 +296,7 @@ public class Panel_Input : MonoBehaviour {
         inputField_1.gameObject.SetActive(false);
         inputField_2.gameObject.SetActive(true);
         text_Warning.gameObject.SetActive(false);
+        button_Ongoing.SetActive(false);
 
         transform.Find("Wee_Button").gameObject.SetActive(false);
         transform.Find("Poo_Button").gameObject.SetActive(false);

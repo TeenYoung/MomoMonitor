@@ -14,9 +14,10 @@ public class Button_Entry : MonoBehaviour {
     public bool timing;
     public int babyAgeNum;
     public GameObject imageNotTiming, imageTiming;
+    public Entry entry;
 
-    private Entry entry, lastEntry;
-    private List<Entry> entrys;
+    private Entry lastEntry;
+    private List<Entry> entrys; 
     private TimeSpan duration;
     private TimeSpan todayDuration, timeSpanFromLastTime;
     private int number, todayAmount, todayWee, todayPoo;
@@ -208,8 +209,6 @@ public class Button_Entry : MonoBehaviour {
         {
             timing = true;
 
-            imageTiming.SetActive(true);
-            imageNotTiming.SetActive(false);
 
             entry = new Entry
             {
@@ -220,8 +219,15 @@ public class Button_Entry : MonoBehaviour {
             entrys.Add(entry);
             Main_Menu.menu.Save();
 
-            text_Title.text = title + "ing";
+            SetTimingTitle();
         }
+    }
+
+    public void SetTimingTitle()
+    {
+        imageTiming.SetActive(true);
+        imageNotTiming.SetActive(false);
+        text_Title.text = title + "ing";
     }
 
     public void CounterOnClick()
