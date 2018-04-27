@@ -19,7 +19,9 @@ public class Records_Panel : MonoBehaviour
     //public Dictionary<string, List<string>> daysOfRecords = new Dictionary<string, List<string>>();
 
     //variables of records prefab to show records
-    public GameObject textSingleRecordPrefab, buttonSingleRecordPrefab, recordsView;
+    public GameObject textSingleRecordPrefab, buttonSingleRecordPrefab, recordsView, buttonLoadMore;
+
+    private int startFromIndex = 0;
     private int initialContentNum = 6; //change num to N to see N+1 days of records when the first time records panel be loaded 
     private int everyClickAddContentNum = 7, contentsNumTotal; //when every click LoadMore Button, change num to N to see N more days of records 
     private GameObject gob;// to hold prefab when they created
@@ -36,9 +38,9 @@ public class Records_Panel : MonoBehaviour
     // Use this for initialization at every time when this panel be called
     void OnEnable()
     {
-        //records = new List<string>();
         sourceList = Main_Menu.menu.entryLists[name];
         ShowRecords();
+        HideButtonLoadMore();
     }
 
     // Update is called once per frame
@@ -135,7 +137,7 @@ public class Records_Panel : MonoBehaviour
         string tempDailyTS = ""; // hold duration of a whole day
         foreach (GameObject contents in contents) Destroy(contents);
         bool newdayBegin = false;
-        int startFromIndex = 0;
+        startFromIndex = 0;
         for (int i = 0; i < sourceList.Count; i++) //get the first records index based on initialContentNum
         {
             if (sourceList[i].StartTime.Date == DateTime.Today.AddDays(-initialContentNum).Date)
@@ -159,8 +161,8 @@ public class Records_Panel : MonoBehaviour
             }
             if (newdayBegin) //show date line when new days begins
             {
-                record = "\n --------------------" + sourceList[i].StartTime.ToString("d")
-                    + "-------------------- \n";
+                record = "\n ----------------------" + sourceList[i].StartTime.ToString("d")
+                    + "---------------------- \n";
                 AddTextSingleRecordPrefab();
                 newdayBegin = false;
                 record = "";
@@ -186,12 +188,13 @@ public class Records_Panel : MonoBehaviour
                 record = "\n total duration : " + tempDailyTS; //input duration of last day
                 dr = new TimeSpan();
                 AddTextSingleRecordPrefab();
-                record = "\n --------------------" + DateTime.Now.ToString("d") 
-                    + "-------------------- \n";//show time line of today
+                record = "\n ----------------------" + DateTime.Now.ToString("d") 
+                    + "---------------------- \n";//show time line of today
                 AddTextSingleRecordPrefab();
                 record = "";
             }
         }
+        HideButtonLoadMore();
     }
 
     //void ShowTimerRecords() //records里的每一元素為每一天的記錄
@@ -275,7 +278,7 @@ public class Records_Panel : MonoBehaviour
         int tempTotal = 0;
         foreach (GameObject contents in contents) Destroy(contents);
         bool newdayBegin = false;
-        int startFromIndex = 0;
+        startFromIndex = 0;
         for (int i = 0; i < sourceList.Count; i++)
         {
             if (sourceList[i].StartTime.Date == DateTime.Today.AddDays(-initialContentNum).Date)
@@ -291,15 +294,15 @@ public class Records_Panel : MonoBehaviour
                 newdayBegin = true;
                 if (tempTotal != 0 && newdayBegin)
                 {
-                    record = "\n total amount : " + tempTotal + sourceButtonUnit ;
+                    record = "\n total amount : " + tempTotal + sourceButtonUnit;
                     tempTotal = 0;
                     AddTextSingleRecordPrefab();
                 }
             }
             if (newdayBegin)
             {
-                record = "\n --------------------" + sourceList[i].StartTime.ToString("d")
-                    + "-------------------- \n";
+                record = "\n ----------------------" + sourceList[i].StartTime.ToString("d")
+                    + "---------------------- \n";
                 AddTextSingleRecordPrefab();
                 newdayBegin = false;
                 record = "";
@@ -316,12 +319,13 @@ public class Records_Panel : MonoBehaviour
                 record = "\n total amount : " + tempTotal + sourceButtonUnit ;
                 tempTotal = 0;
                 AddTextSingleRecordPrefab();
-                record = "\n --------------------" + DateTime.Now.ToString("d")
-                    + "-------------------- \n";
+                record = "\n ----------------------" + DateTime.Now.ToString("d")
+                    + "---------------------- \n";
                 AddTextSingleRecordPrefab();
                 record = "";
             }
         }
+        HideButtonLoadMore();
     }
 
     void ShowNappyRecords()
@@ -331,7 +335,7 @@ public class Records_Panel : MonoBehaviour
         int tempWee = 0, tempPoo = 0;
         foreach (GameObject contents in contents) Destroy(contents);
         bool newdayBegin = false;
-        int startFromIndex = 0;
+        startFromIndex = 0;
         for (int i = 0; i < sourceList.Count; i++)
         {
             if (sourceList[i].StartTime.Date == DateTime.Today.AddDays(-initialContentNum).Date)
@@ -362,8 +366,8 @@ public class Records_Panel : MonoBehaviour
             }
             if (newdayBegin) //show date line when new days begins
             {
-                record = "\n --------------------" + sourceList[i].StartTime.ToString("d") 
-                    + "-------------------- \n";
+                record = "\n ----------------------" + sourceList[i].StartTime.ToString("d") 
+                    + "---------------------- \n";
                 AddTextSingleRecordPrefab();
                 newdayBegin = false;
                 record = "";
@@ -381,12 +385,13 @@ public class Records_Panel : MonoBehaviour
                 record = String.Format("total  wee {0} Poo {1}", tempWee, tempPoo);
                 tempWee = 0; tempPoo = 0;
                 AddTextSingleRecordPrefab();
-                record = "\n --------------------" + DateTime.Now.ToString("d")
-                    + "-------------------- \n";
+                record = "\n ----------------------" + DateTime.Now.ToString("d")
+                    + "---------------------- \n";
                 AddTextSingleRecordPrefab();
                 record = "";
             }
         }
+        HideButtonLoadMore();
     }
 
     //void ShowNappyRecords()
@@ -434,6 +439,12 @@ public class Records_Panel : MonoBehaviour
         contentsNumTotal = initialContentNum + everyClickAddContentNum;
         initialContentNum += everyClickAddContentNum;
         ShowRecords();
+    }
+
+    public void HideButtonLoadMore()//when contain record last for 7 days,show Load More button 
+    {         
+        if (startFromIndex == 0) buttonLoadMore.SetActive(false);
+        else buttonLoadMore.SetActive(true);
     }
 
     public void ShowRecords()

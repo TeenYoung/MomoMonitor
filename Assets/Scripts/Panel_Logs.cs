@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Panel_Logs : MonoBehaviour {
-
     public GameObject panelCalendar, panelLogTypeChoose, panelLogEditor;
     public GameObject buttonBackToCalendar, buttonAddLogs, buttonShowAll,sourceDayButton;
     public GameObject buttonAddNote, buttonAddReminder, buttonAddGrowth;
