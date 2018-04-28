@@ -62,7 +62,6 @@ public class Panel_Input : MonoBehaviour {
     public void ButtonOngoingOnClick()
     {
         inputString_1 = inputField_1.text;
-
         InputTimer(true);
 
         
@@ -214,7 +213,9 @@ public class Panel_Input : MonoBehaviour {
                 DateTime now = DateTime.Now;
                 entry.StartTime = new DateTime(now.Year, now.Month, now.Day, statHr, statMin, 0);
 
-                if (entry.StartTime < now) return entry;
+                int count = Main_Menu.menu.entryLists[sourceButton.name].Count;
+                Entry lastEntry = Main_Menu.menu.entryLists[sourceButton.name][count - 1];
+                if (entry.StartTime < now && entry.StartTime > lastEntry.EndTime) return entry;
                 else return null;
             }
             else return null;
