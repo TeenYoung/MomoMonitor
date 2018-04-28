@@ -36,7 +36,7 @@ public class Button_CalendarDay : MonoBehaviour {
 
     public void ClickOpenPanelLogs()
     {
-        //panelLogs.GetComponent<Panel_Logs>().GetSourceButton(gameObject);
+        //panelLogs.GetComponent<Panel_Logs>().GetSourceButton(gameObject);        
         panelLogs.GetComponent<Panel_Logs>().GetButtonDate(date);
         panelLogs.SetActive(true);
     }

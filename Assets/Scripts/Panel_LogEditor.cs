@@ -27,6 +27,8 @@ public class Panel_LogEditor : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) panelCalendar.SetActive(true) ;
 	}
 
+   
+
     public void GetLog(Log log)
     {
         singleLog = log;

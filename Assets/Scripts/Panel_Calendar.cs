@@ -35,7 +35,6 @@ public class Panel_Calendar : MonoBehaviour {
     public void BackToCertainDay(DateTime date)
     {
         babyBirth = PlayerPrefs.GetString("babyBirth");
-        //print(babyBirth);
 
         //conver birthday formate from string to datetime
         if (babyBirth != "")
@@ -160,7 +159,7 @@ public class Panel_Calendar : MonoBehaviour {
             {
                 gob.GetComponent<Button_CalendarDay>().ShowDate(thisYear, thisMonth, j2, thisMonth, dateTime_babyBirth, panelLogs);//, SetLogTag(new DateTime(lastYear, lastMonth, j2)));
                 ShowLogTag(thisYear, thisMonth, j2, gob);
-                if (new DateTime(yearTemp, monthTemp, j2) == DateTime.Today) days[i].gameObject.GetComponent<Image>().color = new  Color(0.784f, 0.784f, 0.784f);
+                if (new DateTime(thisYear, thisMonth, j2) == DateTime.Today) days[i].gameObject.GetComponent<Image>().color = new  Color(0.784f, 0.784f, 0.784f);
                 j2++;
             }
             if (i >= daysInThisMonths + firstDayIndex) //填充下月初幾日
