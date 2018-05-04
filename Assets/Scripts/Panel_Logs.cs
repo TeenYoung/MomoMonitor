@@ -35,7 +35,7 @@ public class Panel_Logs : MonoBehaviour {
 
     public void GetButtonDate(DateTime dateOfButton)
     {
-        date = dateOfButton;        
+        date = dateOfButton;
     }
 
     public void SetLogsTitle() //set date of three kinds of logs here
@@ -47,6 +47,7 @@ public class Panel_Logs : MonoBehaviour {
     private void OnEnable()
     {
         Load();
+        SetLogsTitle();
         foreach (GameObject dailyLogList in dailyLogList) Destroy(dailyLogList);
         dailyLogList.Clear();
         gameObject.SetActive(true);

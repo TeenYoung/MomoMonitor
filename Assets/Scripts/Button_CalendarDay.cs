@@ -91,7 +91,6 @@ public class Button_CalendarDay : MonoBehaviour {
 
     public void SetLogTag()
     {
-
         imageLogTag.gameObject.SetActive(true);
     }
 }
