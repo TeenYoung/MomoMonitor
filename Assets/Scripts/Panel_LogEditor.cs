@@ -23,11 +23,10 @@ public class Panel_LogEditor : MonoBehaviour {
         
     }
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
         if (Input.GetKeyDown(KeyCode.Escape)) panelCalendar.SetActive(true) ;
-	}
-
-   
+	}   
 
     public void GetLog(Log log)
     {

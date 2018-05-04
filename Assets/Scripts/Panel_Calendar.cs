@@ -16,20 +16,12 @@ public class Panel_Calendar : MonoBehaviour {
     private int  monthTemp, daysInMonths, yearTemp, firstDayIndex;
     private string babyBirth, weekOfFirstDay;
 
-    List<Log> logs = new List<Log>();
-    //public GameObject panelAddNote;    
+    List<Log> logs = new List<Log>();    
 
     public void Start()
     {
-        babyBirth = PlayerPrefs.GetString("babyBirth");
-
-        //conver birthday formate from string to datetime
-        if (babyBirth != "")
-            dateTime_babyBirth = DateTime.ParseExact(babyBirth,
-                "ddMMyyyy HHmm",
-                CultureInfo.InvariantCulture, DateTimeStyles.None);
-        else dateTime_babyBirth = new DateTime(1900, 02, 02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
-        BackToToday();
+        panelLogs.GetComponent<Panel_Logs>().LoadLogsToCalendar();
+        BackToCertainDay(DateTime.Today);
     }
 
     public void BackToCertainDay(DateTime date)
@@ -94,20 +86,14 @@ public class Panel_Calendar : MonoBehaviour {
         SetDays(yearTemp, monthTemp);
     }
 
-    public void BackToToday() //button BackToToday
-    {
-        monthTemp = DateTime.Now.Month;
-        yearTemp = DateTime.Now.Year;
-        SetDays(yearTemp, monthTemp);
-    }
-
-    public void GetLogs(List<Log> logListTemp)
+     public void GetLogs(List<Log> logListTemp)
     {
         logs = logListTemp;
     }
 
     public void SetDays(int thisYear, int thisMonth)
     {
+        panelLogs.GetComponent<Panel_Logs>().LoadLogsToCalendar();
         int daysInThisMonths, firstDayIndex, lastMonth, lastYear, nextMonth, nextYear; //lastMonth, lastYear為日曆中上個月部分的入參，nextMonth, nextYear為日曆下個月部分的入參
         daysInThisMonths = DateTime.DaysInMonth(thisYear, thisMonth);
         weekOfFirstDay = new DateTime(thisYear, thisMonth, 1).DayOfWeek.ToString();

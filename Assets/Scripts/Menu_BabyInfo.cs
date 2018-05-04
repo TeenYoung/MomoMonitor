@@ -144,7 +144,7 @@ public class Menu_BabyInfo : MonoBehaviour {
         {
             int monthTemp = (DateTime.Now.Year - DateTime_babyBirth.Year) *12 + DateTime.Now.Month - DateTime_babyBirth.Month;
             buttonAge.GetComponentInChildren<Text>().text = monthTemp + " M " +
-               DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp)).Days/7 + " D";
+               DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp)).Days/7 + " W";
             if (DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp)).Days / 7 == 0)// if week = 0, only show month
                 buttonAge.GetComponentInChildren<Text>().text = monthTemp + " M";
             status = "WM";

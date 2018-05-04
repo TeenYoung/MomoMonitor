@@ -29,14 +29,13 @@ public class Button_CalendarDay : MonoBehaviour {
         if (month == mainMonth) textDay.color = Color.black; //非當前月字體為黑色
         else textDay.color = Color.gray;//非當前月字體為灰色
         if (new DateTime(year, month, day) == DateTime.Today) gameObject.GetComponent<Image>().color = new Color(0.784f, 0.784f, 0.784f, 0.5f);
-        SetSpecialAge(gameObject, day, year, month, dateTime_babyBirth);//,hasLog);        
+        SetSpecialAge(gameObject, day, year, month, dateTime_babyBirth);//,hasLog);
         panelLogs = panelLogsTemp;
         date = new DateTime(year, month, day);
     }
 
     public void ClickOpenPanelLogs()
-    {
-        //panelLogs.GetComponent<Panel_Logs>().GetSourceButton(gameObject);        
+    {        
         panelLogs.GetComponent<Panel_Logs>().GetButtonDate(date);
         panelLogs.SetActive(true);
     }
@@ -92,6 +91,7 @@ public class Button_CalendarDay : MonoBehaviour {
 
     public void SetLogTag()
     {
+
         imageLogTag.gameObject.SetActive(true);
     }
 }

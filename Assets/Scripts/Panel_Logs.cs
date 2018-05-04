@@ -27,18 +27,15 @@ public class Panel_Logs : MonoBehaviour {
     private List<Log> logsList;
     private GameObject logButtonTemp;
 
-
     public List<Log> logs = new List<Log>();
 
     // Use this for initialization
     void Start() {
-
     }
 
     public void GetButtonDate(DateTime dateOfButton)
     {
-        date = dateOfButton;
-        SetLogsTitle();
+        date = dateOfButton;        
     }
 
     public void SetLogsTitle() //set date of three kinds of logs here
@@ -49,14 +46,14 @@ public class Panel_Logs : MonoBehaviour {
 
     private void OnEnable()
     {
+        Load();
         foreach (GameObject dailyLogList in dailyLogList) Destroy(dailyLogList);
         dailyLogList.Clear();
         gameObject.SetActive(true);
         panelCalendar.SetActive(false);
         panelLogTypeChoose.SetActive(false);
-        panelLogEditor.SetActive(false);        
-        //for (int i = logs.Count - 1; i >= 0; i--)
-        for (int i = 0; i < logs.Count; i++) //有log的日期顯示log tag
+        panelLogEditor.SetActive(false);
+        for (int i = 0; i < logs.Count; i++) //有log的日期顯示log
         {
             GameObject gobLogTemp; 
             if (logs[i].Date.Date == date) 
@@ -66,12 +63,9 @@ public class Panel_Logs : MonoBehaviour {
                 else if (logs[i].Type == "weight") gobLogTemp.GetComponentInChildren<Text>().text = "weight : " + logs[i].Detail + " kg";
                 else if (logs[i].Type == "height") gobLogTemp.GetComponentInChildren<Text>().text = "height : " + logs[i].Detail + " cm";
                 gobLogTemp.GetComponent<Button_SingleLog>().GetPanelDeleteCheck(panelLogDeleteCheck, gameObject, i);
-                //print(i);
-                //gobLogTemp.GetComponent<Button_SingleLog>().GetLogIndex(i);
                 dailyLogList.Add(gobLogTemp);
             }          
-        }
-        
+        }        
     }
 
     // Update is called once per frame
@@ -90,8 +84,7 @@ public class Panel_Logs : MonoBehaviour {
         panelLogTypeChoose.SetActive(false);
         panelLogEditor.SetActive(false);
         panelCalendar.GetComponent<Panel_Calendar>().BackToCertainDay(date);
-        panelCalendar.SetActive(true);
-        
+        panelCalendar.SetActive(true);        
     }
 
     public void OpenPanelLogChoose()
@@ -103,15 +96,6 @@ public class Panel_Logs : MonoBehaviour {
     {
         panelLogDeleteCheck.SetActive(false);
     }
-
-   
-    //public void DeleteSingleLog(int index)
-    //{
-    //    logs.RemoveAt(index);
-    //    ClosePanelLogDeleteCheck();
-    //    //panelLogDeleteCheck.SetActive(false);
-    //    BackToCalendar();
-    //}
 
     public void ClickAddLogs(GameObject logButton)  //add log button點擊通用,設if 判斷切換打開的editor 樣式,note，growth,reminder等；
     {
@@ -142,7 +126,6 @@ public class Panel_Logs : MonoBehaviour {
         {
             logType = "reminder";
         }
-
         logButtonTemp = logButton;
     }   
 
@@ -157,8 +140,6 @@ public class Panel_Logs : MonoBehaviour {
             panelLogEditor.GetComponent<Panel_LogEditor>().GetLog(logTemp);
             inputFieldLog.text = "";
             if (logTemp.Detail != "") logs.Add(logTemp);//設一個log class 内含date，type，detail等properties，儲存時按照type分別存爲不同list
-            //panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
-            //inputFieldLog.gameObject.SetActive(false);
         }
 
         //if (logType== "growth")  
@@ -182,6 +163,7 @@ public class Panel_Logs : MonoBehaviour {
         {
            
         }
+        Save();
         panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
         BackToCalendar();
     }
@@ -197,10 +179,19 @@ public class Panel_Logs : MonoBehaviour {
         logDeleteIndex = num;
     }
 
+    public void LoadLogsToCalendar()
+    {
+        Load();
+        panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
+    }
+
     public void DeleteSingleLog()
     {
         logs.RemoveAt(logDeleteIndex);
         ClosePanelLogDeleteCheck();
+        Save();
+        Load();
+        panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
         BackToCalendar();
     }
 
@@ -218,12 +209,12 @@ public class Panel_Logs : MonoBehaviour {
         fileLog.Close();
     }
 
-    void Load()
+    public void Load()
     {
         if (File.Exists(Application.persistentDataPath + "/calendarLogs.dat"))
         {
             BinaryFormatter bfLog = new BinaryFormatter();
-            FileStream fileLog = File.Open(Application.persistentDataPath + "/record.dat", FileMode.Open);
+            FileStream fileLog = File.Open(Application.persistentDataPath + "/calendarLogs.dat", FileMode.Open);
             LogData data = (LogData)bfLog.Deserialize(fileLog);
             fileLog.Close();
 

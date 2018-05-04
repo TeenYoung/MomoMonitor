@@ -9,18 +9,6 @@ public class Button_SingleLog : MonoBehaviour {
     public Text textSingleLog;
     public int logIndex;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
     public void GetPanelDeleteCheck(GameObject gobPanel,GameObject gobPanelLog, int index)
     {
         panelDeleteCheck = gobPanel;
@@ -32,6 +20,6 @@ public class Button_SingleLog : MonoBehaviour {
     {
         panelLogs.GetComponent<Panel_Logs>().GetDeleteLogIndex(logIndex);
         panelDeleteCheck.SetActive(true);
-        print(logIndex);
+        //print(logIndex);
     }
 }
