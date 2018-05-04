@@ -307,6 +307,7 @@ public class Records_Panel : MonoBehaviour
 
     public void DeleteRecord()
     {
+        //if timing, finish it before delete
         if (buttonType == 0 && sourceList[deleteIndex].EndTime == new DateTime())
             sourceButton.GetComponent<Button_Entry>().TimerOnClick();
 
@@ -315,7 +316,9 @@ public class Records_Panel : MonoBehaviour
         ClosePanelDeleteRecord();
         ShowRecords();
 
-        sourceButton.GetComponent<Button_Entry>().RefreshTexts();
+        //if not timing, refresh title
+        if (buttonType != 0 || sourceList[deleteIndex].EndTime != new DateTime())
+            sourceButton.GetComponent<Button_Entry>().RefreshTexts();
 
     }
 }    

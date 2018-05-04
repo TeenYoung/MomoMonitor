@@ -276,15 +276,6 @@ public class Button_Entry : MonoBehaviour {
             {
                 lastEntry = entrys[entrys.Count - 1];
 
-                //if (entry.EndTime != new DateTime() && entry.EndTime >= lastEntry.EndTime)
-                //{
-                //    timeSpanFromLastTime = DateTime.Now.Subtract(entry.EndTime);
-                //}
-                //else
-                //{
-                //    timeSpanFromLastTime = DateTime.Now.Subtract(lastEntry.EndTime);
-                //}
-
                     timeSpanFromLastTime = DateTime.Now.Subtract(lastEntry.EndTime);
 
 
