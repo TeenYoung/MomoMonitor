@@ -18,5 +18,6 @@ public class Reset : MonoBehaviour {
     public void OnClick() {
         PlayerPrefs.DeleteAll();
         File.Delete(Application.persistentDataPath + "/record.dat");
+        File.Delete(Application.persistentDataPath + "/calendarLogs.dat");
     }
 }

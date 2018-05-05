@@ -9,7 +9,6 @@ using System.IO;
 
 public class Main_Menu : MonoBehaviour
 {
-
     public static Main_Menu menu;
     public Text timeLabel;
 
@@ -24,6 +23,10 @@ public class Main_Menu : MonoBehaviour
     public List<Entry> nappyList = new List<Entry>();
     //add more
 
+    public List<Log> logList = new List<Log>();
+    public List<Log> noteList = new List<Log>();
+    public List<Log> weightList = new List<Log>();
+    public List<Log> heightList = new List<Log>();
 
     //public Dictionary<string, List<Timer>> timerLists = new Dictionary<string, List<Timer>>(); //del
     //public Dictionary<string, List<Counter>> counterLists = new Dictionary<string, List<Counter>>(); //del
@@ -47,6 +50,7 @@ public class Main_Menu : MonoBehaviour
     private void OnEnable()
     {
         Load();
+        LogLoad();
     }
 
     // Update is called once per frame
@@ -102,6 +106,73 @@ public class Main_Menu : MonoBehaviour
         entryLists.Add("Button_Play", playList);
         entryLists.Add("Button_Nappy", nappyList);
         //add more
+    }
+
+    public void LogSave()
+    {
+        BinaryFormatter bfLog = new BinaryFormatter();
+        FileStream fileLog = File.Create(Application.persistentDataPath + "/calendarLogs.dat");
+
+        LogData logData = new LogData
+        {
+            logList = logList,
+            noteList = noteList,
+            weightList = weightList,
+            heightList = heightList
+        };
+
+        bfLog.Serialize(fileLog, logData);
+        fileLog.Close();
+    }
+
+    public void LogLoad()
+    {
+        if (File.Exists(Application.persistentDataPath + "/calendarLogs.dat"))
+        {
+            BinaryFormatter bfLog = new BinaryFormatter();
+            FileStream fileLog = File.Open(Application.persistentDataPath + "/calendarLogs.dat", FileMode.Open);
+            LogData logData = (LogData)bfLog.Deserialize(fileLog);
+            fileLog.Close();
+
+            logList = logData.logList;
+            noteList = logData.noteList;
+            weightList = logData.weightList;
+            heightList = logData.heightList;
+            //add more
+        }
+    }
+
+    public void LogsAdd(Log log)
+    {
+        logList.Add(log);
+        if (log.Type == "note") noteList.Add(log);
+        if (log.Type == "weight") weightList.Add(log);
+        if (log.Type == "height") heightList.Add(log);
+    }   
+
+    public void LogsRemove(int index)
+    {        
+        if (logList[index].Type == "note")
+        {
+            for(int i= noteList.Count-1; i>=0;i--)
+                if (logList[index].Date.Date == noteList[i].Date.Date && logList[index].Detail == noteList[i].Detail)
+                    noteList.RemoveAt(i);
+        }
+            
+        if (logList[index].Type == "weight")
+        {
+            for (int i = weightList.Count - 1; i >= 0; i--)
+                if (logList[index].Date.Date == weightList[i].Date.Date && logList[index].Detail == weightList[i].Detail)
+                    weightList.RemoveAt(i);
+        }
+        
+        if (logList[index].Type == "height")
+        {
+            for (int i = heightList.Count - 1; i >= 0; i--)
+                if (logList[index].Date.Date == heightList[i].Date.Date && logList[index].Detail == heightList[i].Detail)
+                    heightList.RemoveAt(i);
+        }
+        logList.RemoveAt(index);
     }
 
     public void MainButtonOnClick()
@@ -179,6 +250,16 @@ class RecordData
     public List<Entry> nappyList;
     //add more
 
+}
+
+[Serializable]
+class LogData
+{
+    public List<Log> logList;
+    public List<Log> noteList;
+    public List<Log> weightList;
+    public List<Log> heightList;
+    //add more
 }
 
 

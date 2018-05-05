@@ -20,6 +20,5 @@ public class Button_SingleLog : MonoBehaviour {
     {
         panelLogs.GetComponent<Panel_Logs>().GetDeleteLogIndex(logIndex);
         panelDeleteCheck.SetActive(true);
-        //print(logIndex);
     }
 }

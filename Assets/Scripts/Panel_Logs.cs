@@ -31,6 +31,7 @@ public class Panel_Logs : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        logs = Main_Menu.menu.logList;
     }
 
     public void GetButtonDate(DateTime dateOfButton)
@@ -46,7 +47,8 @@ public class Panel_Logs : MonoBehaviour {
 
     private void OnEnable()
     {
-        Load();
+        Main_Menu.menu.LogLoad(); //load loglists in mainmenu
+        logs = Main_Menu.menu.logList;
         SetLogsTitle();
         foreach (GameObject dailyLogList in dailyLogList) Destroy(dailyLogList);
         dailyLogList.Clear();
@@ -119,7 +121,7 @@ public class Panel_Logs : MonoBehaviour {
             inputFieldWeight.gameObject.SetActive(true);
             inputFieldHeight.gameObject.SetActive(true);
             panelCalendar.SetActive(false);
-            logType = "growth";
+            //logType = "growth";
             inputFieldWeight.Select();
         }
 
@@ -140,23 +142,22 @@ public class Panel_Logs : MonoBehaviour {
             logTemp.Type = logType;
             panelLogEditor.GetComponent<Panel_LogEditor>().GetLog(logTemp);
             inputFieldLog.text = "";
-            if (logTemp.Detail != "") logs.Add(logTemp);//設一個log class 内含date，type，detail等properties，儲存時按照type分別存爲不同list
+            if (logTemp.Detail != "") Main_Menu.menu.LogsAdd(logTemp);
         }
-
-        //if (logType== "growth")  
+                
         if (logButtonTemp == buttonAddGrowth)  //growth
         {
             logTemp.Date = date;
             logTemp.Detail = inputFieldWeight.text.ToString();
             logTemp.Type = "weight";
-            if (logTemp.Detail != "") logs.Add(logTemp);
+            if (logTemp.Detail != "") Main_Menu.menu.LogsAdd(logTemp);
             inputFieldWeight.text = "";
             
             logTemp = new Log();
             logTemp.Date = date;
             logTemp.Detail = inputFieldHeight.text.ToString();
             logTemp.Type = "height";            
-            if (logTemp.Detail != "") logs.Add(logTemp);
+            if (logTemp.Detail != "") Main_Menu.menu.LogsAdd(logTemp);
             inputFieldHeight.text = "";
         }
 
@@ -164,8 +165,7 @@ public class Panel_Logs : MonoBehaviour {
         {
            
         }
-        Save();
-        panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
+        Main_Menu.menu.LogSave();
         BackToCalendar();
     }
 
@@ -180,49 +180,14 @@ public class Panel_Logs : MonoBehaviour {
         logDeleteIndex = num;
     }
 
-    public void LoadLogsToCalendar()
+    public void DeleteSingleLog() // call remove function in mainmenu
     {
-        Load();
-        panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
-    }
-
-    public void DeleteSingleLog()
-    {
-        logs.RemoveAt(logDeleteIndex);
+        Main_Menu.menu.LogsRemove(logDeleteIndex);
         ClosePanelLogDeleteCheck();
-        Save();
-        Load();
-        panelCalendar.GetComponent<Panel_Calendar>().GetLogs(logs);
+        Main_Menu.menu.LogSave();
+        Main_Menu.menu.LogLoad();
         BackToCalendar();
-    }
-
-    void Save()
-    {
-        BinaryFormatter bfLog = new BinaryFormatter();
-        FileStream fileLog = File.Create(Application.persistentDataPath + "/calendarLogs.dat");
-
-        LogData data = new LogData
-        {
-            logList = logs
-        };
-
-        bfLog.Serialize(fileLog, data);
-        fileLog.Close();
-    }
-
-    public void Load()
-    {
-        if (File.Exists(Application.persistentDataPath + "/calendarLogs.dat"))
-        {
-            BinaryFormatter bfLog = new BinaryFormatter();
-            FileStream fileLog = File.Open(Application.persistentDataPath + "/calendarLogs.dat", FileMode.Open);
-            LogData data = (LogData)bfLog.Deserialize(fileLog);
-            fileLog.Close();
-
-            logs = data.logList;
-            //add more
-        }
-    }    
+    }   
 }
 
 [Serializable]
@@ -231,11 +196,4 @@ public class Log
     public DateTime Date { get; set; }
     public String Type { get; set; }
     public string Detail { get; set; }
-}
-
-[Serializable]
-class LogData
-{
-    public List<Log> logList;
-    //add more
 }

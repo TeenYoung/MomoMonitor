@@ -10,18 +10,9 @@ public class Panel_LogEditor : MonoBehaviour {
     public InputField inputFieldLog;
     public Text textLogDate;
     public GameObject panelCalendar;
-    //public DateTime logDate;
     public Log singleLog;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
 
-    private void OnEnable()
-    {
-        
-    }
     // Update is called once per frame
     void Update ()
     {

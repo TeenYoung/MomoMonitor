@@ -21,6 +21,8 @@ public class Menu_BabyInfo : MonoBehaviour {
     private TimeSpan TimeSpan_babyAge;
     private string status;
 
+    private List<Log> weightList = new List<Log>();
+    private List<Log> heightList = new List<Log>();
 
     //Use this for initialization
     void Start() {
@@ -31,6 +33,11 @@ public class Menu_BabyInfo : MonoBehaviour {
         else ShowPanel_BabyInfoInitialization();
     }
 
+    private void OnEnable()
+    {
+        weightList = Main_Menu.menu.weightList;
+        heightList = Main_Menu.menu.heightList;
+    }
     // Update is called once per frame
     void Update() {
     }
@@ -91,8 +98,8 @@ public class Menu_BabyInfo : MonoBehaviour {
         Panel_BabyInfoInitialization.gameObject.SetActive(false);
 
         //load weight and height saving
-        Text_Weight.text = PlayerPrefs.GetString("babyWeight");
-        Text_Height.text = PlayerPrefs.GetString("babyHeight");
+        Text_Weight.text = weightList[weightList.Count - 1].Detail;
+        Text_Height.text = heightList[heightList.Count - 1].Detail;
     }
 
     public void ShowPanel_BabyInfoInitialization()
@@ -112,16 +119,23 @@ public class Menu_BabyInfo : MonoBehaviour {
 
     public void SaveGrowth()
     {
+        Log logTemp = new Log();
         if (buttonGrowth == buttonWeight)
         {
+            logTemp.Type = "weight";
             Text_Weight.text = inputFieldGrowth.text;
-            PlayerPrefs.SetString("babyWeight", Text_Weight.text);
+            //PlayerPrefs.SetString("babyWeight", Text_Weight.text);
         }
         if (buttonGrowth == buttonHeight)
         {
+            logTemp.Type = "height";
             Text_Height.text = inputFieldGrowth.text;
-            PlayerPrefs.SetString("babyHeight", Text_Height.text);
-        } 
+            //PlayerPrefs.SetString("babyHeight", Text_Height.text);
+        }
+        logTemp.Date = DateTime.Today;
+        logTemp.Detail = inputFieldGrowth.text;
+        Main_Menu.menu.LogsAdd(logTemp);
+        Main_Menu.menu.LogSave();
         inputFieldGrowth.gameObject.SetActive(false);
         inputFieldGrowth.text = "";
     }

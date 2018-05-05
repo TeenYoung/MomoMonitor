@@ -20,14 +20,18 @@ public class Panel_Calendar : MonoBehaviour {
 
     public void Start()
     {
-        panelLogs.GetComponent<Panel_Logs>().LoadLogsToCalendar();
         BackToCertainDay(DateTime.Today);
+    }
+
+    public void OnEnable()
+    {
+        logs = Main_Menu.menu.logList;
     }
 
     public void BackToCertainDay(DateTime date)
     {
         babyBirth = PlayerPrefs.GetString("babyBirth");
-
+        OnEnable();
         //conver birthday formate from string to datetime
         if (babyBirth != "")
             dateTime_babyBirth = DateTime.ParseExact(babyBirth,
@@ -86,14 +90,8 @@ public class Panel_Calendar : MonoBehaviour {
         SetDays(yearTemp, monthTemp);
     }
 
-     public void GetLogs(List<Log> logListTemp)
-    {
-        logs = logListTemp;
-    }
-
     public void SetDays(int thisYear, int thisMonth)
     {
-        panelLogs.GetComponent<Panel_Logs>().LoadLogsToCalendar();
         int daysInThisMonths, firstDayIndex, lastMonth, lastYear, nextMonth, nextYear; //lastMonth, lastYear為日曆中上個月部分的入參，nextMonth, nextYear為日曆下個月部分的入參
         daysInThisMonths = DateTime.DaysInMonth(thisYear, thisMonth);
         weekOfFirstDay = new DateTime(thisYear, thisMonth, 1).DayOfWeek.ToString();
@@ -136,21 +134,21 @@ public class Panel_Calendar : MonoBehaviour {
             days.Add(gob);
             if (i <= firstDayIndex - 1) //填充上月末幾日
             {
-                gob.GetComponent<Button_CalendarDay>().ShowDate(lastYear, lastMonth, j, thisMonth, dateTime_babyBirth, panelLogs);//, SetLogTag(new DateTime(lastYear, lastMonth, j)));
+                gob.GetComponent<Button_CalendarDay>().ShowDate(lastYear, lastMonth, j, thisMonth, dateTime_babyBirth, panelLogs);
                 ShowLogTag(lastYear, lastMonth, j, gob);
                 j++;
             }
             
             if (i >= firstDayIndex && i < daysInThisMonths + firstDayIndex) //填充當月日期,j為日期
             {
-                gob.GetComponent<Button_CalendarDay>().ShowDate(thisYear, thisMonth, j2, thisMonth, dateTime_babyBirth, panelLogs);//, SetLogTag(new DateTime(lastYear, lastMonth, j2)));
+                gob.GetComponent<Button_CalendarDay>().ShowDate(thisYear, thisMonth, j2, thisMonth, dateTime_babyBirth, panelLogs);
                 ShowLogTag(thisYear, thisMonth, j2, gob);
                 if (new DateTime(thisYear, thisMonth, j2) == DateTime.Today) days[i].gameObject.GetComponent<Image>().color = new  Color(0.784f, 0.784f, 0.784f);
                 j2++;
             }
             if (i >= daysInThisMonths + firstDayIndex) //填充下月初幾日
             {
-                gob.GetComponent<Button_CalendarDay>().ShowDate(nextYear, nextMonth, j3, thisMonth, dateTime_babyBirth, panelLogs);//, SetLogTag(new DateTime(lastYear, lastMonth, j3)));
+                gob.GetComponent<Button_CalendarDay>().ShowDate(nextYear, nextMonth, j3, thisMonth, dateTime_babyBirth, panelLogs);
                 ShowLogTag(nextYear, nextMonth, j3, gob);                
                 j3++;
             }
