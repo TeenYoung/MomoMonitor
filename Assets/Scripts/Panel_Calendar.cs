@@ -28,6 +28,14 @@ public class Panel_Calendar : MonoBehaviour {
         logs = Main_Menu.menu.logList;
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(gameObject.activeInHierarchy)Application.Quit();
+        }
+    }
+
     public void BackToCertainDay(DateTime date)
     {
         babyBirth = PlayerPrefs.GetString("babyBirth");

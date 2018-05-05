@@ -24,6 +24,14 @@ public class Histogram : MonoBehaviour {
         ShowAll();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameObject.activeInHierarchy) Application.Quit();
+        }
+    }
+
     void ClearChild()
     {
         foreach (Transform child in content.transform)

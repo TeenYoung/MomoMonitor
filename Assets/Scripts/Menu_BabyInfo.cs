@@ -16,6 +16,8 @@ public class Menu_BabyInfo : MonoBehaviour {
     public InputField inputFieldGrowth;
     public GameObject buttonHeight, buttonWeight;
 
+    public GameObject buttonSetting, panelSetting, panelSettingCheck;
+
     private GameObject buttonGrowth;
     private string babyBirth;
     private TimeSpan TimeSpan_babyAge;
@@ -40,6 +42,16 @@ public class Menu_BabyInfo : MonoBehaviour {
     }
     // Update is called once per frame
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (panelSettingCheck.gameObject.activeInHierarchy)
+            {
+                panelSettingCheck.SetActive(false);
+                panelSetting.SetActive(false);
+            }
+            if(panelSetting.gameObject.activeInHierarchy) panelSetting.SetActive(false);
+            else if(!panelSettingCheck.gameObject.activeInHierarchy & !panelSetting.gameObject.activeInHierarchy)Application.Quit();
+        } 
     }
 
     public void DeliverOnClick() {
@@ -176,6 +188,30 @@ public class Menu_BabyInfo : MonoBehaviour {
             buttonAge.GetComponentInChildren<Text>().text = TimeSpan_babyAge.Days.ToString() + " days";
             status = "days";
         }
+    }
+
+    public void OpenSettingPanel()
+    {
+        panelSetting.SetActive(true);
+    }
+
+    public void OpenPanelSettingCheck()
+    {
+        panelSettingCheck.SetActive(true);
+    }
+
+    public void ResetCancel()
+    {
+        panelSetting.SetActive(false);
+        panelSettingCheck.SetActive(false);
+    }
+
+    public void ResetConfirm()
+    {
+        panelSetting.SetActive(false);
+        panelSettingCheck.SetActive(false);
+        PlayerPrefs.DeleteAll();
+        Start();
     }
 
     //Reset saving
