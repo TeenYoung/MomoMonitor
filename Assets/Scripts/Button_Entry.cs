@@ -46,19 +46,18 @@ public class Button_Entry : MonoBehaviour {
 
         if (gameObject.name == "Button_Bottle")
         {
-            if (PlayerPrefs.HasKey("babyWeight"))
+            List<Log> weightList = Main_Menu.menu.weightList;
+            if(weightList.Count!=0)
             {
-                Decimal babyWeightTemp = Convert.ToDecimal(PlayerPrefs.GetString("babyWeight"));
+                Decimal babyWeightTemp = Convert.ToDecimal(weightList[weightList.Count - 1].Detail);
                 int babyAgeTemp = Convert.ToInt32(PlayerPrefs.GetString("babyAge"));
                 Decimal babyFeedingTotalTemp = babyWeightTemp * (50 + 50 * babyAgeTemp);
                 if (babyFeedingTotalTemp / babyWeightTemp > 150)
                     dailyTotalText.text = " / " + babyWeightTemp * 140 + unit;
                 else dailyTotalText.text = " / " + babyFeedingTotalTemp.ToString() + unit;
             }
-
             else dailyTotalText.text = "";
         }
-
     }
 
     public void RefreshTexts()

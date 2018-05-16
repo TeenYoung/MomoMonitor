@@ -220,8 +220,8 @@ public class Menu_BabyInfo : MonoBehaviour {
         PlayerPrefs.DeleteKey("babyName");
         PlayerPrefs.DeleteKey("babyBirth");
         PlayerPrefs.DeleteKey("babyGender");
-        PlayerPrefs.DeleteKey("babyWeight");
-        PlayerPrefs.DeleteKey("babyHeight");
+        //PlayerPrefs.DeleteKey("babyWeight");
+        //PlayerPrefs.DeleteKey("babyHeight");
         ShowPanel_BabyInfoInitialization();
     }  
     
