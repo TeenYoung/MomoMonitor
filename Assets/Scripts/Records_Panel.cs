@@ -71,6 +71,7 @@ public class Records_Panel : MonoBehaviour
         TimeSpan dr = new TimeSpan(); //hold every duration        
         string tempDailyTS = ""; // hold duration of a whole day
         foreach (GameObject contents in contents) Destroy(contents);
+        contents = new List<GameObject>();
         bool newdayBegin = false;
         startFromIndex = 0;
         for (int i = 0; i < sourceList.Count; i++) //get the first records index based on initialContentNum
@@ -136,6 +137,7 @@ public class Records_Panel : MonoBehaviour
         record = "";
         int tempTotal = 0;
         foreach (GameObject contents in contents) Destroy(contents);
+        contents = new List<GameObject>();
         bool newdayBegin = false;
         startFromIndex = 0;
         for (int i = 0; i < sourceList.Count; i++)

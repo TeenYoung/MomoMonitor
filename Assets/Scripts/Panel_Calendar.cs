@@ -21,10 +21,13 @@ public class Panel_Calendar : MonoBehaviour {
     public void Start()
     {
         BackToCertainDay(DateTime.Today);
+        gameObjectDays.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height / 10 * 6);
+        //print(Screen.width);
+        gameObjectDays.GetComponent<GridLayoutGroup>().cellSize = new Vector2(Screen.width / 7, Screen.height / 10);
     }
 
     public void OnEnable()
-    {
+    {        
         logs = Main_Menu.menu.logList;
     }
 

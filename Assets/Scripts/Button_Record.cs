@@ -19,7 +19,15 @@ public class Button_Record : MonoBehaviour {
     {
         button_Entry = sourceButton.GetComponent<Button_Entry>();
     }
-    
+
+    private void Update()
+    {
+        if (recordsPanel.activeInHierarchy == false)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+        }
+    }
+
     //to move out into a new .cs file
     public void OnClick()
     {
