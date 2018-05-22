@@ -169,10 +169,16 @@ public class Menu_BabyInfo : MonoBehaviour {
         else if(status == "DW")//show Weeks and Month
         {
             int monthTemp = (DateTime.Now.Year - DateTime_babyBirth.Year) *12 + DateTime.Now.Month - DateTime_babyBirth.Month;
-            buttonAge.GetComponentInChildren<Text>().text = monthTemp + " M " +
-               DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp)).Days/7 + " W";
-            if (DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp)).Days / 7 == 0)// if week = 0, only show month
+            if(DateTime.Now.Day >= DateTime_babyBirth.Day)
+            {
+                buttonAge.GetComponentInChildren<Text>().text = monthTemp + " M " +
+                DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp)).Days / 7 + " W";
+                if (DateTime.Now.Day == DateTime_babyBirth.Day)// if week = 0, only show month
                 buttonAge.GetComponentInChildren<Text>().text = monthTemp + " M";
+                print("more than");
+            }
+            else buttonAge.GetComponentInChildren<Text>().text = monthTemp - 1 + " M " +
+               DateTime.Now.Subtract(DateTime_babyBirth.AddMonths(monthTemp - 1)).Days / 7 + " W";            
             status = "WM";
         }
         else if (status == "WM")//show Months and Years 

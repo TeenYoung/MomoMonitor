@@ -86,6 +86,7 @@ public class Panel_Logs : MonoBehaviour {
         panelCalendar.SetActive(false);
         panelLogTypeChoose.SetActive(false);
         panelLogEditor.SetActive(false);
+        if (logs.Count == 0) textLogTitle.text = "No Log";
         for (int i = 0; i < logs.Count; i++) //有log的日期顯示log
         {
             string logDetailTemp;
