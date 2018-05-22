@@ -9,7 +9,7 @@ public class Button_Entry : MonoBehaviour {
     public Text recordsText, text_Title, text_Property;
     public string title, titlePast, unit;
     public GameObject recordsPanel, panel_Input;
-    public int buttonType; // 0 : timer   1 : counter   2 : nappy
+    public int buttonType; // 0 : timer   1 : counter   2 : nappy  3 : note
     public Text dailyTotalText;
     public bool timing;
     public int babyAgeNum;
@@ -30,7 +30,6 @@ public class Button_Entry : MonoBehaviour {
 
         //load last entry
         entrys = Main_Menu.menu.entryLists[gameObject.name];
-
         RefreshTexts();
 
         //determing and change the status of timer
@@ -132,6 +131,22 @@ public class Button_Entry : MonoBehaviour {
 
                 }
                 break;
+
+            case 3:
+                {
+                    foreach (Entry entry in entrys)
+                    {
+                        if (entry.EndTime.Date == DateTime.Now.Date)
+                        {
+                            int n = entry.Number;
+                            todayAmount += n;
+                        }
+                    }
+
+                    if (todayAmount != 0) ShowTodayAmount();
+                    else text_Title.text = title;
+                }
+                break;
         }
     }
 
@@ -156,6 +171,12 @@ public class Button_Entry : MonoBehaviour {
             case 2:
                 {
                     NappyOnClick();
+                }
+                break;
+
+            case 3:
+                {
+                    FoodOnClick();
                 }
                 break;
         }
@@ -247,6 +268,26 @@ public class Button_Entry : MonoBehaviour {
         pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
     }
 
+    public void FoodOnClick()
+    {
+        panel_Input.SetActive(true);        
+        //imageNotTiming.SetActive(true);
+
+        Panel_Input pI = panel_Input.GetComponent<Panel_Input>();
+
+        pI.sourceButton = gameObject;
+        pI.manualInputDateTime = false;
+
+        pI.inputField_2.Select();
+
+        pI.text_Title_2.text = "Input food type";
+        pI.text_Placeholder_2.text = "for example : blueberry " ;
+
+        pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.Name;
+        pI.inputField_2.GetComponent<InputField>().characterLimit = 30;
+    }
+
+
     public void NappyOnClick()
     {
         panel_Input.SetActive(true);
@@ -274,9 +315,7 @@ public class Button_Entry : MonoBehaviour {
             if (entrys.Count != 0)
             {
                 lastEntry = entrys[entrys.Count - 1];
-
-                    timeSpanFromLastTime = DateTime.Now.Subtract(lastEntry.EndTime);
-
+                timeSpanFromLastTime = DateTime.Now.Subtract(lastEntry.EndTime);
 
                 text_Property.text = Main_Menu.menu.FormatTimeSpan(timeSpanFromLastTime) + " ago";
                 
@@ -300,6 +339,13 @@ public class Button_Entry : MonoBehaviour {
         text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
     }
 
+    public void ShowTodayAmount()
+    {
+        todayAmount += 1;
+        print(titlePast);
+        text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
+    }
+
     public void ShowTodayAmount(bool isWee, bool isPoo)
     {
         if (isWee) todayWee++;
@@ -317,6 +363,7 @@ public class Entry
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int Number { get; set; }
+    public string Food {get; set; }
     public bool Wee { get; set; }
     public bool Poo { get; set; }
 

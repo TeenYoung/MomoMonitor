@@ -21,6 +21,7 @@ public class Main_Menu : MonoBehaviour
     public List<Entry> pumpList = new List<Entry>();
     public List<Entry> playList = new List<Entry>();
     public List<Entry> nappyList = new List<Entry>();
+    public List<Entry> foodList = new List<Entry>();
     //add more
 
     public List<Log> logList = new List<Log>();
@@ -71,6 +72,7 @@ public class Main_Menu : MonoBehaviour
             bottlefeedList = bottlefeedList,
             pumpList = pumpList,
             playList = playList,
+            foodList = foodList,
             //add more
 
             nappyList = nappyList,
@@ -95,8 +97,8 @@ public class Main_Menu : MonoBehaviour
             pumpList = data.pumpList;
             playList = data.playList;
             nappyList = data.nappyList;
+            foodList = data.foodList;
             //add more
-
         }
 
         entryLists.Add("Button_Breastfeed", breastfeedList);
@@ -105,6 +107,7 @@ public class Main_Menu : MonoBehaviour
         entryLists.Add("Button_Pump", pumpList);
         entryLists.Add("Button_Play", playList);
         entryLists.Add("Button_Nappy", nappyList);
+        entryLists.Add("Button_Food", foodList);
         //add more
     }
 
@@ -248,6 +251,7 @@ class RecordData
     public List<Entry> pumpList;
     public List<Entry> playList;
     public List<Entry> nappyList;
+    public List<Entry> foodList;
     //add more
 
 }

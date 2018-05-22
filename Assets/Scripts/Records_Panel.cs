@@ -254,7 +254,65 @@ public class Records_Panel : MonoBehaviour
         }
         HideButtonLoadMore();
     }
-   
+
+    void ShowFoodRecords()
+    {
+        record = "";
+        int tempTotal = 0;
+        foreach (GameObject contents in contents) Destroy(contents);
+        contents = new List<GameObject>();
+        bool newdayBegin = false;
+        startFromIndex = 0;
+        print(sourceList.Count);
+        for (int i = 0; i < sourceList.Count; i++)
+        {
+            if (sourceList[i].StartTime.Date == DateTime.Today.AddDays(-initialContentNum).Date)
+            {
+                startFromIndex = i;
+                break;
+            }
+        }
+        for (int i = startFromIndex; i < sourceList.Count; i++)
+        {
+            if (i == 0 || sourceList[i - 1].StartTime.Date != sourceList[i].StartTime.Date)
+            {
+                newdayBegin = true;
+                if (tempTotal != 0 && newdayBegin)
+                {
+                    record = "\n total amount : " + tempTotal;
+                    tempTotal = 0;
+                    AddTextSingleRecordPrefab();
+                }
+            }
+            if (newdayBegin)
+            {
+                record = "\n ----------------------" + sourceList[i].StartTime.ToString("d")
+                    + "---------------------- \n";
+                AddTextSingleRecordPrefab();
+                newdayBegin = false;
+                record = "";
+            }
+            if (!newdayBegin)
+            {
+                record = sourceList[i].StartTime.ToShortTimeString() + "  " + sourceList[i].Food;
+                AddButtonSingleRecordPrefab(i);
+                tempTotal += 1;
+            }
+            //print date and total num for last record if date changes but no new record add 
+            if (i == sourceList.Count - 1 && sourceList[i].EndTime.Date != DateTime.Now.Date)
+            {
+                record = "\n total amount : " + tempTotal ;
+                tempTotal = 0;
+                AddTextSingleRecordPrefab();
+                record = "\n ----------------------" + DateTime.Now.ToString("d")
+                    + "---------------------- \n";
+                AddTextSingleRecordPrefab();
+                record = "";
+            }
+        }
+        HideButtonLoadMore();
+    }
+
     //first time show records in 7 days,and every click at load more show records of 7(everyClickAddContentNum) more days 
     public void LoadMoreRecord() 
     {
@@ -288,6 +346,13 @@ public class Records_Panel : MonoBehaviour
                     ShowNappyRecords();
                 }
                 break;
+
+            case 3:
+                {
+                    ShowFoodRecords();
+                }
+                break;
+
         }
     }
 

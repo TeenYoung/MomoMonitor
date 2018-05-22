@@ -101,6 +101,14 @@ public class Panel_Calendar : MonoBehaviour {
         SetDays(yearTemp, monthTemp);
     }
 
+    public void SeeLogsByTypes(GameObject logTypes)
+    {
+        panelLogs.SetActive(true);
+        if (logTypes.name == "Button_SeeAllLogs") panelLogs.GetComponent<Panel_Logs>().ShowLogsByType("all");
+        else if (logTypes.name == "Button_SeeAllNotes") panelLogs.GetComponent<Panel_Logs>().ShowLogsByType("note");
+        else if (logTypes.name == "Button_SeeAllWeights") panelLogs.GetComponent<Panel_Logs>().ShowLogsByType("weight");
+        else if (logTypes.name == "Button_SeeAllHeights") panelLogs.GetComponent<Panel_Logs>().ShowLogsByType("height");
+    }
     public void SetDays(int thisYear, int thisMonth)
     {
         int daysInThisMonths, firstDayIndex, lastMonth, lastYear, nextMonth, nextYear; //lastMonth, lastYear為日曆中上個月部分的入參，nextMonth, nextYear為日曆下個月部分的入參

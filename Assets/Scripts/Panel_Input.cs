@@ -56,6 +56,12 @@ public class Panel_Input : MonoBehaviour {
                     InputNappy();
                 }
                 break;
+
+            case 3:
+                {
+                    InputFood();
+                }
+                break;
         }
     }
 
@@ -90,7 +96,6 @@ public class Panel_Input : MonoBehaviour {
             {
                 text_Warning.gameObject.SetActive(true);
             }
-
         }
         else
         {
@@ -109,7 +114,6 @@ public class Panel_Input : MonoBehaviour {
             {
                 text_Warning.gameObject.SetActive(true);
             }
-
         }
 
     }
@@ -158,6 +162,27 @@ public class Panel_Input : MonoBehaviour {
             transform.Find("Both_Button").gameObject.SetActive(true);
 
             Main_Menu.menu.entryLists[sourceButton.name].Add(entry);
+        }
+        else
+        {
+            text_Warning.gameObject.SetActive(true);
+        }
+    }
+
+    void InputFood()
+    {
+        if (inputString_2 != "")
+        {
+            print("inputfood");
+            if (manualInputDateTime) entry = ManualAddFoodEntry(inputString_1, inputString_2);
+            else entry = AutoAddEntry(inputString_2);
+        } 
+        if (entry != null)
+        {            
+            sourceButton.GetComponent<Button_Entry>().ShowTodayAmount();
+
+            SaveEntry();
+            ClosePanel();
         }
         else
         {
@@ -274,6 +299,30 @@ public class Panel_Input : MonoBehaviour {
         else return null;
     }
 
+    public Entry ManualAddFoodEntry(string endTime, string food)
+    {
+        if (endTime.Length == 4)
+        {
+            int endHr = Int32.Parse(endTime.Substring(0, 2));
+            int endMin = Int32.Parse(endTime.Substring(2));
+            Entry entry = new Entry();
+
+            if (endHr < 24
+                && endMin < 60)
+            {
+                DateTime now = DateTime.Now;
+                entry.EndTime = new DateTime(now.Year, now.Month, now.Day, endHr, endMin, 0);
+                entry.StartTime = entry.EndTime;
+                entry.Food = food;
+
+                if (entry.EndTime < now) return entry;
+                else return null;
+            }
+            else return null;
+        }
+        else return null;
+    }
+
     public Entry AutoAddEntry(int number)
     {
         if (number > 0)
@@ -283,6 +332,21 @@ public class Panel_Input : MonoBehaviour {
                 EndTime = DateTime.Now,
                 StartTime = DateTime.Now,
                 Number = number
+            };
+            return entry;
+        }
+        else return null;
+    }
+
+    public Entry AutoAddEntry(string food)
+    {
+        if (food != "")
+        {
+            Entry entry = new Entry
+            {
+                EndTime = DateTime.Now,
+                StartTime = DateTime.Now,
+                Food = food,
             };
             return entry;
         }

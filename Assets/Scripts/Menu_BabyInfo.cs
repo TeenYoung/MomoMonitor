@@ -39,6 +39,8 @@ public class Menu_BabyInfo : MonoBehaviour {
     {
         weightList = Main_Menu.menu.weightList;
         heightList = Main_Menu.menu.heightList;
+        weightList.Sort(new LogComp());
+        heightList.Sort(new LogComp());
     }
     // Update is called once per frame
     void Update() {
@@ -136,13 +138,11 @@ public class Menu_BabyInfo : MonoBehaviour {
         {
             logTemp.Type = "weight";
             Text_Weight.text = inputFieldGrowth.text;
-            //PlayerPrefs.SetString("babyWeight", Text_Weight.text);
         }
         if (buttonGrowth == buttonHeight)
         {
             logTemp.Type = "height";
             Text_Height.text = inputFieldGrowth.text;
-            //PlayerPrefs.SetString("babyHeight", Text_Height.text);
         }
         logTemp.Date = DateTime.Today;
         logTemp.Detail = inputFieldGrowth.text;
@@ -220,8 +220,6 @@ public class Menu_BabyInfo : MonoBehaviour {
         PlayerPrefs.DeleteKey("babyName");
         PlayerPrefs.DeleteKey("babyBirth");
         PlayerPrefs.DeleteKey("babyGender");
-        //PlayerPrefs.DeleteKey("babyWeight");
-        //PlayerPrefs.DeleteKey("babyHeight");
         ShowPanel_BabyInfoInitialization();
     }  
     

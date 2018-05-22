@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
 using System;
 using UnityEngine;
@@ -19,6 +17,8 @@ public class Panel_Logs : MonoBehaviour {
 
     public InputField inputFieldLog, inputFieldWeight, inputFieldHeight;
     public Text textLogDetail, textLogTitle, textLogDate;
+
+    private bool logsTotal = false;
     private string logDetailDelete;
     private int logDeleteIndex;
 
@@ -49,26 +49,100 @@ public class Panel_Logs : MonoBehaviour {
     {
         Main_Menu.menu.LogLoad(); //load loglists in mainmenu
         logs = Main_Menu.menu.logList;
+        logs.Sort(new LogComp());
         SetLogsTitle();
         foreach (GameObject dailyLogList in dailyLogList) Destroy(dailyLogList);
         dailyLogList.Clear();
+        //dailyLogList = new List<GameObject>();
         gameObject.SetActive(true);
         panelCalendar.SetActive(false);
         panelLogTypeChoose.SetActive(false);
         panelLogEditor.SetActive(false);
         for (int i = 0; i < logs.Count; i++) //有log的日期顯示log
         {
-            GameObject gobLogTemp; 
+            //GameObject gobLogTemp;
+            string logDetailTemp;
             if (logs[i].Date.Date == date) 
             {
-                gobLogTemp = Instantiate(buttonSingleLogPrefab, gameObjectContent.transform);
-                if(logs[i].Type == "note")gobLogTemp.GetComponentInChildren<Text>().text = logs[i].Detail;
-                else if (logs[i].Type == "weight") gobLogTemp.GetComponentInChildren<Text>().text = "weight : " + logs[i].Detail + " kg";
-                else if (logs[i].Type == "height") gobLogTemp.GetComponentInChildren<Text>().text = "height : " + logs[i].Detail + " cm";
-                gobLogTemp.GetComponent<Button_SingleLog>().GetPanelDeleteCheck(panelLogDeleteCheck, gameObject, i);
-                dailyLogList.Add(gobLogTemp);
+                if (logs[i].Type == "note") logDetailTemp = logs[i].Detail;
+                else if (logs[i].Type == "weight") logDetailTemp = "weight : " + logs[i].Detail + " kg";
+                else if (logs[i].Type == "height") logDetailTemp = "height : " + logs[i].Detail + " cm";
+                else logDetailTemp = "";
+                SetPrefab(i, logDetailTemp);
             }          
         }        
+    }
+
+    public void ShowLogsByType(string logType)
+    {
+        Main_Menu.menu.LogLoad(); //load loglists in mainmenu
+        logs = Main_Menu.menu.logList;
+        logs.Sort(new LogComp());
+        logsTotal = true;        
+        foreach (GameObject dailyLogList in dailyLogList) Destroy(dailyLogList);
+        dailyLogList.Clear();
+        //dailyLogList = new List<GameObject>();
+        gameObject.SetActive(true);
+        panelCalendar.SetActive(false);
+        panelLogTypeChoose.SetActive(false);
+        panelLogEditor.SetActive(false);
+        for (int i = 0; i < logs.Count; i++) //有log的日期顯示log
+        {
+            string logDetailTemp;
+            if (logType == "all")
+            {
+                textLogTitle.text = "Logs";
+                string logUnitTemp;
+                string logsTypeTemp = logs[i].Type + " :  ";
+                if (logs[i].Type == "weight") logUnitTemp = " kg";
+                else if (logs[i].Type == "height") logUnitTemp = " cm";
+                else
+                {
+                    logsTypeTemp = "";
+                    logUnitTemp = "";
+                }                
+                logDetailTemp = logs[i].Date.ToShortDateString() + "\n" + "    " + logsTypeTemp + logs[i].Detail + logUnitTemp;
+                SetPrefab(i, logDetailTemp);
+                logsTypeTemp = "";
+                logUnitTemp = "";
+            }
+            else if (logType == "note")
+            {
+                textLogTitle.text = "Notes";
+                if (logs[i].Type == "note")
+                {
+                    logDetailTemp = logs[i].Date.ToShortDateString() + " :  " + logs[i].Detail;
+                    SetPrefab(i, logDetailTemp);
+                } 
+            } 
+            else if (logType == "weight")
+            {
+                textLogTitle.text = "Weights";
+                if (logs[i].Type == "weight")
+                {
+                    logDetailTemp = logs[i].Date.ToShortDateString() + " :  " + logs[i].Detail + " kg";
+                    SetPrefab(i, logDetailTemp);
+                }                
+            }
+            else if (logType == "height")
+            {
+                textLogTitle.text = "Heights";
+                if (logs[i].Type == "height")
+                {
+                    logDetailTemp = logs[i].Date.ToShortDateString() + " :  " + logs[i].Detail + " cm";
+                    SetPrefab(i, logDetailTemp);
+                }                
+            }            
+        }        
+    }
+
+    void SetPrefab(int indexTemp, string text)
+    {
+        GameObject gobLogTemp;
+        gobLogTemp = Instantiate(buttonSingleLogPrefab, gameObjectContent.transform);
+        gobLogTemp.GetComponent<Button_SingleLog>().GetPanelDeleteCheck(panelLogDeleteCheck, gameObject, indexTemp);
+        gobLogTemp.GetComponentInChildren<Text>().text = text;
+        dailyLogList.Add(gobLogTemp);
     }
 
     // Update is called once per frame
@@ -77,7 +151,15 @@ public class Panel_Logs : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (panelLogDeleteCheck.activeInHierarchy) panelLogDeleteCheck.SetActive(false);
-            else BackToCalendar();
+            else
+            {
+                if (logsTotal == true)
+                {
+                    date = DateTime.Today;
+                    logsTotal = false;
+                }
+                BackToCalendar();
+            }            
         }            
     }
 
@@ -86,6 +168,11 @@ public class Panel_Logs : MonoBehaviour {
         gameObject.SetActive(false);
         panelLogTypeChoose.SetActive(false);
         panelLogEditor.SetActive(false);
+        if (logsTotal == true)
+        {
+            date = DateTime.Today;
+            logsTotal = false;
+        }
         panelCalendar.GetComponent<Panel_Calendar>().BackToCertainDay(date);
         panelCalendar.SetActive(true);        
     }
@@ -121,7 +208,6 @@ public class Panel_Logs : MonoBehaviour {
             inputFieldWeight.gameObject.SetActive(true);
             inputFieldHeight.gameObject.SetActive(true);
             panelCalendar.SetActive(false);
-            //logType = "growth";
             inputFieldWeight.Select();
         }
 
@@ -142,7 +228,7 @@ public class Panel_Logs : MonoBehaviour {
             logTemp.Type = logType;
             panelLogEditor.GetComponent<Panel_LogEditor>().GetLog(logTemp);
             inputFieldLog.text = "";
-            if (logTemp.Detail != "") Main_Menu.menu.LogsAdd(logTemp);
+            if (logTemp.Detail != "") Main_Menu.menu.LogsAdd(logTemp);            
         }
                 
         if (logButtonTemp == buttonAddGrowth)  //growth
@@ -162,9 +248,9 @@ public class Panel_Logs : MonoBehaviour {
         }
 
         if (logType == "reminder")  //reminder
-        {
-           
+        {           
         }
+
         Main_Menu.menu.LogSave();
         BackToCalendar();
     }
@@ -194,6 +280,18 @@ public class Panel_Logs : MonoBehaviour {
 public class Log
 {
     public DateTime Date { get; set; }
-    public String Type { get; set; }
+    public string Type { get; set; }
     public string Detail { get; set; }
+}
+
+public class LogComp : IComparer<Log>
+{
+    public int Compare(Log x, Log y)
+    {
+        if (x.Date == y.Date)
+        {
+            return x.Date .CompareTo(y.Date );
+        }
+        else return x.Date .CompareTo(y.Date);
+    }
 }
