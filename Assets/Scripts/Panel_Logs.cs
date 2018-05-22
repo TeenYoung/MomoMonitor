@@ -91,6 +91,7 @@ public class Panel_Logs : MonoBehaviour {
             string logDetailTemp;
             if (logType == "all")
             {
+                print("here");
                 textLogTitle.text = "Logs";
                 string logUnitTemp;
                 string logsTypeTemp = logs[i].Type + " :  ";

@@ -170,16 +170,20 @@ public class Panel_Input : MonoBehaviour {
     }
 
     void InputFood()
-    {
+    {        
+       
         if (inputString_2 != "")
         {
-            print("inputfood");
-            if (manualInputDateTime) entry = ManualAddFoodEntry(inputString_1, inputString_2);
+            if (manualInputDateTime)
+            {
+                print("inputfood");
+                entry = ManualAddFoodEntry(inputString_1, inputString_2);
+            }
             else entry = AutoAddEntry(inputString_2);
-        } 
+        }
         if (entry != null)
         {            
-            sourceButton.GetComponent<Button_Entry>().ShowTodayAmount();
+            sourceButton.GetComponent<Button_Entry>().ShowTodayAmount(1);
 
             SaveEntry();
             ClosePanel();

@@ -44,6 +44,7 @@ public class Button_ManualInput : MonoBehaviour {
 
                     pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
                     pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
+                    pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.IntegerNumber;
 
                     if (!sourceButton.GetComponent<Button_Entry>().timing)
                     {
@@ -64,6 +65,7 @@ public class Button_ManualInput : MonoBehaviour {
 
                     pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
                     pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
+                    pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.IntegerNumber;
                 }
                 break;
 
@@ -77,6 +79,23 @@ public class Button_ManualInput : MonoBehaviour {
                     pI.text_Placeholder_2.text = "hhmm e.g. 1800 for 6pm";
 
                     pI.inputField_2.GetComponent<InputField>().characterLimit = 4;
+                    pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.IntegerNumber;
+                }
+                break;
+
+            case 3:
+                {
+                    pI.manualInputDateTime = true;
+
+                    pI.text_Title_1.text = "Input end time";
+                    pI.text_Title_2.text = "Input solid food type";
+                    pI.text_Placeholder_1.text = "hhmm e.g. 1800 for 6pm";
+                    pI.text_Placeholder_2.text = "for example : blueberry ";
+                    
+
+                    pI.inputField_1.GetComponent<InputField>().characterLimit = 4;
+                    pI.inputField_2.GetComponent<InputField>().characterLimit = 30;
+                    pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
                 }
                 break;
         }

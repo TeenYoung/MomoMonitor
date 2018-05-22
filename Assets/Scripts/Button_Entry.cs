@@ -25,7 +25,7 @@ public class Button_Entry : MonoBehaviour {
 
 
 
-    // Use this for initialization
+    // Use this for initialization     
     void Start () {
 
         //load last entry
@@ -138,12 +138,11 @@ public class Button_Entry : MonoBehaviour {
                     {
                         if (entry.EndTime.Date == DateTime.Now.Date)
                         {
-                            int n = entry.Number;
-                            todayAmount += n;
+                            todayAmount += 1;
                         }
                     }
-
-                    if (todayAmount != 0) ShowTodayAmount();
+                    
+                    if (todayAmount != 0) ShowTodayAmount(0);
                     else text_Title.text = title;
                 }
                 break;
@@ -266,6 +265,7 @@ public class Button_Entry : MonoBehaviour {
         pI.text_Placeholder_2.text = "unit: " + unit;
 
         pI.inputField_2.GetComponent<InputField>().characterLimit = 3;
+        pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.IntegerNumber;
     }
 
     public void FoodOnClick()
@@ -280,10 +280,10 @@ public class Button_Entry : MonoBehaviour {
 
         pI.inputField_2.Select();
 
-        pI.text_Title_2.text = "Input food type";
+        pI.text_Title_2.text = "Input solid food type";
         pI.text_Placeholder_2.text = "for example : blueberry " ;
 
-        pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.Name;
+        pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
         pI.inputField_2.GetComponent<InputField>().characterLimit = 30;
     }
 
@@ -339,12 +339,12 @@ public class Button_Entry : MonoBehaviour {
         text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
     }
 
-    public void ShowTodayAmount()
-    {
-        todayAmount += 1;
-        print(titlePast);
-        text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
-    }
+    //public void ShowTodayAmount()
+    //{
+    //    todayAmount += 1;
+    //    //print(titlePast);
+    //    text_Title.text = String.Format("{0} {1}", titlePast, todayAmount);
+    //}
 
     public void ShowTodayAmount(bool isWee, bool isPoo)
     {
