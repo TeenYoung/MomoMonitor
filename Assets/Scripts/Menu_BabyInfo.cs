@@ -217,7 +217,7 @@ public class Menu_BabyInfo : MonoBehaviour {
     public void ToggleGrowthChart()
     {
         GameObject growthChart = transform.Find("GrowthChart").gameObject;
-        if (growthChart.active) growthChart.SetActive(false);
+        if (growthChart.activeSelf) growthChart.SetActive(false);
         else growthChart.SetActive(true);
     }
 
