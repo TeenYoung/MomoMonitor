@@ -88,7 +88,7 @@ public class Button_ManualInput : MonoBehaviour {
                     pI.manualInputDateTime = true;
 
                     pI.text_Title_1.text = "Input end time";
-                    pI.text_Title_2.text = "Input solid food type";
+                    pI.text_Title_2.text = "Input solids type";
                     pI.text_Placeholder_1.text = "hhmm e.g. 1800 for 6pm";
                     pI.text_Placeholder_2.text = "for example : blueberry ";
                     

@@ -280,7 +280,7 @@ public class Button_Entry : MonoBehaviour {
 
         pI.inputField_2.Select();
 
-        pI.text_Title_2.text = "Input solid food type";
+        pI.text_Title_2.text = "Input solids type";
         pI.text_Placeholder_2.text = "for example : blueberry " ;
 
         pI.inputField_2.GetComponent<InputField>().contentType = InputField.ContentType.Standard;
