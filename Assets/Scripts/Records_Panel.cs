@@ -87,7 +87,7 @@ public class Records_Panel : MonoBehaviour
             if (i == 0 || sourceList[i - 1].EndTime.Date != sourceList[i].StartTime.Date)
             {
                 newdayBegin = true;
-                if (tempDailyTS != "" && newdayBegin)
+                if (tempDailyTS != "")
                 {
                     record = "\n total duration : " + tempDailyTS; //input duration of last day
                     dr = new TimeSpan();
@@ -153,7 +153,7 @@ public class Records_Panel : MonoBehaviour
             if (i == 0 || sourceList[i - 1].StartTime.Date != sourceList[i].StartTime.Date)
             {
                 newdayBegin = true;
-                if (tempTotal != 0 && newdayBegin)
+                if (tempTotal != 0)
                 {
                     record = "\n total amount : " + tempTotal + sourceButtonUnit;
                     tempTotal = 0;
@@ -212,13 +212,11 @@ public class Records_Panel : MonoBehaviour
 
             if (sourceList[i].Poo) poo = "Poo";
             else poo = "";                      
-            if (sourceList[i].Wee) tempWee++;
-            if (sourceList[i].Poo) tempPoo++;
 
             if (i == 0 || sourceList[i - 1].StartTime.Date != sourceList[i].StartTime.Date)
             {
                 newdayBegin = true;
-                if (tempWee != 0 && tempPoo != 0 && newdayBegin) //show total amount when a new day begins
+                if (tempWee != 0 || tempPoo != 0) //show total amount when a new day begins
                 {
                     record = String.Format("total  wee {0} Poo {1}", tempWee, tempPoo);
                     tempWee = 0; tempPoo = 0;
@@ -384,7 +382,7 @@ public class Records_Panel : MonoBehaviour
         ShowRecords();
 
         //if not timing, refresh title
-        if (buttonType != 0 || sourceList[deleteIndex].EndTime != new DateTime())
+        if (!(buttonType == 0 && sourceList[deleteIndex].EndTime == new DateTime()))
             sourceButton.GetComponent<Button_Entry>().RefreshTexts();
 
     }
