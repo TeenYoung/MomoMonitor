@@ -48,7 +48,7 @@ public class Panel_Calendar : MonoBehaviour {
             dateTime_babyBirth = DateTime.ParseExact(babyBirth,
                 "ddMMyyyy HHmm",
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
-        else dateTime_babyBirth = new DateTime(1900, 02, 02);//若無生日輸入，設生日年份為1900，且之后不顯示special age
+        else dateTime_babyBirth = new DateTime(1900, 02, 02);//if no DOB input，set the year of birth at 1900，and hide special age 
         SetDays(date.Year,date.Month);
         monthTemp = date.Month;
         yearTemp = date.Year;
@@ -111,14 +111,14 @@ public class Panel_Calendar : MonoBehaviour {
     }
     public void SetDays(int thisYear, int thisMonth)
     {
-        int daysInThisMonths, firstDayIndex, lastMonth, lastYear, nextMonth, nextYear; //lastMonth, lastYear為日曆中上個月部分的入參，nextMonth, nextYear為日曆下個月部分的入參
+        int daysInThisMonths, firstDayIndex, lastMonth, lastYear, nextMonth, nextYear; //lastMonth, lastYear are the inputs of last month in calendar; nextMonth, nextYear are the input of the next month
         daysInThisMonths = DateTime.DaysInMonth(thisYear, thisMonth);
         weekOfFirstDay = new DateTime(thisYear, thisMonth, 1).DayOfWeek.ToString();
         firstDayIndex = ChangeWeekIntoNum(weekOfFirstDay);
-        if (thisYear != DateTime.Now.Year) month.text = new DateTime(thisYear, thisMonth, 1).ToString("MMMM", new CultureInfo("en-us")) //如不是當年月份，同時在月份後顯示年份
+        if (thisYear != DateTime.Now.Year) month.text = new DateTime(thisYear, thisMonth, 1).ToString("MMMM", new CultureInfo("en-us")) //if it's not the month in current year, show the year after month
                   + " " + thisYear;
-        else month.text = new DateTime(thisYear, thisMonth, 1).ToString("MMMM", new CultureInfo("en-us")); //月份轉爲字母顯示
-        if (thisMonth == 1)  //賦值日曆中上個月部分的入參，本月為1月時，上個月為12月，年份-1
+        else month.text = new DateTime(thisYear, thisMonth, 1).ToString("MMMM", new CultureInfo("en-us")); //change month into characters
+        if (thisMonth == 1)  //set inputs of last month. When this month is Jan, last month is Dec, year -1.
         {
             lastYear = thisYear - 1;
             lastMonth = 12;
@@ -128,7 +128,7 @@ public class Panel_Calendar : MonoBehaviour {
             lastMonth = thisMonth - 1;
             lastYear = thisYear;
         }
-        if (thisMonth == 12) //賦值日曆下個月部分的入參，本月為12月時，下個月為1月，年份+1
+        if (thisMonth == 12) //set inputs of next month. When this month is Dec, next month is Jan, year +1
         {
             nextYear = thisYear + 1;
             nextMonth = 1;
@@ -151,21 +151,21 @@ public class Panel_Calendar : MonoBehaviour {
         {
             gob = Instantiate(calendarDayPrefab, gameObjectDays.transform);
             days.Add(gob);
-            if (i <= firstDayIndex - 1) //填充上月末幾日
+            if (i <= firstDayIndex - 1) //fullfill last couple days of last month
             {
                 gob.GetComponent<Button_CalendarDay>().ShowDate(lastYear, lastMonth, j, thisMonth, dateTime_babyBirth, panelLogs);
                 ShowLogTag(lastYear, lastMonth, j, gob);
                 j++;
             }
             
-            if (i >= firstDayIndex && i < daysInThisMonths + firstDayIndex) //填充當月日期,j為日期
+            if (i >= firstDayIndex && i < daysInThisMonths + firstDayIndex) //fullfill days in current month, j is the day
             {
                 gob.GetComponent<Button_CalendarDay>().ShowDate(thisYear, thisMonth, j2, thisMonth, dateTime_babyBirth, panelLogs);
                 ShowLogTag(thisYear, thisMonth, j2, gob);
                 if (new DateTime(thisYear, thisMonth, j2) == DateTime.Today) days[i].gameObject.GetComponent<Image>().color = new  Color(0.784f, 0.784f, 0.784f);
                 j2++;
             }
-            if (i >= daysInThisMonths + firstDayIndex) //填充下月初幾日
+            if (i >= daysInThisMonths + firstDayIndex) //fullfill the first couple days of next month
             {
                 gob.GetComponent<Button_CalendarDay>().ShowDate(nextYear, nextMonth, j3, thisMonth, dateTime_babyBirth, panelLogs);
                 ShowLogTag(nextYear, nextMonth, j3, gob);                
